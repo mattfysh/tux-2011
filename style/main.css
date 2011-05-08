@@ -1,0 +1,30 @@
+/* general */
+body {
+	font-family: Georgia;
+	color: #444;
+	background-color: #f6f6f6;
+	font-size: 75%;
+}
+h2 {
+	color: #389;
+	padding-top: 20px;
+	border-top: 1px solid #999;
+}
+input,
+select {
+	font-family: Georgia;
+}
+::-webkit-input-placeholder {
+	font-style: italic;
+}
+table {
+	line-height: 1.2em;
+}
+table td {
+	padding-right: 40px;
+}
+form {
+	border-top: 1px dashed #ccc;
+	margin-top: 20px;
+	padding-top: 20px;
+}

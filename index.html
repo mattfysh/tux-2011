@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>tux</title>
+	<link rel="stylesheet" type="text/css" href="style/main.css" />
+</head>
+<body>
+	<h1>tux</h1>
+	
+	<div id="accounts">
+		<h2>Accounts</h2>
+		<table></table>
+		<script type="text/html" id="accounts-rows">
+			{{each(i) accounts}}
+				<tr data-index="${i}"><td>${name}</td><td>$${balance}</td><td><a href="#" class="delete">delete</a></tr>
+			{{/each}}
+			<tr><td>TOTAL</td><td>$${total}</td></tr>
+		</script>
+		<form>
+			<input type="text" name="name" placeholder="Account Name" />
+			<input type="text" name="balance" placeholder="Balance" />
+			<input type="submit" value="Add Account" />
+		</form>
+	</div>
+	
+	<div id="schedule">
+		<h2>Future Transactions</h2>
+		<table></table>
+		<script type="text/html" id="schedule-row">
+			{{each(i) accounts}}{{each(j) schedule}}
+				<tr data-account="${i}" data-index="${j}"><td>${name}</td><td>$${amount}</td><td>${desc}</td><td>${start}</td><td>${$item.getFreqName(freq)}</td><td>${end}</td><td><a href="#" class="delete">delete</a></tr>
+			{{/each}}{{/each}}
+		</script>
+		<script type="text/html" id="schedule-account-option">
+			{{each(i) accounts}}
+				<option value="${i}">${name}</option>
+			{{/each}}
+		</script>
+		<form>
+			<select name="account">
+			</select>
+			<input type="text" name="amount" placeholder="Amount" />
+			<input type="text" name="desc" placeholder="Description" />
+			<input type="text" name="start" placeholder="Start Date" />
+			<select name="frequency">
+				<option value="o">Once only</option>
+				<option value="d">Daily</option>
+				<option value="w">Weekly</option>
+				<option value="f">Fortnightly</option>
+				<option value="m">Monthly</option>
+			</select>
+			<input type="text" name="end" placeholder="End Date" />
+			<input type="submit" value="Add Future Transaction" />
+		</form>
+	</div>
+	
+	<div id="reports">
+		
+	</div>
+	
+	<script src="script/lib/jquery-1.6.min.js"></script>
+	<script src="script/lib/jquery.tmpl.min.js"></script>
+	<script src="script/lib/store.min.js"></script>
+	
+	<script src="script/tux.util.js"></script>
+	<script src="script/tux.date.js"></script>
+	
+	<script src="script/tux.accounts.js"></script>
+	<script src="script/tux.schedule.js"></script>
+	<script src="script/tux.reports.js"></script>
+	
+	<script src="script/tux.control.js"></script>
+	
+</body>
+</html>
