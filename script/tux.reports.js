@@ -34,7 +34,6 @@ namespace('tux');
 				series: [{
 					name: 'Balance',
 					data: window.debug = $.map(el.data, function(pt) {
-						console.log(pt);
 						return pt.runningTotal;
 					})
 				}]
