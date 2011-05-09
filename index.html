@@ -48,6 +48,7 @@
 				<option value="w">Weekly</option>
 				<option value="f">Fortnightly</option>
 				<option value="m">Monthly</option>
+				<option value="y">Yearly</option>
 			</select>
 			<input type="text" name="end" placeholder="End Date" />
 			<input type="submit" value="Add Future Transaction" />
@@ -59,15 +60,17 @@
 			<h2>${name}</h2>
 			<table>
 				{{each data}}
-					<tr><td>${date}</td><td>${desc}</td><td>${amount}</td></tr>
+					<tr><td>${date}</td><td>${desc}</td><td>$${amount}</td><td>$${runningTotal}</td></tr>
 				{{/each}}
 			</table>
+			<div id="report-${index}" class="chart"></div>
 		</script>
 	</div>
 	
 	<script src="script/lib/jquery-1.6.min.js"></script>
 	<script src="script/lib/jquery.tmpl.min.js"></script>
 	<script src="script/lib/store.min.js"></script>
+	<script src="script/lib/highcharts.js"></script>
 	
 	<script src="script/tux.util.js"></script>
 	<script src="script/tux.date.js"></script>

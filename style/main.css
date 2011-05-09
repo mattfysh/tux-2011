@@ -28,3 +28,12 @@ form {
 	margin-top: 20px;
 	padding-top: 20px;
 }
+
+/* reports */
+#reports table {
+	display: none;
+}
+#reports .chart {
+	height: 400px;
+	width: 650px;
+}

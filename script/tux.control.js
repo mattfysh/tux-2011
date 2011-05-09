@@ -9,9 +9,9 @@
 		restoreDates();
 		addAccounts();
 		addSchedule();
-		if (!data.reports) {
+		//if (!data.reports) {
 			defineDefaultReports();
-		}
+		//}
 		addReports();
 	}
 	
@@ -64,13 +64,11 @@
 	
 	function defineDefaultReports() {
 		data.reports = [{
-			name: 'Next 7 Days &mdash; All Accounts',
-			days: 7,
-			readOnly: true
+			name: 'Next 60 Days &mdash; All Accounts',
+			days: 60
 		}, {
 			name: 'Next 10 Transactions &mdash; All Accounts',
-			max: 10,
-			readOnly: true
+			max: 10
 		}];
 	}
 	
