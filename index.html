@@ -55,7 +55,14 @@
 	</div>
 	
 	<div id="reports">
-		
+		<script type="text/html" id="report">
+			<h2>${name}</h2>
+			<table>
+				{{each data}}
+					<tr><td>${date}</td><td>${desc}</td><td>${amount}</td></tr>
+				{{/each}}
+			</table>
+		</script>
 	</div>
 	
 	<script src="script/lib/jquery-1.6.min.js"></script>

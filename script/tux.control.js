@@ -68,7 +68,7 @@
 			days: 7,
 			readOnly: true
 		}, {
-			name: 'Next 10 Transactions & mdash; All Accounts',
+			name: 'Next 10 Transactions &mdash; All Accounts',
 			max: 10,
 			readOnly: true
 		}];

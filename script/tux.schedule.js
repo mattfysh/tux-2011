@@ -59,8 +59,8 @@ namespace('tux');
 	function refresh() {
 		// FIXME
 		try {
+			view.find('select[name=account] option').tmplItem().update();
 			view.find('table tr').tmplItem().update();
-			view.find('select option').tmplItem().update();
 		} catch(e) {}
 		$(self).trigger('scheduleupdated');
 	}
