@@ -14,6 +14,7 @@ namespace('tux');
 	}
 	
 	function generateData() {
+		if (!data.accounts) return;
 		// generate each schedule into a track
 		var track = [];
 		$.each(data.accounts, function(i, acc) {
@@ -40,7 +41,6 @@ namespace('tux');
 				el.next = next(el.next);
 			}
 		});
-		console.log(reportData);
 		return reportData;
 	}
 	

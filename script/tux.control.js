@@ -16,8 +16,8 @@
 	}
 	
 	function restoreDates() {
-		$.each(data.accounts, function(i, acc) {
-			$.each(acc.schedule, function(j) {
+		data.accounts && $.each(data.accounts, function(i, acc) {
+			acc.schedule && $.each(acc.schedule, function(j) {
 				var s = acc.schedule[j]
 				s.start && (s.start = new Date(s.start));
 				s.end && (s.end = new Date(s.end));
@@ -26,6 +26,9 @@
 	}
 	
 	function addAccounts() {
+		if (typeof data.accounts === 'undefined') {
+			data.accounts = [];
+		}
 		accounts.init({
 			view: $('#accounts'),
 			accounts: data.accounts

@@ -8,7 +8,7 @@ namespace('tux');
 		tmpl = view.find('#accounts-rows').template();
 		
 		data = {
-				accounts: spec.accounts || []
+				accounts: spec.accounts
 		}
 		
 		bindui();
