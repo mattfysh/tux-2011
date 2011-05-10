@@ -31,6 +31,7 @@ namespace('tux');
 		view.empty().append($.tmpl(tmpl, reports));
 		// generate the charts
 		$.each(reports, function(i, el) {
+			// create chart
 			new Highcharts.Chart({
 				chart: {
 					renderTo: 'report-' + i,
@@ -38,11 +39,14 @@ namespace('tux');
 				},
 				series: [{
 					name: 'Balance',
-					data: window.debug = $.map(el.data, function(pt) {
+					data: $.map(el.data, function(pt) {
 						return pt.runningTotal;
 					})
 				}]
 			});
+			// delete report data and index
+			delete el.data;
+			delete el.index;
 		});
 	}
 	
@@ -81,7 +85,7 @@ namespace('tux');
 		// generate report data
 		$.each(data.reports, function(i, report) {
 			var reportData = [],
-				limit, limitTest, count, nextFn, total;
+				limit, limitTest, count, nextFn, total, except;
 			
 			resetTrack();
 			total = 0;
@@ -108,12 +112,25 @@ namespace('tux');
 			// ping each track and get future transactions within limit
 			while (!track[0].expired && limitTest(track[0].next)) {
 				nextFn = freqStrategy(track[0].schedule.freq);
-				reportData.push({
-					amount: track[0].schedule.amount,
-					runningTotal: total += parseFloat(track[0].schedule.amount),
-					desc: track[0].schedule.desc,
-					date: new Date(track[0].next.getTime())
-				});
+				except = track[0].schedule.except && track[0].schedule.except[track[0].next.getTime()];
+				
+				if (except) {
+					reportData.push({
+						amount: except.amount || track[0].schedule.amount,
+						runningTotal: total += parseFloat(except.amount || track[0].schedule.amount),
+						desc: except.desc || track[0].schedule.desc,
+						date: new Date((except.date || track[0].next).getTime())
+					});
+					
+				} else {
+					reportData.push({
+						amount: track[0].schedule.amount,
+						runningTotal: total += parseFloat(track[0].schedule.amount),
+						desc: track[0].schedule.desc,
+						date: new Date(track[0].next.getTime())
+					});
+				}
+				
 				nextFn(track[0]);
 				if (track[0].schedule.end && track[0].next > track[0].schedule.end) {
 					track[0].expired = true;

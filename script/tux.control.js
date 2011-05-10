@@ -66,9 +66,6 @@
 		data.reports = [{
 			name: 'Next 60 Days &mdash; All Accounts',
 			days: 60
-		}, {
-			name: 'Next 10 Transactions &mdash; All Accounts',
-			max: 10
 		}];
 	}
 	
