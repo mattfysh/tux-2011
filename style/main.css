@@ -30,9 +30,6 @@ form {
 }
 
 /* reports */
-#reports table {
-	display: none;
-}
 #reports .chart {
 	height: 400px;
 	width: 650px;

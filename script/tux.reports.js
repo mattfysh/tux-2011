@@ -13,12 +13,17 @@ namespace('tux');
 	}
 	
 	function bindui() {
-		view.bind('click', click)
+		view.delegate('a.edit', 'click', edit)
+			.delegate('a.delete', 'click', remove)
 	}
 	
-	function click(e) {
+	function edit(e) {
 		var t = $(e.target);
-		t.filter('h2').length && t.next('table').toggle();
+		console.dir(accounts);
+	}
+	
+	function remove(e) {
+		var t = $(e.target);
 	}
 	
 	function render() {

@@ -60,7 +60,7 @@
 			<h2>${name}</h2>
 			<table>
 				{{each data}}
-					<tr><td>${date}</td><td>${desc}</td><td>$${amount}</td><td>$${runningTotal}</td></tr>
+					<tr><td>${date}</td><td>${desc}</td><td>$${amount}</td><td>$${runningTotal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="delete">delete</a></td></tr>
 				{{/each}}
 			</table>
 			<div id="report-${index}" class="chart"></div>
