@@ -18,7 +18,10 @@ namespace('tux');
 	
 	function bindui() {
 		view.bind('submit', add)
-			.delegate('a.delete', 'click', remove);
+			.delegate('a.delete', 'click', remove)
+			.delegate('a.edit', 'click', edit)
+			.delegate('a.save', 'click', update)
+			.delegate('a.cancel', 'click', cancelUpdate);
 	}
 	
 	function render() {
@@ -44,6 +47,37 @@ namespace('tux');
 		refresh();
 	}
 	
+	function edit(e) {
+		var tr = $(e.target).parents('tr'),
+			index = tr.data('index')
+			acc = data.accounts[index],
+			formEls = tr.parents('div').find('form input'),
+			tds = tr.find('td')
+		
+		$(e.target).replaceWith('<span class="edit-tools"><a href="#" class="save">save</a> | <a href="#" class="cancel">cancel</a></span>')
+		
+		tds.each(function(i, el) {
+			if (i === tds.length - 1) return;
+			$(el).empty().append(formEls.eq(i).clone().attr('value', function() {
+				return acc[$(this).attr('name')];
+			}));
+		})
+	}
+	
+	function stopEditing(tr) {
+		
+	}
+	
+	function update(e) {
+		stopEditing($(e.target).parents('tr:eq(0)'));
+		$(self).trigger('accountsupdated');
+	}
+	
+	function cancelUpdate(e) {
+		$(e.target).parents('.edit-tools').replaceWith('<a href="#" class="edit">edit</a>');
+		stopEditing($(e.target).parents('tr:eq(0)'));
+	}
+	
 	function refresh() {
 		updateTotal();
 		view.find('table tr').tmplItem().update();
@@ -55,10 +89,6 @@ namespace('tux');
 		data.accounts && $.each(data.accounts, function(i, el) {
 			data.total += parseFloat(el.balance);
 		})
-	}
-	
-	function throwUpdate() {
-		
 	}
 	
 	self = tux.accounts = {

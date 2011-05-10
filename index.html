@@ -12,7 +12,7 @@
 		<table></table>
 		<script type="text/html" id="accounts-rows">
 			{{each(i) accounts}}
-				<tr data-index="${i}"><td>${name}</td><td>$${balance}</td><td><a href="#" class="delete">delete</a></tr>
+				<tr data-index="${i}"><td>${name}</td><td>$${balance}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="delete">delete</a></tr>
 			{{/each}}
 			<tr><td>TOTAL</td><td>$${total}</td></tr>
 		</script>
