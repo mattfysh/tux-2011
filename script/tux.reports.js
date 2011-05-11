@@ -28,26 +28,29 @@ namespace('tux');
 	}
 	
 	function render() {
+		// generate report data
 		generateData();
 		view.empty().append($.tmpl(tmpl, reports));
-		// generate the charts
+		
+		// generate chart data
+		generateChartData();
 		$.each(reports, function(i, el) {
-			/*
 			// create chart
 			new Highcharts.Chart({
 				chart: {
 					renderTo: 'report-' + i,
-					defaultSeriesType: 'areaspline'
+					defaultSeriesType: el.chartType
 				},
 				series: [{
 					name: 'Balance',
-					data: $.map(el.data, function(pt) {
-						return pt.runningTotal;
-					})
+					data: el.chartData
 				}]
-			});*/
+			});
+			
 			// delete report data and index
 			delete el.data;
+			delete el.chartData;
+			delete el.chartType;
 			delete el.index;
 		});
 	}
@@ -222,6 +225,59 @@ namespace('tux');
 	
 	function yearly(track) {
 		track.next.setFullYear(track.next.getFullYear() + 1);
+	}
+	
+	function generateChartData() {
+		$.each(reports, function(i, report) {
+			if (!report.type) return;
+			var typeTokens = report.type.split(':'),
+				data;
+			
+			if (typeTokens[0] === 'timeline') {
+				// defaults to timeline
+				var dayTotal, lastDate, gap;
+				report.chartType = 'line';
+				report.chartData = $.map(report.data, function(el, i) {
+					gap = []
+					if (i === 0) {
+						lastDate = new Date(el.date.getTime());
+						dayTotal = el.runningTotal;
+						return null;
+					} else if (el.date.getTime() === lastDate.getTime()) {
+						dayTotal = el.runningTotal;
+						return null;
+					} else {
+						// this is a new date, save the last date being worked on to the new map
+						gap.push(dayTotal);
+						lastDate.setDate(lastDate.getDate() + 1);
+						while(lastDate.getTime() !== el.date.getTime()) {
+							gap.push(dayTotal)
+							lastDate.setDate(lastDate.getDate() + 1);
+						}
+						dayTotal = el.runningTotal;
+						if (i === (report.data.length - 1)) {
+							gap.push(dayTotal);
+						}
+						return gap;
+					}
+				});
+			} else if (typeTokens[0] === 'pie') {
+				var tally = {}, pieData = [];
+				report.chartType = 'pie';
+				$.each(report.data, function(i, el) {
+					var what = typeTokens[1];
+					if (typeof tally[el[what]] === 'undefined') {
+						tally[el[what]] = Math.abs(el.amount);
+					} else {
+						tally[el[what]] += Math.abs(el.amount);
+					}
+				});
+				$.each(tally, function(key, val) {
+					pieData.push([key, val]);
+				})
+				report.chartData = pieData;
+			}
+		});
 	}
 	
 	tux.reports = {

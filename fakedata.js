@@ -64,27 +64,34 @@ store.set('tuxdata', {
 	reports: [{
 		name: '60 Days Either Way &mdash; All Accounts',
 		start: 60,
-		end: 60
+		end: 60,
+		type: 'pie:tag',
 	}, {
 		name: 'Last 60 Days &mdash; All Accounts',
-		start: 60
+		start: 60,
+		type: 'timeline',
 	}, {
 		name: 'Last 60 Days &mdash; ANZ',
 		start: 60,
+		type: 'timeline',
 		accounts: [0]
 	}, {
-		name: 'Last 60 Days &mdash; AMP',
+		name: 'Last 60 Days &mdash; ME Bank',
 		start: 60,
+		type: 'timeline',
 		accounts: [1]
 	}, {
 		name: 'Next 60 Days &mdash; ME Bank',
 		end: 60,
+		type: 'timeline',
 		accounts: [1]
 	}, {
 		name: 'Next 60 Days &mdash; All Accounts',
-		end: 60
+		end: 60,
+		type: 'timeline'
 	}, {
 		name: 'Next 10 Transactions &mdash; All Accounts',
-		max: 10
+		max: 10,
+		type: 'timeline'
 	}]
 });
