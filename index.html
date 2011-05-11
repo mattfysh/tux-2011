@@ -14,7 +14,7 @@
 			{{each(i) accounts}}
 				<tr data-index="${i}"><td>${name}</td><td>${formatCurrency(balance)}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="delete">delete</a></tr>
 			{{/each}}
-			<tr><td>TOTAL</td><td>$${total}</td></tr>
+			<tr><td>TOTAL</td><td>${formatCurrency(total)}</td></tr>
 		</script>
 		<form>
 			<input type="text" name="name" placeholder="Account Name" />
@@ -27,9 +27,7 @@
 		<h2>Future Transactions</h2>
 		<table></table>
 		<script type="text/html" id="schedule-row">
-			{{each(i) accounts}}{{each(j) schedule}}
-				<tr data-account="${i}" data-index="${j}"><td>${name}</td><td>${formatCurrency(amount)}</td><td>${desc}</td><td>${start}</td><td>${$item.getFreqName(freq)}</td><td>${end}</td><td><a href="#" class="delete">delete</a></tr>
-			{{/each}}{{/each}}
+			<tr><td>${$item.getAccountName(account)}</td><td>${formatCurrency(amount)}</td><td>${desc}</td><td>${start}</td><td>${$item.getFreqName(freq)}</td><td>${end}</td><td><a href="#" class="delete">delete</a></tr>
 		</script>
 		<script type="text/html" id="schedule-account-option">
 			{{each(i) accounts}}
@@ -57,6 +55,7 @@
 	
 	<div id="reports">
 		<script type="text/html" id="report">
+			{{if data}}
 			<h2>${name}</h2>
 			<table>
 				{{each data}}
@@ -64,6 +63,7 @@
 				{{/each}}
 			</table>
 			<div id="report-${index}" class="chart"></div>
+			{{/if}}
 		</script>
 	</div>
 	
@@ -74,6 +74,8 @@
 	
 	<script src="script/tux.util.js"></script>
 	<script src="script/tux.date.js"></script>
+	
+	<script src="fakedata.js"></script>
 	
 	<script src="script/tux.accounts.js"></script>
 	<script src="script/tux.schedule.js"></script>

@@ -2,7 +2,7 @@ namespace('tux');
 !function() {
 	
 	var date = tux.date,
-		view, tmpl, self, tmplAcc, accounts,
+		view, tmpl, self, tmplAcc, accounts, schedule,
 		
 		freqOptions = {
 			o: 'Once only',
@@ -14,7 +14,8 @@ namespace('tux');
 		};
 	
 	function init(spec) {
-		accounts = spec.accounts || [];
+		accounts = spec.accounts;
+		schedule = spec.schedule;
 		view = spec.view;
 		tmpl = view.find('#schedule-row').template();
 		tmplAcc = view.find('#schedule-account-option').template();
@@ -28,14 +29,16 @@ namespace('tux');
 	}
 	
 	function render() {
-		var tmplData = {
-				accounts: accounts
-			},
+		var tmplData = schedule,
 			tmplItem = {
 				getFreqName: function(freq) {
-					return freqOptions[freq]
+					return freqOptions[freq];
+				},
+				getAccountName: function(acc) {
+					return accounts[acc].name;
 				}
 			}
+		
 		view.find('table').append($.tmpl(tmpl, tmplData, tmplItem)).end()
 			.find('select[name=account]').append($.tmpl(tmplAcc, tmplData)).end();
 	}
@@ -51,7 +54,7 @@ namespace('tux');
 				end: date(view.find('input[name=end]').val())
 			};
 		
-		accounts[accountIndex].schedule.push(newScheduledTx);
+		schedule.push(newScheduledTx);
 		view.find('form')[0].reset();
 		refresh();
 	}
@@ -66,9 +69,8 @@ namespace('tux');
 	}
 	
 	function remove(e) {
-		var index = $(e.target).parents('tr').data('index'),
-			account = $(e.target).parents('tr').data('account');
-		accounts[account].schedule.splice(index, 1);
+		var index = $(e.target).parents('tr').data('index');
+		schedule[index].splice(index, 1);
 		refresh();
 	}
 	

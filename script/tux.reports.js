@@ -7,6 +7,7 @@ namespace('tux');
 		view = spec.view;
 		tmpl = view.find('#report').template();
 		accounts = spec.accounts;
+		schedule = spec.schedule;
 		reports = spec.reports;
 		bindui();
 		render();
@@ -72,12 +73,10 @@ namespace('tux');
 			})
 			sortTrack();
 		}
-		$.each(data.accounts, function(i, acc) {
-			$.each(acc.schedule, function(j, sch) {
-				track.push({
-					next: new Date(sch.start.getTime()),
-					schedule: sch
-				});
+		$.each(schedule, function(i, sch) {
+			track.push({
+				next: new Date(sch.start.getTime()),
+				schedule: sch
 			});
 		});
 		resetTrack();
@@ -92,10 +91,9 @@ namespace('tux');
 			$.each(data.accounts, function(i, acc) {
 				total += parseFloat(acc.balance);
 			});
-			
-			if (report.days) {
+			if (report.end) {
 				limit = new Date();
-				limit.setDate(limit.getDate() + report.days);
+				limit.setDate(limit.getDate() + report.end);
 				limitTest = function(date) {
 					return date < limit;
 				}
@@ -107,6 +105,8 @@ namespace('tux');
 					count += 1;
 					return count <= limit;
 				}
+			} else {
+				return;
 			}
 			
 			// ping each track and get future transactions within limit
@@ -144,20 +144,14 @@ namespace('tux');
 	}
 	
 	function freqStrategy(freq) {
-		switch (freq) {
-		case 'o':
-			return once
-		case 'd':
-			return daily;
-		case 'w':
-			return weekly;
-		case 'f':
-			return fortnightly;
-		case 'm':
-			return monthly;
-		case 'y':
-			return yearly;
-		}
+		return {
+			o: once,
+			d: daily,
+			w: weekly,
+			f: fortnightly,
+			m: monthly,
+			y: yearly
+		}[freq];
 	}
 	
 	function once(track) {

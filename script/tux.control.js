@@ -9,19 +9,17 @@
 		restoreDates();
 		addAccounts();
 		addSchedule();
-		//if (!data.reports) {
+		if (!data.reports) {
 			defineDefaultReports();
-		//}
+		}
 		addReports();
 	}
 	
 	function restoreDates() {
-		data.accounts && $.each(data.accounts, function(i, acc) {
-			acc.schedule && $.each(acc.schedule, function(j) {
-				var s = acc.schedule[j]
-				s.start && (s.start = new Date(s.start));
-				s.end && (s.end = new Date(s.end));
-			});
+		data.schedule && $.each(data.schedule, function(j) {
+			var s = this;
+			s.start && (s.start = new Date(s.start));
+			s.end && (s.end = new Date(s.end));
 		});
 	}
 	
@@ -39,7 +37,8 @@
 	function addSchedule() {
 		schedule.init({
 			view: $('#schedule'),
-			accounts: data.accounts
+			accounts: data.accounts,
+			schedule: data.schedule
 		});
 		$(schedule).bind('scheduleupdated', updateSchedule);
 	}
@@ -73,6 +72,7 @@
 		reports.init({
 			view: $('#reports'),
 			accounts: data.accounts,
+			schedule: data.schedule,
 			reports: data.reports
 		});
 		
