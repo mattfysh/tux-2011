@@ -5,7 +5,18 @@ store.set('tuxdata', {
 		ledger: [{
 			date: new Date(2011, 04, 01),
 			amount: -50,
-			desc: 'minus fiddy cent'
+			desc: 'minus fiddy cent',
+			tag: 'lunch'
+		}, {
+			date: new Date(2011, 04, 02),
+			amount: -50,
+			desc: 'minus fiddy cent',
+			tag: 'lunch'
+		}, {
+			date: new Date(2011, 04, 03),
+			amount: 300,
+			desc: 'income',
+			tag: 'pay'
 		}]
 	}, {
 		name: 'ME Bank',
@@ -21,31 +32,55 @@ store.set('tuxdata', {
 		account: 0,
 		except: {
 			'1306677600000': {
-				amount: 200
+				amount: 200,
+				date: new Date(2011, 04, 29)
 			}
-		}
+		},
+		tag: 'pay'
 	}, {
 		amount: 200,
 		desc: 'monthly',
 		freq: 'm',
 		start: new Date(2011, 04, 12),
-		account: 1
+		account: 1,
+		tag: 'rental income'
 	}, {
 		amount: 20000,
 		desc: 'once only',
 		freq: 'o',
 		start: new Date(2011, 04, 13),
-		account: 0
+		account: 0,
+		tag: 'tax return'
 	}, {
 		amount: 1000,
 		desc: 'transfer',
 		freq: 'o',
 		start: new Date(2011, 04, 15),
 		account: 0,
-		to: 1
+		to: 1,
+		tag: 'transfer'
 	}],
 	
 	reports: [{
+		name: '60 Days Either Way &mdash; All Accounts',
+		start: 60,
+		end: 60
+	}, {
+		name: 'Last 60 Days &mdash; All Accounts',
+		start: 60
+	}, {
+		name: 'Last 60 Days &mdash; ANZ',
+		start: 60,
+		accounts: [0]
+	}, {
+		name: 'Last 60 Days &mdash; AMP',
+		start: 60,
+		accounts: [1]
+	}, {
+		name: 'Next 60 Days &mdash; ME Bank',
+		end: 60,
+		accounts: [1]
+	}, {
 		name: 'Next 60 Days &mdash; All Accounts',
 		end: 60
 	}, {

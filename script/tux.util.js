@@ -19,6 +19,8 @@ function formatCurrency(amt) {
 		amt = Math.abs(amt).toString(),
 		dlr = amt.substr(0, amt.length - 2),
 		cnt = amt.substr(amt.length - 2);
-	
-	return neg + '$' + dlr + '.' + cnt;
+	function zeroPad(d) {
+		return (d.toString().length === 1 ? '0' + d : d);
+	}
+	return neg + '$' + (dlr || 0) + '.' + zeroPad(cnt);
 }

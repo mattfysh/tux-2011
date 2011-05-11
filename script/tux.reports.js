@@ -32,6 +32,7 @@ namespace('tux');
 		view.empty().append($.tmpl(tmpl, reports));
 		// generate the charts
 		$.each(reports, function(i, el) {
+			/*
 			// create chart
 			new Highcharts.Chart({
 				chart: {
@@ -44,7 +45,7 @@ namespace('tux');
 						return pt.runningTotal;
 					})
 				}]
-			});
+			});*/
 			// delete report data and index
 			delete el.data;
 			delete el.index;
@@ -53,8 +54,7 @@ namespace('tux');
 	
 	function generateData() {
 		if (!data.accounts) return;
-		
-		// add each schedule to the track and sort on next date
+
 		var track = [];
 		function sortTrack() {
 			track.sort(function(a, b) {
@@ -66,77 +66,123 @@ namespace('tux');
 				return a.next.getTime() - b.next.getTime();
 			});
 		}
-		function resetTrack() {
-			$.each(track, function(i, el) {
-				el.expired = false;
-				el.next.setTime(el.schedule.start.getTime());
-			})
-			sortTrack();
-		}
-		$.each(schedule, function(i, sch) {
-			track.push({
-				next: new Date(sch.start.getTime()),
-				schedule: sch
-			});
-		});
-		resetTrack();
 		
 		// generate report data
 		$.each(data.reports, function(i, report) {
-			var reportData = [],
-				limit, limitTest, count, nextFn, total, except;
 			
-			resetTrack();
+			var reportData = [],
+			limit, limitTest, count, nextFn, total, except;
+			
+			// get beginning total
 			total = 0;
 			$.each(data.accounts, function(i, acc) {
-				total += parseFloat(acc.balance);
+				if (!report.accounts || report.accounts.indexOf(i) > -1) total += parseFloat(acc.balance);
 			});
-			if (report.end) {
-				limit = new Date();
-				limit.setDate(limit.getDate() + report.end);
-				limitTest = function(date) {
-					return date < limit;
-				}
-				
-			} else if (report.max) {
-				limit = report.max;
-				count = 0;
-				limitTest = function() {
-					count += 1;
-					return count <= limit;
-				}
-			} else {
-				return;
+			
+			/**
+			 * Get past transactions
+			 */
+			if (report.start) {
+				var start = new Date();
+				start.setDate(start.getDate() - report.start);
+				$.each(accounts, function(i, acc) {
+					if (acc.ledger && (!report.accounts || report.accounts.indexOf(i) > -1)) {
+						for (var i = acc.ledger.length - 1; i >= 0; i -= 1) {
+							var t = acc.ledger[i];
+							if (t.date >= start) {
+								reportData.unshift({
+									amount: t.amount,
+									runningTotal: total,
+									desc: t.desc,
+									date: t.date,
+									tag: t.tag
+								});
+								total -= parseInt(t.amount);
+							}
+						}
+					}
+				})
 			}
 			
-			// ping each track and get future transactions within limit
-			while (!track[0].expired && limitTest(track[0].next)) {
-				nextFn = freqStrategy(track[0].schedule.freq);
-				except = track[0].schedule.except && track[0].schedule.except[track[0].next.getTime()];
-				
-				if (except) {
-					reportData.push({
-						amount: except.amount || track[0].schedule.amount,
-						runningTotal: total += parseFloat(except.amount || track[0].schedule.amount),
-						desc: except.desc || track[0].schedule.desc,
-						date: new Date((except.date || track[0].next).getTime())
-					});
-					
-				} else {
-					reportData.push({
-						amount: track[0].schedule.amount,
-						runningTotal: total += parseFloat(track[0].schedule.amount),
-						desc: track[0].schedule.desc,
-						date: new Date(track[0].next.getTime())
-					});
-				}
-				
-				nextFn(track[0]);
-				if (track[0].schedule.end && track[0].next > track[0].schedule.end) {
-					track[0].expired = true;
-				}
+			// reset total
+			total = 0;
+			$.each(data.accounts, function(i, acc) {
+				if (!report.accounts || report.accounts.indexOf(i) > -1) total += parseFloat(acc.balance);
+			});
+			
+			
+			/**
+			 * Get future transactions
+			 */
+			
+			if (report.end || report.max) {
+				// add each schedule to the track
+				track.length = 0;
+				$.each(schedule, function(i, sch) {
+					if (!report.accounts || report.accounts.indexOf(sch.account) > -1) {
+						track.push({
+							next: new Date(sch.start.getTime()),
+							schedule: sch,
+							expired: false
+						});
+					}
+				});
 				sortTrack();
+				
+				// determine function to test if limit has been reached
+				if (report.end) {
+					limit = new Date();
+					limit.setDate(limit.getDate() + report.end);
+					limitTest = function(date) {
+						return date < limit;
+					}
+					
+				} else if (report.max) {
+					limit = report.max;
+					count = 0;
+					limitTest = function() {
+						count += 1;
+						return count <= limit;
+					}
+				} else {
+					return;
+				}
+				
+				// ping each track and get future transactions within limit
+				while (!track[0].expired && limitTest(track[0].next)) {
+					nextFn = freqStrategy(track[0].schedule.freq);
+					except = track[0].schedule.except && track[0].schedule.except[track[0].next.getTime()];
+					
+					if (except) {
+						reportData.push({
+							amount: except.amount || track[0].schedule.amount,
+							runningTotal: total += parseFloat(except.amount || track[0].schedule.amount),
+							desc: except.desc || track[0].schedule.desc,
+							date: new Date((except.date || track[0].next).getTime()),
+							tag: except.tag || track[0].schedule.tag
+						});
+						
+					} else {
+						reportData.push({
+							amount: track[0].schedule.amount,
+							runningTotal: total += parseFloat(track[0].schedule.amount),
+							desc: track[0].schedule.desc,
+							date: new Date(track[0].next.getTime()),
+							tag: track[0].schedule.tag
+						});
+					}
+					
+					nextFn(track[0]);
+					if (track[0].schedule.end && track[0].next > track[0].schedule.end) {
+						track[0].expired = true;
+					}
+					sortTrack();
+				}
 			}
+			
+			/**
+			 * Add data to report obj
+			 */
 			report.data = reportData;
 			report.index = i;
 		});

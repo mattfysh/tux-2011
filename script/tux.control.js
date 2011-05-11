@@ -16,10 +16,18 @@
 	}
 	
 	function restoreDates() {
+		$.each(data.accounts, function() {
+			this.ledger && $.each(this.ledger, function() {
+				this.date = new Date(this.date);
+			})
+		})
 		data.schedule && $.each(data.schedule, function(j) {
 			var s = this;
 			s.start && (s.start = new Date(s.start));
 			s.end && (s.end = new Date(s.end));
+			this.except && $.each(this.except, function() {
+				this.date = new Date(this.date);
+			})
 		});
 	}
 	
