@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>tux alpha</title>
+	<title>tux beta</title>
 	<link rel="stylesheet" type="text/css" href="style/main.css" />
 </head>
 <body>
-	<h1>tux alpha</h1>
+	<h1>tux beta</h1>
 	
 	<div id="accounts">
 		<h2>Accounts</h2>
@@ -23,11 +23,21 @@
 		</form>
 	</div>
 	
+	<div id="pending">
+		<h2>Pending</h2>
+		<table></table>
+		<script type="text/html" id="pending-rows">
+			{{each(i) pending}}
+				<tr data-index="${i}"><td>${date}</td><td>${$item.getAccountName(account)}</td><td>${formatCurrency(amount)}</td><td>${desc}</td><td><a href="#" class="approve">approve</a></tr>
+			{{/each}}
+		</script>
+	</div>
+	
 	<div id="schedule">
 		<h2>Future Transactions</h2>
 		<table></table>
 		<script type="text/html" id="schedule-row">
-			<tr><td>${$item.getAccountName(account)}</td><td>${formatCurrency(amount)}</td><td>${desc}</td><td>${start}</td><td>${$item.getFreqName(freq)}</td><td>${end}</td><td><a href="#" class="delete">delete</a></tr>
+			<tr><td>${date}</td><td>${$item.getAccountName(account)}</td><td>${formatCurrency(amount)}</td><td>${desc}</td><td>${start}</td><td>${$item.getFreqName(freq)}</td><td>${end}</td><td><a href="#" class="delete">delete</a></tr>
 		</script>
 		<script type="text/html" id="schedule-account-option">
 			{{each(i) accounts}}
@@ -76,6 +86,7 @@
 	<script src="fakedata.js"></script>
 	
 	<script src="script/tux.accounts.js"></script>
+	<script src="script/tux.pending.js"></script>
 	<script src="script/tux.schedule.js"></script>
 	<script src="script/tux.reports.js"></script>
 	

@@ -3,11 +3,13 @@
 	var accounts = tux.accounts,
 		schedule = tux.schedule,
 		reports = tux.reports,
+		pending = tux.pending,
 		data = window.data = store.get('tuxdata') || {};
 	
 	function init() {
 		restoreDates();
 		addAccounts();
+		addPending();
 		addSchedule();
 		if (!data.reports) {
 			defineDefaultReports();
@@ -88,6 +90,14 @@
 	
 	function refreshReports() {
 		
+	}
+	
+	function addPending() {
+		pending.init({
+			view: $('#pending'),
+			accounts: data.accounts,
+			pending: data.pending
+		});
 	}
 	
 	init();

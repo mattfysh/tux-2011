@@ -23,6 +23,20 @@ store.set('tuxdata', {
 		balance: 200
 	}],
 	
+	pending: [{
+		date: new Date(2011, 04, 02),
+		desc: 'weekly dollar',
+		account: 0,
+		amount: 100,
+		tag: 'pay'
+	}, {
+		date: new Date(2011, 04, 03),
+		desc: 'weekly dollar',
+		account: 0,
+		amount: 100,
+		tag: 'pay'
+	}],
+	
 	schedule: [{
 		amount: 100,
 		desc: 'weekly dollar',

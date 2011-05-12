@@ -25,7 +25,7 @@ namespace('tux');
 	}
 	
 	function render() {
-		view.find('table').append($.tmpl(tmpl, data))
+		view.find('table').append($.tmpl(tmpl, data));
 	}
 	
 	function add(e) {
