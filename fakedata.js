@@ -23,6 +23,14 @@ store.set('tuxdata', {
 		balance: 200
 	}],
 	
+	pending: [{
+		amount: 100,
+		desc: 'weekly dollar',
+		account: 0,
+		tag: 'pay',
+		date: new Date(2011, 04, 02)
+	}],
+	
 	schedule: [{
 		amount: 100,
 		desc: 'weekly dollar',
@@ -62,10 +70,13 @@ store.set('tuxdata', {
 	}],
 	
 	reports: [{
+		name: 'Transactions To Move Into Pending State &mdash; All Accounts',
+		end: 0
+	}, {
 		name: '60 Days Either Way &mdash; All Accounts',
 		start: 60,
 		end: 60,
-		type: 'pie:tag',
+		type: 'timeline',
 	}, {
 		name: 'Last 60 Days &mdash; All Accounts',
 		start: 60,
@@ -75,11 +86,6 @@ store.set('tuxdata', {
 		start: 60,
 		type: 'timeline',
 		accounts: [0]
-	}, {
-		name: 'Last 60 Days &mdash; ME Bank',
-		start: 60,
-		type: 'timeline',
-		accounts: [1]
 	}, {
 		name: 'Next 60 Days &mdash; ME Bank',
 		end: 60,

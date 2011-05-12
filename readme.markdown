@@ -20,8 +20,8 @@ Roadmap
 * scheduled transactions automatically added to accounts, pending review
 * track savings goals and know when you'll reach them
 * customise charts
-* create a budget and track spending in the current period
 
 ### Crystal Ball
 
+* create a budget and track spending in the current period
 * products as extensions, attached to accounts to track interest, stocks, fees, etc
