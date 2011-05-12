@@ -23,11 +23,6 @@
 		</form>
 	</div>
 	
-	<div id="pending">
-		<h2>Pending</h2>
-		<table></table>
-	</div>
-	
 	<div id="schedule">
 		<h2>Future Transactions</h2>
 		<table></table>
@@ -66,11 +61,11 @@
 					<tr><td>${date}</td><td>${desc}</td><td>${formatCurrency(amount)}</td><td>${formatCurrency(runningTotal)}</td><td>${tag}</td></tr>
 				{{/each}}
 			</table>
-			{{if type}}<div id="report-${index}" class="chart"></div>{{/if}}
+			<div id="report-${index}" class="chart"></div>
 		</script>
 	</div>
 	
-	<script src="script/lib/jquery-1.6.js"></script>
+	<script src="script/lib/jquery-1.6.min.js"></script>
 	<script src="script/lib/jquery.tmpl.min.js"></script>
 	<script src="script/lib/store.min.js"></script>
 	<script src="script/lib/highcharts.js"></script>

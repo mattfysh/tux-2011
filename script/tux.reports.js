@@ -35,13 +35,11 @@ namespace('tux');
 		// generate chart data
 		generateChartData();
 		$.each(reports, function(i, el) {
-			if (!el.type) return;
 			// create chart
 			new Highcharts.Chart({
 				chart: {
 					renderTo: 'report-' + i,
-					defaultSeriesType: el.chartType,
-					title: el.name
+					defaultSeriesType: el.chartType
 				},
 				series: [{
 					name: 'Balance',
@@ -120,7 +118,7 @@ namespace('tux');
 			 * Get future transactions
 			 */
 			
-			if (typeof report.end !== 'undefined' || report.max) {
+			if (report.end || report.max) {
 				// add each schedule to the track
 				track.length = 0;
 				$.each(schedule, function(i, sch) {
@@ -135,7 +133,7 @@ namespace('tux');
 				sortTrack();
 				
 				// determine function to test if limit has been reached
-				if (typeof report.end !== 'undefined') {
+				if (report.end) {
 					limit = new Date();
 					limit.setDate(limit.getDate() + report.end);
 					limitTest = function(date) {
