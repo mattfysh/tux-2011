@@ -9,9 +9,47 @@
 	
 	<h2>tux accounts</h2>
 	<div id="accounts">
-		
+		<form>
+			<input type="text" name="name" />
+			<input type="text" name="bal" />
+			<input type="submit" />
+		</form>
+		<table></table>
+		<script type="text/html" id="account-tmpl">
+			<td>${name}</td><td>${bal}</td><td><a href="#" class="remove">delete this account</a></td>
+		</script>
+		<script type="text/html" id="accounts-total-tmpl">
+			<td>TOTAL</td><td>${total}</td>
+		</script>
 	</div>
 	
-	<script type="text/javascript"></script>
+	<h2>tux schedules</h2>
+	<div id="schedules">
+		<select name="account"></select>
+	</div>
+	
+	<!-- libraries -->
+	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
+	<script type="text/javascript" src="script/lib/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="script/lib/underscore-min.js"></script>
+	<script type="text/javascript" src="script/lib/backbone.js"></script>
+	<script type="text/javascript" src="script/lib/backbone.localStorage.js"></script>
+	
+	<!-- tux source code -->
+	<script type="text/javascript" src="script/tux/util.js"></script>
+	<!-- accounts -->
+	<script type="text/javascript" src="script/tux/account.js"></script>
+	<script type="text/javascript" src="script/tux/accountlist.js"></script>
+	<script type="text/javascript" src="script/tux/accountview.js"></script>
+	<script type="text/javascript" src="script/tux/accountselectview.js"></script>
+	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
+	
+	<!-- bootstrap -->
+	<script type="text/javascript">
+	$(function() {
+		namespace('tux');
+		tux.accountApp = new tux.AccountControl;
+	});
+	</script>
 </body>
 </html>
