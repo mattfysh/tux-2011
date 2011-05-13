@@ -16,8 +16,10 @@ $(function() {
 			return this;
 		},
 		
-		remove: function() {
-			console.log('Removing an account. this = ', this);
+		remove: function(e) {
+			e.preventDefault();
+			this.model.destroy();
+			$(this.el).remove();
 		}
 		
 	});

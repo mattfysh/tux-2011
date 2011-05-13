@@ -7,7 +7,7 @@
 <body>
 	<h1>tux beta</h1>
 	
-	<h2>tux accounts</h2>
+	<h2>accounts</h2>
 	<div id="accounts">
 		<form>
 			<input type="text" name="name" />
@@ -19,13 +19,13 @@
 			<td>${name}</td><td>${bal}</td><td><a href="#" class="remove">delete this account</a></td>
 		</script>
 		<script type="text/html" id="accounts-total-tmpl">
-			<td>TOTAL</td><td>${total}</td>
+			<tr class="total"</tr><td>TOTAL</td><td>${total}</td></tr>
 		</script>
 	</div>
 	
-	<h2>tux schedules</h2>
+	<h2>schedules</h2>
 	<div id="schedules">
-		<select name="account"></select>
+		<select name="account" class="accounts"></select>
 	</div>
 	
 	<!-- libraries -->
@@ -41,7 +41,6 @@
 	<script type="text/javascript" src="script/tux/account.js"></script>
 	<script type="text/javascript" src="script/tux/accountlist.js"></script>
 	<script type="text/javascript" src="script/tux/accountview.js"></script>
-	<script type="text/javascript" src="script/tux/accountselectview.js"></script>
 	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
 	
 	<!-- bootstrap -->
