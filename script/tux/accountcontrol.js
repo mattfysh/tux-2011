@@ -2,7 +2,7 @@ namespace('tux');
 
 $(function() {
 	
-	var accounts = new tux.AccountList;
+	window.accounts = new tux.AccountList;
 	
 	tux.AccountControl = Backbone.View.extend({
 		
@@ -50,7 +50,6 @@ $(function() {
 			}
 			this.el.find('tr.total').remove();
 			this.el.find('table').append($.tmpl(this.totalTemplate, totalData));
-			console.log(accounts.options());
 			$('select.accounts').empty().append(accounts.options());
 		}
 		
