@@ -5,7 +5,7 @@ $(function() {
 	tux.AccountList = Backbone.Collection.extend({
 		
 		model: tux.Account,
-		localStorage: new Store('tuxaccounts'),
+		localStorage: new Store('accounts'),
 		
 		total: function() {
 			var total = 0;
