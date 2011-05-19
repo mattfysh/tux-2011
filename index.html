@@ -27,6 +27,24 @@
 		</script>
 	</div>
 	
+	<h2>pending</h2>
+	<p>todo: list of schedules transactions that are past due, waiting to be added to the ledger</p>
+	
+	<h2>ledger</h2>
+	<div id="ledger">
+		<form>
+			<select name="accountid" class="accounts"></select>
+			<input type="text" name="date" placeholder="Date" />
+			<input type="text" name="amount" placeholder="Amount" />
+			<input type="text" name="desc" placeholder="Description" />
+			<input type="submit" />
+		</form>
+		<table></table>
+		<script type="text/html" id="ledger-tx-tmpl">
+			<td>${account.name}<td>${date}</td><td>${amount}</td><td>${desc}</td>
+		</script>
+	</div>
+	
 	<h2>schedules</h2>
 	<div id="schedules">
 		<form>
@@ -51,6 +69,9 @@
 		</script>
 	</div>
 	
+	<h2>reports</h2>
+	<p>todo: add customised reports - configure dates, accounts, chart type</p>
+	
 	<!-- libraries -->
 	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
 	<script type="text/javascript" src="script/lib/jquery.tmpl.min.js"></script>
@@ -65,6 +86,8 @@
 	<script type="text/javascript" src="script/tux/accountlist.js"></script>
 	<script type="text/javascript" src="script/tux/accountview.js"></script>
 	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
+	<!-- ledger -->
+	<script type="text/javascript" src="script/tux/ledger.js"></script>
 	<!-- schedules -->
 	<script type="text/javascript" src="script/tux/schedule.js"></script>
 	
@@ -72,6 +95,7 @@
 	<script type="text/javascript">
 	$(function() {
 		tux.accountApp = new tux.AccountControl;
+		tux.ledgerApp = new tux.LedgerApp;
 		tux.sheduleApp = new tux.ScheduleApp;
 	});
 	</script>
