@@ -5,11 +5,20 @@ $(function() {
 	tux.AccountList = Backbone.Collection.extend({
 		
 		model: tux.Account,
-		localStorage: new Store('tuxaccounts'),
+		localStorage: new Store('accounts'),
 		
-		nextId: function() {
-			if (!this.length) return 1;
-			return this.last().get('id') + 1;
+		total: function() {
+			var total = 0;
+			this.each(function(account) {
+				total += parseInt(account.get('bal'));
+			})
+			return total;
+		},
+		
+		options: function() {
+			return this.map(function(account) {
+				return '<option value="' + account.id + '">' + account.get('name') + '</option>';
+			}).join('');
 		}
 		
 	});

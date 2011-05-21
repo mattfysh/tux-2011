@@ -2,7 +2,7 @@ namespace('tux');
 
 $(function() {
 	
-	var accounts = new tux.AccountList;
+	window.accounts = new tux.AccountList;
 	
 	tux.AccountControl = Backbone.View.extend({
 		
@@ -14,7 +14,11 @@ $(function() {
 		},
 		
 		initialize: function() {
-			
+			_.bindAll(this, 'addOne', 'render', 'addAll');
+			accounts.bind('add', this.addOne);
+			accounts.bind('all', this.render);
+			accounts.bind('refresh', this.addAll);
+			accounts.fetch();
 		},
 		
 		create: function(e) {
@@ -29,6 +33,24 @@ $(function() {
 			});
 			this.el.find('form')[0].reset();
 			return account;
+		},
+		
+		addOne: function(account) {
+			var view = new tux.AccountView({model: account});
+			this.el.find('table').append(view.render().el);
+		},
+		
+		addAll: function() {
+			accounts.each(this.addOne);
+		},
+		
+		render: function() {
+			var totalData = {
+				total: accounts.total()
+			}
+			this.el.find('tr.total').remove();
+			this.el.find('table').append($.tmpl(this.totalTemplate, totalData));
+			$('select.accounts').empty().append(accounts.options());
 		}
 		
 	});

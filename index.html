@@ -7,26 +7,70 @@
 <body>
 	<h1>tux beta</h1>
 	
-	<h2>tux accounts</h2>
+	<h2>accounts</h2>
 	<div id="accounts">
 		<form>
-			<input type="text" name="name" />
-			<input type="text" name="bal" />
+			<input type="text" name="name" placeholder="Account Name" />
+			<input type="text" name="bal" placeholder="Balance" />
 			<input type="submit" />
 		</form>
 		<table></table>
 		<script type="text/html" id="account-tmpl">
-			<td>${name}</td><td>${bal}</td><td><a href="#" class="remove">delete this account</a></td>
+			<td>${name}</td><td>${bal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
+		</script>
+		<script type="text/html" id="account-edit-tmpl">
+			<td><input type="text" name="name" value="${name}" /></td><td><input type="text" name="bal" value="${bal}" /></td>
+			<td><a href="#" class="save">save</a> | <a href="#" class="remove">delete</a></td>
 		</script>
 		<script type="text/html" id="accounts-total-tmpl">
-			<td>TOTAL</td><td>${total}</td>
+			<tr class="total"</tr><td>TOTAL</td><td>${total}</td></tr>
 		</script>
 	</div>
 	
-	<h2>tux schedules</h2>
-	<div id="schedules">
-		<select name="account"></select>
+	<h2>pending</h2>
+	<p>todo: list of schedules transactions that are past due, waiting to be added to the ledger</p>
+	
+	<h2>ledger</h2>
+	<div id="ledger">
+		<form>
+			<select name="accountid" class="accounts"></select>
+			<input type="text" name="date" placeholder="Date" />
+			<input type="text" name="amount" placeholder="Amount" />
+			<input type="text" name="desc" placeholder="Description" />
+			<input type="submit" />
+		</form>
+		<table></table>
+		<script type="text/html" id="ledger-tx-tmpl">
+			<td>${account.name}<td>${date}</td><td>${amount}</td><td>${desc}</td>
+		</script>
 	</div>
+	
+	<h2>schedules</h2>
+	<div id="schedules">
+		<form>
+			<select name="accountid" class="accounts"></select>
+			<input type="text" name="amount" placeholder="Amount" />
+			<input type="text" name="desc" placeholder="Description" />
+			<input type="text" name="start" placeholder="Start Date" />
+			<select name="frequency">
+				<option value="o">Once only</option>
+				<option value="d">Daily</option>
+				<option value="w">Weekly</option>
+				<option value="f">Fortnightly</option>
+				<option value="m">Monthly</option>
+				<option value="y">Yearly</option>
+			</select>
+			<input type="text" name="end" placeholder="End Date" />
+			<input type="submit" />
+		</form>
+		<table></table>
+		<script type="text/html" id="schedule-tmpl">
+			<td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>${start}</td><td>${frequency}</td><td>${end}</td><td><a href="#" class="remove">delete</a></td>
+		</script>
+	</div>
+	
+	<h2>reports</h2>
+	<p>todo: add customised reports - configure dates, accounts, chart type</p>
 	
 	<!-- libraries -->
 	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
@@ -41,14 +85,18 @@
 	<script type="text/javascript" src="script/tux/account.js"></script>
 	<script type="text/javascript" src="script/tux/accountlist.js"></script>
 	<script type="text/javascript" src="script/tux/accountview.js"></script>
-	<script type="text/javascript" src="script/tux/accountselectview.js"></script>
 	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
+	<!-- ledger -->
+	<script type="text/javascript" src="script/tux/ledger.js"></script>
+	<!-- schedules -->
+	<script type="text/javascript" src="script/tux/schedule.js"></script>
 	
 	<!-- bootstrap -->
 	<script type="text/javascript">
 	$(function() {
-		namespace('tux');
 		tux.accountApp = new tux.AccountControl;
+		tux.ledgerApp = new tux.LedgerApp;
+		tux.sheduleApp = new tux.ScheduleApp;
 	});
 	</script>
 </body>
