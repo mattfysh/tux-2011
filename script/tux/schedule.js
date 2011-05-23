@@ -2,11 +2,25 @@ namespace('tux');
 
 $(function() {
 	
+	var accounts = tux.accounts,
+		util = tux.util;
+	
 	tux.Schedule = Backbone.Model.extend({
 		
 		initialize: function() {
+			var end = this.get('end');
+			if (end) this.set({end: new Date(end)});
+			this.set({start: new Date(this.get('start'))});
+			console.dir(this);
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
+			_.bindAll(this, 'destroy', 'changeAccName');
+			this.account.bind('remove', this.destroy)
+				.bind('change:name', this.changeAccName);
+		},
+		
+		changeAccName: function() {
+			this.trigger('change:name');
 		}
 		
 	});
@@ -26,26 +40,38 @@ $(function() {
 		template: $('#schedule-tmpl').template(),
 		
 		events: {
-			'click a.remove': 'remove'
+			'click a.remove': 'destroy'
 		},
 		
 		initialize: function(model) {
-			_.bindAll(this, 'remove', 'render');
-			this.model.account.bind('remove', this.remove)
-				.bind('change:name', this.render);
+			_.bindAll(this, 'render', 'remove');
+			this.model.bind('change:name', this.render)
+				.bind('remove', this.remove)
 		},
 		
 		render: function() {
 			var tmplData = this.model.toJSON();
+			tmplData.amount = util.formatCurrency(tmplData.amount);
+			tmplData.start = util.formatDate(tmplData.start);
+			tmplData.end && (tmplData.end = util.formatDate(tmplData.end));
+			tmplData.frequency = this.freqNameMap[tmplData.frequency];
 			tmplData.account = this.model.account.toJSON();
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
 		
-		remove: function(e) {
-			e && e.preventDefault && e.preventDefault();
+		freqNameMap: {
+			o: 'Only Once',
+			d: 'Daily',
+			w: 'Weekly',
+			f: 'Fortnightly',
+			m: 'Monthly',
+			y: 'Yearly'
+		},
+		
+		destroy: function(e) {
+			e.preventDefault();
 			this.model.destroy();
-			$(this.el).remove();
 		}
 		
 	});
@@ -72,9 +98,12 @@ $(function() {
 		getNewSchedule: function() {
 			var schedule = {};
 			this.el.find(':input:not(:submit)').each(function() {
-				schedule[this.getAttribute('name')] = $(this).val();
+				 if ($(this).val()) schedule[this.getAttribute('name')] = $(this).val();
 			});
+			schedule.start = util.makeDate(schedule.start);
+			if (schedule.end) schedule.end = util.makeDate(schedule.end);
 			this.el.find('form')[0].reset();
+			console.dir(schedule);
 			return schedule;
 		},
 		

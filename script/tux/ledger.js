@@ -2,11 +2,24 @@ namespace('tux');
 
 $(function() {
 	
+	var accounts = tux.accounts,
+		util = tux.util;
+	
 	tux.Tx = Backbone.Model.extend({
 		
 		initialize: function() {
+			this.set({
+				date: new Date(this.get('date'))
+			});
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
+			_.bindAll(this, 'destroy', 'changeAccName');
+			this.account.bind('remove', this.destroy)
+				.bind('change:name', this.changeAccName);
+		},
+		
+		changeAccName: function() {
+			this.trigger('change:name');
 		}
 		
 	})
@@ -14,7 +27,11 @@ $(function() {
 	tux.Ledger = Backbone.Collection.extend({
 		
 		model: tux.Tx,
-		localStorage: new Store('ledger')
+		localStorage: new Store('ledger'),
+		
+		comparator: function(tx) {
+			return tx.date;
+		}
 		
 	});
 	
@@ -25,11 +42,28 @@ $(function() {
 		tagName: 'tr',
 		template: $('#ledger-tx-tmpl').template(),
 		
+		events: {
+			'click a.remove': 'destroy'
+		},
+		
+		initialize: function(model) {
+			_.bindAll(this, 'render', 'remove');
+			this.model.bind('change:name', this.render)
+				.bind('remove', this.remove)
+		},
+		
 		render: function() {
 			var tmplData = this.model.toJSON();
+			tmplData.date = util.formatDate(tmplData.date);
+			tmplData.amount = util.formatCurrency(tmplData.amount);
 			tmplData.account = this.model.account.toJSON();
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
+		},
+		
+		destroy: function(e) {
+			e.preventDefault();
+			this.model.destroy();
 		}
 		
 	});
@@ -58,6 +92,7 @@ $(function() {
 			this.el.find(':input:not(:submit)').each(function() {
 				tx[this.getAttribute('name')] = $(this).val();
 			});
+			tx.date = util.makeDate(tx.date);
 			this.el.find('form')[0].reset();
 			return tx;
 		},

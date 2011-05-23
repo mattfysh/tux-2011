@@ -2,6 +2,8 @@ namespace('tux');
 
 $(function() {
 	
+	var util = tux.util;
+	
 	tux.AccountView = Backbone.View.extend({
 		
 		tagName: 'tr',
@@ -9,20 +11,26 @@ $(function() {
 		editTemplate: $('#account-edit-tmpl').template(),
 		
 		events: {
-			'click a.remove': 'remove',
+			'click a.remove': 'destroy',
 			'click a.edit': 'edit',
 			'click a.save': 'save'
 		},
 		
+		initialize: function() {
+			_.bindAll(this, 'remove');
+			this.model.bind('remove', this.remove);
+		},
+		
 		render: function() {
-			$(this.el).empty().append($.tmpl(this.template, this.model.toJSON()));
+			var tmplData = this.model.toJSON();
+			tmplData.bal = util.formatCurrency(tmplData.bal);
+			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
 		
-		remove: function(e) {
+		destroy: function(e) {
 			e.preventDefault();
 			this.model.destroy();
-			$(this.el).remove();
 		},
 		
 		edit: function(e) {

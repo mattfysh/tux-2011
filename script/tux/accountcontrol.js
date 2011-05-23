@@ -2,7 +2,8 @@ namespace('tux');
 
 $(function() {
 	
-	window.accounts = new tux.AccountList;
+	var accounts = tux.accounts = new tux.AccountList,
+		util = tux.util;
 	
 	tux.AccountControl = Backbone.View.extend({
 		
@@ -46,7 +47,7 @@ $(function() {
 		
 		render: function() {
 			var totalData = {
-				total: accounts.total()
+				total: util.formatCurrency(accounts.total())
 			}
 			this.el.find('tr.total').remove();
 			this.el.find('table').append($.tmpl(this.totalTemplate, totalData));
