@@ -11,7 +11,7 @@ $(function() {
 			var end = this.get('end');
 			if (end) this.set({end: new Date(end)});
 			this.set({start: new Date(this.get('start'))});
-			console.dir(this);
+			
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
 			_.bindAll(this, 'destroy', 'changeAccName');
@@ -32,7 +32,7 @@ $(function() {
 		
 	});
 	
-	window.schedules = new tux.ScheduleList;
+	var schedules = tux.schedules = new tux.ScheduleList;
 	
 	tux.ScheduleView = Backbone.View.extend({
 		
@@ -103,7 +103,6 @@ $(function() {
 			schedule.start = util.makeDate(schedule.start);
 			if (schedule.end) schedule.end = util.makeDate(schedule.end);
 			this.el.find('form')[0].reset();
-			console.dir(schedule);
 			return schedule;
 		},
 		

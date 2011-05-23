@@ -35,7 +35,7 @@ $(function() {
 		
 	});
 	
-	window.ledger = new tux.Ledger;
+	var ledger = tux.ledger = new tux.Ledger;
 	
 	tux.LedgerView = Backbone.View.extend({
 		
