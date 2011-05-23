@@ -1,45 +1,87 @@
 <!doctype html>
+
 <html lang="en">
 <head>
-	<title>tux alpha</title>
-	<link rel="stylesheet" type="text/css" href="style/main.css" />
+<title>tux beta</title>
+<style type="text/css">
+	html, body {min-height: 100%;}
+	body {
+		font-family: Georgia;
+		font-size: 0.8em;
+		background: -webkit-linear-gradient(top, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%); /* Chrome10+,Safari5.1+ */
+	}
+	table {
+		margin: 30px 0;
+		font-family: Consolas;
+	}
+	th {
+		text-align: left;
+	}
+	td {
+		padding-right: 40px;
+	}
+	tr.total {
+		font-weight: bold;
+	}
+	.neg {
+		color: red;
+	}
+	.pos {
+		color: green;
+	}
+</style>
 </head>
 <body>
-	<h1>tux alpha</h1>
+	<h1>tux beta</h1>
 	
+	<h2>accounts</h2>
 	<div id="accounts">
-		<h2>Accounts</h2>
-		<table></table>
-		<script type="text/html" id="accounts-rows">
-			{{each(i) accounts}}
-				<tr data-index="${i}"><td>${name}</td><td>${formatCurrency(balance)}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="delete">delete</a></tr>
-			{{/each}}
-			<tr><td>TOTAL</td><td>${formatCurrency(total)}</td></tr>
-		</script>
 		<form>
 			<input type="text" name="name" placeholder="Account Name" />
-			<input type="text" name="balance" placeholder="Balance" />
-			<input type="submit" value="Add Account" />
+			<input type="text" name="bal" placeholder="Balance" />
+			<input type="submit" />
 		</form>
+		<table>
+			<tr><th>Name</th><th>Balance</th><th></th></tr>
+		</table>
+		<script type="text/html" id="account-tmpl">
+			<td>${name}</td><td>${bal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
+		</script>
+		<script type="text/html" id="account-edit-tmpl">
+			<td><input type="text" name="name" value="${name}" /></td><td><input type="text" name="bal" value="${bal}" /></td>
+			<td><a href="#" class="save">save</a> | <a href="#" class="remove">delete</a></td>
+		</script>
+		<script type="text/html" id="accounts-total-tmpl">
+			<tr class="total"</tr><td>TOTAL</td><td>${total}</td></tr>
+		</script>
 	</div>
+	<!-- 
+	<h2>pending</h2>
+	<p>todo: list of schedules transactions that are past due, waiting to be added to the ledger</p>
 	
-	<div id="schedule">
-		<h2>Future Transactions</h2>
-		<table></table>
-		<script type="text/html" id="schedule-row">
-			<tr><td>${$item.getAccountName(account)}</td><td>${formatCurrency(amount)}</td><td>${desc}</td><td>${start}</td><td>${$item.getFreqName(freq)}</td><td>${end}</td><td><a href="#" class="delete">delete</a></tr>
-		</script>
-		<script type="text/html" id="schedule-account-option">
-			{{each(i) accounts}}
-				<option value="${i}">${name}</option>
-			{{/each}}
-		</script>
+	<h2>ledger</h2>
+	<div id="ledger">
 		<form>
-			<select name="account">
-			</select>
+			<select name="accountid" class="accounts"></select>
+			<input type="text" name="date" placeholder="Date" />
 			<input type="text" name="amount" placeholder="Amount" />
 			<input type="text" name="desc" placeholder="Description" />
+			<input type="submit" />
+		</form>
+		<table></table>
+		<script type="text/html" id="ledger-tx-tmpl">
+			<td>${account.name}<td>${date}</td><td>${amount}</td><td>${desc}</td><td><a href="#" class="remove">delete</a></td>
+		</script>
+	</div>
+	 -->
+	 
+	<h2>schedules</h2>
+	<div id="schedules">
+		<form>
+			<select name="accountid" class="accounts"></select>
 			<input type="text" name="start" placeholder="Start Date" />
+			<input type="text" name="amount" placeholder="Amount" />
+			<input type="text" name="desc" placeholder="Description" />
 			<select name="frequency">
 				<option value="o">Once only</option>
 				<option value="d">Daily</option>
@@ -49,37 +91,64 @@
 				<option value="y">Yearly</option>
 			</select>
 			<input type="text" name="end" placeholder="End Date" />
-			<input type="submit" value="Add Future Transaction" />
+			<input type="submit" />
 		</form>
-	</div>
-	
-	<div id="reports">
-		<script type="text/html" id="report">
-			<h2>${name}</h2>
-			<table>
-				{{each data}}
-					<tr><td>${date}</td><td>${desc}</td><td>${formatCurrency(amount)}</td><td>${formatCurrency(runningTotal)}</td><td>${tag}</td></tr>
-				{{/each}}
-			</table>
-			<div id="report-${index}" class="chart"></div>
+		<table>
+			<tr><th>Account</th><th>Next</th><th>Amount</th><th>Description</th><th>Frequency</th><th>Ending</th><th></th></tr>
+		</table>
+		<script type="text/html" id="schedule-tmpl">
+			<td>${account.name}</td><td>${start}</td><td>${amount}</td><td>${desc}</td><td>${frequency}</td><td>${end}</td><td><a href="#" class="remove">delete</a></td>
 		</script>
 	</div>
 	
-	<script src="script/lib/jquery-1.6.min.js"></script>
-	<script src="script/lib/jquery.tmpl.min.js"></script>
-	<script src="script/lib/store.min.js"></script>
-	<script src="script/lib/highcharts.js"></script>
+	<h2>reports</h2>
+	<div id="reports">
+		<form>
+			<input type="text" name="title" placeholder="Title" />
+			<input type="text" name="ahead" placeholder="Days Ahead" />
+			<input type="submit" />
+		</form>
+		<script type="text/html" id="report-tmpl">
+			<h3>${title}</h3>
+			<a href="#" class="remove">delete</a>
+			<table>
+				<tr><th>Date</th><th>Amount</th><th>Description</th><th>Running Total</th><th></th></tr>
+				{{each txList}}
+				<tr><td>${date}</td><td>${amount}</td><td>${desc}</td><td>${runningTotal}</td><td><a href="#" class="edit">edit</a></td></tr>
+				{{/each}}
+			</table>
+		</script>
+	</div>
 	
-	<script src="script/tux.util.js"></script>
-	<script src="script/tux.date.js"></script>
+	<!-- libraries -->
+	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
+	<script type="text/javascript" src="script/lib/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="script/lib/underscore-min.js"></script>
+	<script type="text/javascript" src="script/lib/backbone.js"></script>
+	<script type="text/javascript" src="script/lib/backbone.localStorage.js"></script>
 	
-	<script src="fakedata.js"></script>
+	<!-- tux source code -->
+	<script type="text/javascript" src="script/tux/util.js"></script>
+	<!-- accounts -->
+	<script type="text/javascript" src="script/tux/account.js"></script>
+	<script type="text/javascript" src="script/tux/accountlist.js"></script>
+	<script type="text/javascript" src="script/tux/accountview.js"></script>
+	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
+	<!-- ledger -->
+	<!-- <script type="text/javascript" src="script/tux/ledger.js"></script> -->
+	<!-- schedules -->
+	<script type="text/javascript" src="script/tux/schedule.js"></script>
+	<!-- reports -->
+	<script type="text/javascript" src="script/tux/reports.js"></script>
 	
-	<script src="script/tux.accounts.js"></script>
-	<script src="script/tux.schedule.js"></script>
-	<script src="script/tux.reports.js"></script>
-	
-	<script src="script/tux.control.js"></script>
-	
+	<!-- bootstrap -->
+	<script type="text/javascript">
+	$(function() {
+		tux.accountApp = new tux.AccountControl;
+		//tux.ledgerApp = new tux.LedgerApp;
+		tux.sheduleApp = new tux.ScheduleApp;
+		tux.reportApp = new tux.ReportApp;
+	});
+	</script>
 </body>
 </html>
