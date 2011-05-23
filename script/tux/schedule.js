@@ -11,6 +11,7 @@ $(function() {
 			var end = this.get('end');
 			if (end) this.set({end: new Date(end)});
 			this.set({start: new Date(this.get('start'))});
+			this.reset();
 			
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
@@ -21,6 +22,38 @@ $(function() {
 		
 		changeAccName: function() {
 			this.trigger('change:name');
+		},
+		
+		freqMap: {
+			o: 'expire',
+			d: ['Date', 1],
+			w: ['Date', 7],
+			f: ['Date', 14],
+			m: ['Month', 1],
+			y: ['FullYear', 1]
+		},
+		
+		next: function() {
+			var tx = {
+					date: new Date(this.nextDate.getTime()),
+					amount: this.get('amount'),
+					desc: this.get('desc')
+				},
+				freqFn = this.freqMap[this.get('frequency')];
+			
+			if (freqFn === 'expire') {
+				this.expired = true;
+			} else {
+				this.nextDate['set' + freqFn[0]](this.nextDate['get' + freqFn[0]]() + freqFn[1]);
+				if (this.get('end') && this.get('end') < this.nextDate) this.expired = true;
+			}
+			
+			return tx;
+		},
+		
+		reset: function() {
+			this.nextDate = new Date(this.get('start').getTime());
+			this.expired = false;
 		}
 		
 	});
@@ -28,7 +61,11 @@ $(function() {
 	tux.ScheduleList = Backbone.Collection.extend({
 		
 		model: tux.Schedule,
-		localStorage: new Store('schedules')
+		localStorage: new Store('schedules'),
+		
+		comparator: function(schedule) {
+			return (schedule.expired) ? Infinity : schedule.nextDate;
+		}
 		
 	});
 	

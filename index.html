@@ -10,6 +10,25 @@
 		font-size: 0.8em;
 		background: -webkit-linear-gradient(top, #f6f8f9 0%,#e5ebee 50%,#d7dee3 51%,#f5f7f9 100%); /* Chrome10+,Safari5.1+ */
 	}
+	table {
+		margin: 30px 0;
+		font-family: Consolas;
+	}
+	th {
+		text-align: left;
+	}
+	td {
+		padding-right: 40px;
+	}
+	tr.total {
+		font-weight: bold;
+	}
+	.neg {
+		color: red;
+	}
+	.pos {
+		color: green;
+	}
 </style>
 </head>
 <body>
@@ -22,7 +41,9 @@
 			<input type="text" name="bal" placeholder="Balance" />
 			<input type="submit" />
 		</form>
-		<table></table>
+		<table>
+			<tr><th>Name</th><th>Balance</th><th></th></tr>
+		</table>
 		<script type="text/html" id="account-tmpl">
 			<td>${name}</td><td>${bal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
 		</script>
@@ -34,7 +55,7 @@
 			<tr class="total"</tr><td>TOTAL</td><td>${total}</td></tr>
 		</script>
 	</div>
-	
+	<!-- 
 	<h2>pending</h2>
 	<p>todo: list of schedules transactions that are past due, waiting to be added to the ledger</p>
 	
@@ -52,7 +73,8 @@
 			<td>${account.name}<td>${date}</td><td>${amount}</td><td>${desc}</td><td><a href="#" class="remove">delete</a></td>
 		</script>
 	</div>
-	
+	 -->
+	 
 	<h2>schedules</h2>
 	<div id="schedules">
 		<form>
@@ -71,7 +93,9 @@
 			<input type="text" name="end" placeholder="End Date" />
 			<input type="submit" />
 		</form>
-		<table></table>
+		<table>
+			<tr><th>Account</th><th>Next</th><th>Amount</th><th>Description</th><th>Frequency</th><th>Ending</th><th></th></tr>
+		</table>
 		<script type="text/html" id="schedule-tmpl">
 			<td>${account.name}</td><td>${start}</td><td>${amount}</td><td>${desc}</td><td>${frequency}</td><td>${end}</td><td><a href="#" class="remove">delete</a></td>
 		</script>
@@ -82,13 +106,17 @@
 		<form>
 			<input type="text" name="title" placeholder="Title" />
 			<input type="text" name="ahead" placeholder="Days Ahead" />
-			<input type="text" name="behind" placeholder="Days Behind" />
 			<input type="submit" />
 		</form>
 		<script type="text/html" id="report-tmpl">
-			<h3>${title} &mdash; ${ahead} days ahead, ${behind} days behind</h3>
+			<h3>${title}</h3>
 			<a href="#" class="remove">delete</a>
-			<table><tr><td>Tx list here...</td></tr></table>
+			<table>
+				<tr><th>Date</th><th>Amount</th><th>Description</th><th>Running Total</th><th></th></tr>
+				{{each txList}}
+				<tr><td>${date}</td><td>${amount}</td><td>${desc}</td><td>${runningTotal}</td><td><a href="#" class="edit">edit</a></td></tr>
+				{{/each}}
+			</table>
 		</script>
 	</div>
 	
@@ -107,7 +135,7 @@
 	<script type="text/javascript" src="script/tux/accountview.js"></script>
 	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
 	<!-- ledger -->
-	<script type="text/javascript" src="script/tux/ledger.js"></script>
+	<!-- <script type="text/javascript" src="script/tux/ledger.js"></script> -->
 	<!-- schedules -->
 	<script type="text/javascript" src="script/tux/schedule.js"></script>
 	<!-- reports -->
@@ -117,7 +145,7 @@
 	<script type="text/javascript">
 	$(function() {
 		tux.accountApp = new tux.AccountControl;
-		tux.ledgerApp = new tux.LedgerApp;
+		//tux.ledgerApp = new tux.LedgerApp;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;
 	});

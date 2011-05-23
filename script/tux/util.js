@@ -14,7 +14,7 @@ namespace('tux');
 tux.util = (function() {
 	
 	function fC(v) {
-		var p = (v < 0) ? '-' : '',
+		var p = (v < 0) ? '-' : '&nbsp;',
 			v = Math.abs(v).toString(),
 			c = v.substr(-2),
 			d = v.slice(0, -2) || '0',
