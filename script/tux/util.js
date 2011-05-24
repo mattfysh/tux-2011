@@ -48,10 +48,22 @@ tux.util = (function() {
 		return [d, m, y].join('/');
 	}
 	
+	function gISO(d) {
+		var y = d.getFullYear(),
+		m = d.getMonth() + 1,
+		d = d.getDate();
+	
+		if (m < 10) m = '0' + m;
+		if (d < 10) d = '0' + d;
+		
+		return y + m + d;
+	}
+	
 	return {
 		formatCurrency: fC,
 		makeDate: mD,
-		formatDate: fD
+		formatDate: fD,
+		getISO8601: gISO
 	}
 	
 }());

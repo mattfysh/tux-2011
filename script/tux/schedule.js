@@ -33,27 +33,42 @@ $(function() {
 			y: ['FullYear', 1]
 		},
 		
-		next: function() {
-			var tx = {
+		next: function(count) {
+			var nextTx, except;
+			// add the next <count> instances to the instances array property
+			for (var i = 0; i < count && !this.expired; i += 1) {
+				// create next instance
+				nextTx = {
 					date: new Date(this.nextDate.getTime()),
 					amount: this.get('amount'),
 					desc: this.get('desc')
-				},
-				freqFn = this.freqMap[this.get('frequency')];
-			
-			if (freqFn === 'expire') {
-				this.expired = true;
-			} else {
-				this.nextDate['set' + freqFn[0]](this.nextDate['get' + freqFn[0]]() + freqFn[1]);
-				if (this.get('end') && this.get('end') < this.nextDate) this.expired = true;
+				};
+				nextTx.iso = util.getISO8601(nextTx.date)
+				
+				// see if there's an exception
+				except = this.get('except')[nextTx.iso];
+				if (except) _.extend(nextTx, except);
+				
+				// apply formatting
+				nextTx.amount = util.formatCurrency(nextTx.amount);
+				nextTx.date = util.formatDate(nextTx.date);
+				this.instances.push(nextTx);
+				
+				// calculate next date and if expired
+				if (this.freqFn === 'expire') {
+					this.expired = true;
+				} else {
+					this.nextDate['set' + this.freqFn[0]](this.nextDate['get' + this.freqFn[0]]() + this.freqFn[1]);
+					if (this.get('end') && this.get('end') < this.nextDate) this.expired = true;
+				}
 			}
-			
-			return tx;
 		},
 		
 		reset: function() {
 			this.nextDate = new Date(this.get('start').getTime());
 			this.expired = false;
+			this.instances = [];
+			this.freqFn = this.freqMap[this.get('frequency')];
 		}
 		
 	});
@@ -61,11 +76,7 @@ $(function() {
 	tux.ScheduleList = Backbone.Collection.extend({
 		
 		model: tux.Schedule,
-		localStorage: new Store('schedules'),
-		
-		comparator: function(schedule) {
-			return (schedule.expired) ? Infinity : schedule.nextDate;
-		}
+		localStorage: new Store('schedules')
 		
 	});
 	
@@ -73,17 +84,20 @@ $(function() {
 	
 	tux.ScheduleView = Backbone.View.extend({
 		
-		tagName: 'tr',
 		template: $('#schedule-tmpl').template(),
+		editTxTemplate: $('#schedule-edit-tx-tmpl').template(),
 		
 		events: {
-			'click a.remove': 'destroy'
+			'click a.remove': 'destroy',
+			'click a.next': 'displayNext',
+			'click a.edit-tx': 'editTx',
+			'click a.remove-tx': 'removeTx'
 		},
 		
 		initialize: function(model) {
 			_.bindAll(this, 'render', 'remove');
 			this.model.bind('change:name', this.render)
-				.bind('remove', this.remove)
+				.bind('remove', this.remove);
 		},
 		
 		render: function() {
@@ -93,6 +107,7 @@ $(function() {
 			tmplData.end && (tmplData.end = util.formatDate(tmplData.end));
 			tmplData.frequency = this.freqNameMap[tmplData.frequency];
 			tmplData.account = this.model.account.toJSON();
+			tmplData.instances = this.model.instances;
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
@@ -109,6 +124,36 @@ $(function() {
 		destroy: function(e) {
 			e.preventDefault();
 			this.model.destroy();
+		},
+		
+		displayNext: function(e) {
+			e.preventDefault();
+			this.model.next(5);
+			this.render();
+		},
+		
+		editTx: function(e) {
+			e.preventDefault();
+			var index = $(e.target).parents('tr').data('index'),
+				instance = this.model.instances[index];
+			
+			$(e.target).parents('tr').empty().append($.tmpl(this.editTxTemplate, instance));
+		},
+		
+		removeTx: function(e) {
+			e.preventDefault();
+			var index = $(e.target).parents('tr').data('index'),
+				instance = this.model.instances[index],
+				except = this.model.get('except');
+				
+			except[instance.iso] = {
+					amount: 0,
+					desc: '*deleted*'
+			};
+			instance.amount = util.formatCurrency(0);
+			instance.desc = '*deleted*';
+			this.model.save();
+			this.render();
 		}
 		
 	});
@@ -139,13 +184,14 @@ $(function() {
 			});
 			schedule.start = util.makeDate(schedule.start);
 			if (schedule.end) schedule.end = util.makeDate(schedule.end);
-			this.el.find('form')[0].reset();
+			schedule.except = {};
+			//this.el.find('form')[0].reset();
 			return schedule;
 		},
 		
 		addOne: function(schedule) {
 			var view = new tux.ScheduleView({model: schedule});
-			this.el.find('table').append(view.render().el);
+			this.el.append(view.render().el);
 		},
 		
 		addAll: function() {

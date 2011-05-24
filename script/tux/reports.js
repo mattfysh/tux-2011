@@ -32,7 +32,7 @@ $(function() {
 				tx.amount = util.formatCurrency(tx.amount);
 				txList.push(tx);
 				schedules.sort({silent: true});
-				tx = schedules.at(0).next()
+				tx = schedules.at(0).next();
 			}
 			
 			return txList;
@@ -74,7 +74,6 @@ $(function() {
 		render: function() {
 			var tmplData = this.model.toJSON();
 			tmplData.txList = this.model.getTxList();
-			console.log(tmplData);
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
