@@ -22,18 +22,23 @@ $(function() {
 			// set start and end dates, reset schedules
 			start.setDate(start.getDate() - parseInt(this.get('behind')));
 			end.setDate(end.getDate() + parseInt(this.get('ahead')));
-			schedules.invoke('reset').sort({silent: true});
 			
 			// generate tx list
-			tx = schedules.at(0).next()
-			while (tx.date < end) {
-				tx.runningTotal = util.formatCurrency(total += parseInt(tx.amount));
-				tx.date = util.formatDate(tx.date);
-				tx.amount = util.formatCurrency(tx.amount);
-				txList.push(tx);
-				schedules.sort({silent: true});
-				tx = schedules.at(0).next();
-			}
+			schedules.each(function(schedule) {
+				schedule.next(end);
+				txList.push(schedule.instances);
+			})
+			
+			// flatten and sort array
+			txList = _.flatten(txList);
+			txList = _.sortBy(txList, function(tx) {
+				return util.makeDate(tx.date);
+			});
+			
+			// add running total
+			_.each(txList, function(tx) {
+				tx.runningTotal = util.formatCurrency(total += parseInt(tx.cents));
+			})
 			
 			return txList;
 		}

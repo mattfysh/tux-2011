@@ -12,7 +12,7 @@ $(function() {
 			if (end) this.set({end: new Date(end)});
 			this.set({start: new Date(this.get('start'))});
 			this.reset();
-			
+			if (!this.get('except')) this.set({except: {}});
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
 			_.bindAll(this, 'destroy', 'changeAccName');
@@ -33,10 +33,21 @@ $(function() {
 			y: ['FullYear', 1]
 		},
 		
-		next: function(count) {
-			var nextTx, except;
-			// add the next <count> instances to the instances array property
-			for (var i = 0; i < count && !this.expired; i += 1) {
+		next: function(limit) {
+			var nextTx, except, limitFn;
+			
+			if (typeof limit === 'number') {
+				limitFn = function(count) {
+					return count < limit;
+				}
+			} else {
+				limitFn = function(count, nextDate) {
+					return nextDate < limit;
+				}
+			}
+			
+			// add instances to the instances array property until the limit is reached or the track has expired
+			for (var i = 0; !this.expired && limitFn(i, this.nextDate); i += 1) {
 				// create next instance
 				nextTx = {
 					date: new Date(this.nextDate.getTime()),
@@ -47,9 +58,13 @@ $(function() {
 				
 				// see if there's an exception
 				except = this.get('except')[nextTx.iso];
-				if (except) _.extend(nextTx, except);
+				if (except) {
+					if (except.date) except.date = new Date(except.date);
+					_.extend(nextTx, except);
+				}
 				
 				// apply formatting
+				nextTx.cents = nextTx.amount;
 				nextTx.amount = util.formatCurrency(nextTx.amount);
 				nextTx.date = util.formatDate(nextTx.date);
 				this.instances.push(nextTx);
@@ -91,7 +106,8 @@ $(function() {
 			'click a.remove': 'destroy',
 			'click a.next': 'displayNext',
 			'click a.edit-tx': 'editTx',
-			'click a.remove-tx': 'removeTx'
+			'click a.remove-tx': 'removeTx',
+			'click a.save-tx': 'saveTx'
 		},
 		
 		initialize: function(model) {
@@ -138,6 +154,24 @@ $(function() {
 				instance = this.model.instances[index];
 			
 			$(e.target).parents('tr').empty().append($.tmpl(this.editTxTemplate, instance));
+		},
+		
+		saveTx: function(e) {
+			e.preventDefault();
+			var newTx = {},
+				index = $(e.target).parents('tr').data('index'),
+				instances = this.model.instances,
+				except = this.model.get('except');
+			
+			$(e.target).parents('tr').find(':input:not(:submit)').each(function() {
+				 newTx[this.getAttribute('name')] = $(this).val();
+			});
+			newTx.date = util.makeDate(newTx.date);
+			
+			except[instances[index].iso] = newTx;
+			instances[index] = newTx;
+			this.model.save();
+			this.render();
 		},
 		
 		removeTx: function(e) {
