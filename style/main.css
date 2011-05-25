@@ -107,3 +107,20 @@ h1 {
 .theme a.none {
 	background-image: none;
 }
+
+/**
+ * TEMP STUFF, FEATURES DEV
+ */
+.mini-app {
+	padding: 20px;
+	-webkit-border-radius: 8px 0 8px 0;
+	background-color: rgba(255, 255, 255, 0.9);
+	-webkit-box-shadow: 0px 0px 8px rgba(60, 60, 60, 0.5);
+	margin-top: 40px;
+	color: #333;
+	float: left;
+	clear: left;
+}
+.mini-app h2 {
+	margin-top: 0;
+}

@@ -33,10 +33,6 @@ $(function() {
 		
 		setTheme: function(config) {
 			$('body').attr('class', config.get('theme'));
-		},
-		
-		restoreSettings: function(config) {
-			this.setTheme(config);
 		}
 		
 	});

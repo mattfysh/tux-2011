@@ -30,8 +30,8 @@
 	
 	<div class="pagewrap">
 		
-		<div id="accounts">
-			<h2>accounts</h2>
+		<div id="accounts" class="mini-app">
+			<h2>Accounts</h2>
 			<form>
 				<input type="text" name="name" placeholder="Account Name" />
 				<input type="text" name="bal" placeholder="Balance" />
@@ -52,63 +52,63 @@
 			</script>
 		</div>
 		
+		<div id="schedules" class="mini-app">
+			<h2>Schedules</h2>
+			<form>
+				<select name="accountid" class="accounts"></select>
+				<input type="text" name="start" placeholder="Start Date" />
+				<input type="text" name="amount" placeholder="Amount" />
+				<input type="text" name="desc" placeholder="Description" />
+				<select name="frequency">
+					<option value="o">Once only</option>
+					<option value="d">Daily</option>
+					<option value="w">Weekly</option>
+					<option value="f">Fortnightly</option>
+					<option value="m">Monthly</option>
+					<option value="y">Yearly</option>
+				</select>
+				<input type="text" name="end" placeholder="End Date" />
+				<input type="submit" />
+			</form>
+			<script type="text/html" id="schedule-tmpl">
+				<table>
+					<tr><th>Account</th><th>Start</th><th>Amount</th><th>Description</th><th>Frequency</th><th>Ending</th><th></th></tr>
+					<tr><td>${account.name}</td><td>${start}</td><td>${amount}</td><td>${desc}</td><td>${frequency}</td><td>${end}</td>
+						<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a> | <a href="#" class="next">show next</a></td></tr>
+					{{each(i) instances}}
+						<tr data-index="${i}"><td></td><td>${date}</td><td>${amount}</td><td>${desc}</td><td></td><td></td>
+							<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
+					{{/each}}
+				</table>
+			</script>
+			<script type="text/html" id="schedule-edit-tx-tmpl">
+				<td></td><td><input type="text" name="date" value="${date}" /></td><td><input type="text" name="amount" value="${amount}" /></td><td><input type="text" name="desc" value="${desc}" /></td><td></td><td></td>
+							<td><a href="#" class="save-tx">save</a> | <a href="#" class="remove-tx">delete</a></td>
+			</script>
+		</div>
+		
+		
+		<div id="reports" class="mini-app">
+			<h2>Reports</h2>
+			<form>
+				<input type="text" name="title" placeholder="Title" />
+				<input type="text" name="ahead" placeholder="Days Ahead" />
+				<input type="submit" />
+			</form>
+			<script type="text/html" id="report-tmpl">
+				<h3>${title}</h3>
+				<a href="#" class="remove">delete</a>
+				<table>
+					<tr><th>Date</th><th>Amount</th><th>Description</th><th>Running Total</th><th></th></tr>
+					{{each txList}}
+					<tr><td>${date}</td><td>${amount}</td><td>${desc}</td><td>${runningTotal}</td></tr>
+					{{/each}}
+				</table>
+			</script>
+		</div>
+	
 	</div>
 	
-	 <!--
-	<h2>schedules</h2>
-	<div id="schedules">
-		<form>
-			<select name="accountid" class="accounts"></select>
-			<input type="text" name="start" placeholder="Start Date" />
-			<input type="text" name="amount" placeholder="Amount" />
-			<input type="text" name="desc" placeholder="Description" />
-			<select name="frequency">
-				<option value="o">Once only</option>
-				<option value="d">Daily</option>
-				<option value="w">Weekly</option>
-				<option value="f">Fortnightly</option>
-				<option value="m">Monthly</option>
-				<option value="y">Yearly</option>
-			</select>
-			<input type="text" name="end" placeholder="End Date" />
-			<input type="submit" />
-		</form>
-		<script type="text/html" id="schedule-tmpl">
-			<table>
-				<tr><th>Account</th><th>Start</th><th>Amount</th><th>Description</th><th>Frequency</th><th>Ending</th><th></th></tr>
-				<tr><td>${account.name}</td><td>${start}</td><td>${amount}</td><td>${desc}</td><td>${frequency}</td><td>${end}</td>
-					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a> | <a href="#" class="next">show next</a></td></tr>
-				{{each(i) instances}}
-					<tr data-index="${i}"><td></td><td>${date}</td><td>${amount}</td><td>${desc}</td><td></td><td></td>
-						<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
-				{{/each}}
-			</table>
-		</script>
-		<script type="text/html" id="schedule-edit-tx-tmpl">
-			<td></td><td><input type="text" name="date" value="${date}" /></td><td><input type="text" name="amount" value="${amount}" /></td><td><input type="text" name="desc" value="${desc}" /></td><td></td><td></td>
-						<td><a href="#" class="save-tx">save</a> | <a href="#" class="remove-tx">delete</a></td>
-		</script>
-	</div>
-	
-	<h2>reports</h2>
-	<div id="reports">
-		<form>
-			<input type="text" name="title" placeholder="Title" />
-			<input type="text" name="ahead" placeholder="Days Ahead" />
-			<input type="submit" />
-		</form>
-		<script type="text/html" id="report-tmpl">
-			<h3>${title}</h3>
-			<a href="#" class="remove">delete</a>
-			<table>
-				<tr><th>Date</th><th>Amount</th><th>Description</th><th>Running Total</th><th></th></tr>
-				{{each txList}}
-				<tr><td>${date}</td><td>${amount}</td><td>${desc}</td><td>${runningTotal}</td></tr>
-				{{/each}}
-			</table>
-		</script>
-	</div>
-	-->
 	<!-- libraries -->
 	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
 	<script type="text/javascript" src="script/lib/jquery.tmpl.min.js"></script>
@@ -135,8 +135,8 @@
 	$(function() {
 		tux.configApp = new tux.ConfigView;
 		tux.accountApp = new tux.AccountControl;
-		//tux.sheduleApp = new tux.ScheduleApp;
-		//tux.reportApp = new tux.ReportApp;
+		tux.sheduleApp = new tux.ScheduleApp;
+		tux.reportApp = new tux.ReportApp;
 	});
 	</script>
 </body>

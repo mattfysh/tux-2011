@@ -12,6 +12,7 @@ body.grass {
 body.grass #headstrip {
 	background: -webkit-linear-gradient(top, rgba(180, 180, 135, 0.85) 0%, rgba(200, 200, 180, 0.7) 100%);
 }
+body.grass h2,
 body.grass h3 {
 	color: #83b876;
 }
@@ -23,6 +24,7 @@ body.water {
 body.water #headstrip {
 	background: -webkit-linear-gradient(top, rgba(30, 90, 150, 0.85) 0%, rgba(125, 185, 230, 0.7) 100%);
 }
+body.water h2,
 body.water h3 {
 	color: #7695b8;
 }
@@ -34,6 +36,7 @@ body.autumn {
 body.autumn #headstrip {
 	background: -webkit-linear-gradient(top, rgba(240, 150, 20, 0.85) 0%, rgba(255, 190, 80, 0.7) 100%);
 }
+body.autumn h2,
 body.autumn h3 {
 	color: #b8a476;
 }
@@ -47,6 +50,7 @@ body.noise {
 body.noise #headstrip {
 	-webkit-box-shadow: 0px 0px 16px #666;
 }
+body.noise h2,
 body.noise h3 {
 	color: #8b7a88;
 }
@@ -59,6 +63,7 @@ body.newyork #headstrip {
 	background: -webkit-linear-gradient(top, rgba(100, 100, 100, 0.85) 0%, rgba(160, 160, 160, 0.7) 100%);
 	-webkit-box-shadow: 0px 0px 16px #666;
 }
+body.newyork h2,
 body.newyork h3 {
 	color: #8b7a88;
 }
