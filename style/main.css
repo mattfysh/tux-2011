@@ -1,0 +1,109 @@
+/* general */
+html, body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 0.8em;
+	font-family: Arial;
+	background-color: #aaa;
+}
+.pagewrap {
+	margin: 0 80px;
+}
+h1, h2, h3 {
+	font-family: Georgia;
+}
+::-webkit-input-placeholder {
+	font-style: italic;
+}
+
+/**
+ * Header
+ */
+#headstrip {
+	overflow: auto;
+	background: -webkit-linear-gradient(top, rgba(100, 100, 100, 0.85) 0%, rgba(160, 160, 160, 0.7) 100%);
+	-webkit-box-shadow: 0px 0px 8px #333;
+	line-height: 40px;
+}
+
+h1 {
+	margin: 0;
+	float: left;
+	text-shadow: 1px 1px 1px #666;
+}
+#toolbox {
+	float: right;
+	list-style: none none outside;
+	margin: 0;
+	padding: 0;
+}
+#toolbox > li {
+	display: inline-block;
+	margin-left: 20px;
+}
+#config .ico {
+	background: url(../img/ico/gear.png) no-repeat center center;
+	width: 24px;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 12px;
+	text-indent: -999px;
+	overflow: hidden;
+}
+#config:hover .ico {
+	background-color: rgba(255, 255, 255, 0.5);
+	opacity: 0.6;
+}
+
+/**
+ * Config panel
+ */
+#config div {
+	display: none;
+	width: 200px;
+	position: absolute;
+	line-height: 1em;
+	top: 40px;
+	right: 80px;
+	padding: 20px;
+	color: #000;
+	background-color: rgba(255, 255, 255, 0.9);
+	-webkit-border-radius: 0 0 8px 8px;
+	-webkit-box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+#config:hover div {
+	display: block;
+}
+/* themes */
+.theme a {
+	display: inline-block;
+	text-indent: -999px;
+	overflow: hidden;
+	width: 32px;
+	height: 18px;
+	margin: 0 4px 4px 0;
+	background-color: #fff;
+	border: 1px dotted #aaa;
+	padding: 4px;
+	background: url(../img/ico/theme-sprite.png) no-repeat;
+	background-clip: content-box;
+	background-position: 4px 4px;
+}
+.theme a.water {
+	background-position: 4px -14px;
+}
+.theme a.autumn {
+	background-position: 4px -32px;
+}
+.theme a.noise {
+	background-position: 4px -50px;
+}
+.theme a.newyork {
+	background-position: 4px -68px;
+}
+.theme a.none {
+	background-image: none;
+}

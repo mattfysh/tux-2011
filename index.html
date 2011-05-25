@@ -2,58 +2,59 @@
 
 <html lang="en">
 <head>
-<title>tux beta</title>
-<style type="text/css">
-	html, body {min-height: 100%;}
-	body {
-		font-family: "Trebuchet MS";
-		font-size: 0.8em;
-	}
-	table {
-		margin: 30px 0;
-	}
-	th {
-		text-align: left;
-	}
-	th, td {
-		padding-right: 40px;
-	}
-	tr.total {
-		font-weight: bold;
-	}
-	.neg {
-		color: red;
-	}
-	.pos {
-		color: green;
-	}
-</style>
+	<title>tux beta</title>
+	<link rel="stylesheet" href="style/main.css" />
+	<link rel="stylesheet" href="style/themes.css" />
 </head>
+
 <body>
-	<h1>tux beta</h1>
 	
-	<h2>accounts</h2>
-	<div id="accounts">
-		<form>
-			<input type="text" name="name" placeholder="Account Name" />
-			<input type="text" name="bal" placeholder="Balance" />
-			<input type="submit" />
-		</form>
-		<table>
-			<tr><th>Name</th><th>Balance</th><th></th></tr>
-		</table>
-		<script type="text/html" id="account-tmpl">
-			<td>${name}</td><td>${bal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
-		</script>
-		<script type="text/html" id="account-edit-tmpl">
-			<td><input type="text" name="name" value="${name}" /></td><td><input type="text" name="bal" value="${bal}" /></td>
-			<td><a href="#" class="save">save</a> | <a href="#" class="remove">delete</a></td>
-		</script>
-		<script type="text/html" id="accounts-total-tmpl">
-			<tr class="total"</tr><td>TOTAL</td><td>${total}</td></tr>
-		</script>
+	<div id="headstrip">
+		<div class="pagewrap">
+			<h1>tux beta</h1>
+			<ul id="toolbox">
+				<li id="username">Matt</li>
+				<li id="config"><span class="ico" title="Settings">Settings</span>
+					<div>
+					<span class="theme"><h3>Theme</h3>
+						<a href="#" class="grass" title="Grass">Grass</a>
+						<a href="#" class="water" title="Water">Water</a>
+						<a href="#" class="autumn" title="Autumn">Autumn</a>
+						<a href="#" class="newyork" title="New York">New York</a>
+						<a href="#" class="noise" title="Noise">Noise</a>
+						<a href="#" class="none" title="None">None</a>
+					</span></div></li>
+			</ul>
+		</div>
 	</div>
-	 
+	
+	<div class="pagewrap">
+		
+		<div id="accounts">
+			<h2>accounts</h2>
+			<form>
+				<input type="text" name="name" placeholder="Account Name" />
+				<input type="text" name="bal" placeholder="Balance" />
+				<input type="submit" />
+			</form>
+			<table>
+				<tr><th>Name</th><th>Balance</th><th></th></tr>
+			</table>
+			<script type="text/html" id="account-tmpl">
+				<td>${name}</td><td>${bal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
+			</script>
+			<script type="text/html" id="account-edit-tmpl">
+				<td><input type="text" name="name" value="${name}" /></td><td><input type="text" name="bal" value="${bal}" /></td>
+				<td><a href="#" class="save">save</a> | <a href="#" class="remove">delete</a></td>
+			</script>
+			<script type="text/html" id="accounts-total-tmpl">
+				<tr class="total"</tr><td>TOTAL</td><td>${total}</td></tr>
+			</script>
+		</div>
+		
+	</div>
+	
+	 <!--
 	<h2>schedules</h2>
 	<div id="schedules">
 		<form>
@@ -107,7 +108,7 @@
 			</table>
 		</script>
 	</div>
-	
+	-->
 	<!-- libraries -->
 	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
 	<script type="text/javascript" src="script/lib/jquery.tmpl.min.js"></script>
@@ -115,8 +116,10 @@
 	<script type="text/javascript" src="script/lib/backbone.js"></script>
 	<script type="text/javascript" src="script/lib/backbone.localStorage.js"></script>
 	
-	<!-- tux source code -->
+	<!-- tux utils -->
 	<script type="text/javascript" src="script/tux/util.js"></script>
+	<!-- config -->
+	<script type="text/javascript" src="script/tux/config.js"></script>
 	<!-- accounts -->
 	<script type="text/javascript" src="script/tux/account.js"></script>
 	<script type="text/javascript" src="script/tux/accountlist.js"></script>
@@ -130,9 +133,10 @@
 	<!-- bootstrap -->
 	<script type="text/javascript">
 	$(function() {
+		tux.configApp = new tux.ConfigView;
 		tux.accountApp = new tux.AccountControl;
-		tux.sheduleApp = new tux.ScheduleApp;
-		tux.reportApp = new tux.ReportApp;
+		//tux.sheduleApp = new tux.ScheduleApp;
+		//tux.reportApp = new tux.ReportApp;
 	});
 	</script>
 </body>
