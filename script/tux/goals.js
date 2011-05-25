@@ -18,8 +18,6 @@ $(function() {
 				total,
 				when;
 			
-			console.log(goal, credit, availCredit);
-			
 			// keep generating
 			for (var i = 0; !when && i < 12; i += 1) {
 				// push to next month

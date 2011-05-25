@@ -32,7 +32,10 @@ $(function() {
 		},
 		
 		setTheme: function(config) {
-			$('body').attr('class', config.get('theme'));
+			var prev = config.previous('theme') || '',
+				toggle = config.get('theme') + ' ' + prev;
+			
+			$('body').toggleClass(toggle);
 		}
 		
 	});
