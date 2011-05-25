@@ -119,13 +119,14 @@
 			<form>
 				<input type="text" name="what" placeholder="What are you saving for?" />
 				<input type="text" name="goal" placeholder="..and how much is it?" />
+				<input type="text" name="credit" placeholder="Using any credit?" />
 				<input type="submit">
 			</form>
 			<table>
-				<tr><th>Goal</th><th>Amount</th><th>When</th></tr>
+				<tr><th>Goal</th><th>Amount</th><th>With Credit<th>When</th></tr>
 			</table>
 			<script type="text/html" id="goal-tmpl">
-				<td>${what}</td><td>${goal}</td><td>${when}</td><td><a href="#" class="remove">delete</a></td>
+				<td>${what}</td><td>${goal}</td><td>${credit}<td>${when}</td><td><a href="#" class="remove">delete</a></td>
 			</script>
 		</div>
 	

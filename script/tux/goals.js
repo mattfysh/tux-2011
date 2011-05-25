@@ -12,8 +12,13 @@ $(function() {
 			var end = new Date(),
 				txList = [],
 				goal = this.get('goal'),
+				credit = this.get('credit'),
+				availCredit = Math.abs(accounts.availCredit()),
+				goal = goal - Math.min(credit, availCredit),
 				total,
 				when;
+			
+			console.log(goal, credit, availCredit);
 			
 			// keep generating
 			for (var i = 0; !when && i < 12; i += 1) {
@@ -65,7 +70,7 @@ $(function() {
 			'click a.remove': 'destroy'
 		},
 		
-		intialize: function() {
+		initialize: function() {
 			_.bindAll(this, 'remove');
 			this.model.bind('remove', this.remove);
 		},
@@ -74,6 +79,7 @@ $(function() {
 			var tmplData = this.model.toJSON();
 			tmplData.when = this.model.findWhen();
 			tmplData.goal = util.formatCurrency(tmplData.goal);
+			tmplData.credit = util.formatCurrency(tmplData.credit);
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
