@@ -7,10 +7,10 @@ $(function() {
 		model: tux.Account,
 		localStorage: new Store('accounts'),
 		
-		total: function() {
+		total: function(accounts) {
 			var total = 0;
 			this.each(function(account) {
-				total += parseInt(account.get('bal'));
+				if (!accounts || _.indexOf(accounts, account.id) > -1) total += parseInt(account.get('bal'));
 			})
 			return total;
 		},

@@ -16,7 +16,8 @@ $(function() {
 			var txList = [],
 				start = new Date(),
 				end = new Date(),
-				total = accounts.total(),
+				inclAcc = this.get('accountid'),
+				total = accounts.total(inclAcc),
 				tx;
 			
 			// set start and end dates, reset schedules
@@ -25,6 +26,7 @@ $(function() {
 			
 			// generate tx list
 			schedules.each(function(schedule) {
+				if (_.indexOf(inclAcc, schedule.get('accountid')) === -1) return;
 				schedule.next(end);
 				txList.push(schedule.instances);
 			})
