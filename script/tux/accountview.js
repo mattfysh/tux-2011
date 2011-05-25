@@ -24,8 +24,15 @@ $(function() {
 		render: function() {
 			var tmplData = this.model.toJSON();
 			tmplData.bal = util.formatCurrency(tmplData.bal);
+			if (tmplData.limit) tmplData.limit = util.formatCurrency(tmplData.limit);
+			tmplData.type = this.typeMap[tmplData.type];
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
+		},
+		
+		typeMap: {
+			s: 'Savings',
+			c: 'Credit'
 		},
 		
 		destroy: function(e) {

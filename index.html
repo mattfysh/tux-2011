@@ -37,13 +37,18 @@
 			<form>
 				<input type="text" name="name" placeholder="Account Name" />
 				<input type="text" name="bal" placeholder="Balance" />
+				<select name="type">
+					<option value="s">Savings</option>
+					<option value="c">Credit</option>
+				</select>
+				<input type="text" name="limit" placeholder="Credit Limit (credit only)" />
 				<input type="submit" />
 			</form>
 			<table>
-				<tr><th>Name</th><th>Balance</th><th></th></tr>
+				<tr><th>Name</th><th>Balance</th><th>Type</th><th>Credit Limit</th><th></th></tr>
 			</table>
 			<script type="text/html" id="account-tmpl">
-				<td>${name}</td><td>${bal}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
+				<td>${name}</td><td>${bal}</td><td>${type}</td><td>${limit}</td><td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a></td>
 			</script>
 			<script type="text/html" id="account-edit-tmpl">
 				<td><input type="text" name="name" value="${name}" /></td><td><input type="text" name="bal" value="${bal}" /></td>

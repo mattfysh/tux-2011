@@ -124,3 +124,9 @@ h1 {
 .mini-app h2 {
 	margin-top: 0;
 }
+th {
+	text-align: left;
+}
+th, td {
+	padding-right: 30px;
+}

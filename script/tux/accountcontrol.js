@@ -29,7 +29,7 @@ $(function() {
 		
 		getNewAccount: function() {
 			var account = {};
-			this.el.find(':text').each(function() {
+			this.el.find(':input').each(function() {
 				account[this.getAttribute('name')] = $(this).val();
 			});
 			this.el.find('form')[0].reset();
