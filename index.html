@@ -14,8 +14,8 @@
 			<h1>tux beta</h1>
 			<ul id="toolbox">
 				<li id="username">Matt</li>
-				<li id="config"><span class="ico" title="Settings">Settings</span>
-					<div>
+				<li id="config"><span class="ico" title="Settings">Settings</span><div>
+					
 					<span class="theme"><h3>Theme</h3>
 						<a href="#" class="grass" title="Grass">Grass</a>
 						<a href="#" class="water" title="Water">Water</a>
@@ -23,7 +23,9 @@
 						<a href="#" class="newyork" title="New York">New York</a>
 						<a href="#" class="noise" title="Noise">Noise</a>
 						<a href="#" class="none" title="None">None</a>
-					</span></div></li>
+					</span>
+					
+				</div></li>
 			</ul>
 		</div>
 	</div>
@@ -87,7 +89,6 @@
 			</script>
 		</div>
 		
-		
 		<div id="reports" class="mini-app">
 			<h2>Reports</h2>
 			<form>
@@ -105,6 +106,21 @@
 					<tr><td>${date}</td><td>${amount}</td><td>${desc}</td><td>${runningTotal}</td></tr>
 					{{/each}}
 				</table>
+			</script>
+		</div>
+		
+		<div id="goals" class="mini-app">
+			<h2>Savings Goals</h2>
+			<form>
+				<input type="text" name="what" placeholder="What are you saving for?" />
+				<input type="text" name="goal" placeholder="..and how much is it?" />
+				<input type="submit">
+			</form>
+			<table>
+				<tr><th>Goal</th><th>Amount</th><th>When</th></tr>
+			</table>
+			<script type="text/html" id="goal-tmpl">
+				<td>${what}</td><td>${goal}</td><td>${when}</td><td><a href="#" class="remove">delete</a></td>
 			</script>
 		</div>
 	
@@ -130,6 +146,8 @@
 	<script type="text/javascript" src="script/tux/schedule.js"></script>
 	<!-- reports -->
 	<script type="text/javascript" src="script/tux/reports.js"></script>
+	<!-- goals -->
+	<script type="text/javascript" src="script/tux/goals.js"></script>
 	
 	<!-- bootstrap -->
 	<script type="text/javascript">
@@ -138,6 +156,7 @@
 		tux.accountApp = new tux.AccountControl;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;
+		tux.goalApp = new tux.GoalApp;
 	});
 	</script>
 </body>

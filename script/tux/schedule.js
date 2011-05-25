@@ -219,7 +219,7 @@ $(function() {
 			schedule.start = util.makeDate(schedule.start);
 			if (schedule.end) schedule.end = util.makeDate(schedule.end);
 			schedule.except = {};
-			//this.el.find('form')[0].reset();
+			this.el.find('form')[0].reset();
 			return schedule;
 		},
 		
