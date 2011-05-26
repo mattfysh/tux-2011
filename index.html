@@ -79,19 +79,19 @@
 				<input type="text" name="end" placeholder="End Date" />
 				<input type="submit" />
 			</form>
+			<table>
+				<tr><th>Account</th><th>Amount</th><th>Description</th><th>Transfer</th><th>Start</th><th>Frequency</th><th>Ending</th><th></th></tr>
+			</table>
 			<script type="text/html" id="schedule-tmpl">
-				<table>
-					<tr><th>Account</th><th>Amount</th><th>Description</th><th>Transfer</th><th>Start</th><th>Frequency</th><th>Ending</th><th></th></tr>
-					<tr><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
-						<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a> | <a href="#" class="next">show next</a></td></tr>
-					{{each(i) instances}}
-						<tr data-index="${i}"><td>${date}</td><td>${amount}</td><td>${desc}</td><td></td><td></td><td></td><td></td>
-							<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
-					{{/each}}
-				</table>
+				<tr><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
+					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a> | <a href="#" class="next">show next</a></td></tr>
+				{{each(i) instances}}
+					<tr data-index="${i}"><td>${date}</td><td>${amount}</td><td>${desc}</td><td></td><td></td><td></td><td></td>
+						<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
+				{{/each}}
 			</script>
 			<script type="text/html" id="schedule-edit-tx-tmpl">
-				<td></td><td><input type="text" name="date" value="${date}" /></td><td><input type="text" name="amount" value="${amount}" /></td><td><input type="text" name="desc" value="${desc}" /></td><td></td><td></td>
+				<td><input type="text" name="date" value="${date}" /></td><td><input type="text" name="amount" value="${amount}" /></td><td><input type="text" name="desc" value="${desc}" /></td><td></td><td></td></td><td></td><td>
 							<td><a href="#" class="save-tx">save</a> | <a href="#" class="remove-tx">delete</a></td>
 			</script>
 		</div>

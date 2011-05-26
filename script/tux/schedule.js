@@ -111,6 +111,7 @@ $(function() {
 	
 	tux.ScheduleView = Backbone.View.extend({
 		
+		tagName: 'tbody',
 		template: $('#schedule-tmpl').template(),
 		editTxTemplate: $('#schedule-edit-tx-tmpl').template(),
 		
@@ -241,7 +242,7 @@ $(function() {
 		
 		addOne: function(schedule) {
 			var view = new tux.ScheduleView({model: schedule});
-			this.el.append(view.render().el);
+			this.el.find('table').append(view.render().el);
 		},
 		
 		addAll: function() {
