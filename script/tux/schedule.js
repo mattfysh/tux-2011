@@ -123,11 +123,9 @@ $(function() {
 		},
 		
 		initialize: function(model) {
-			_.bindAll(this, 'render', 'remove', 'renderAccounts');
+			_.bindAll(this, 'render', 'remove');
 			this.model.bind('change:name', this.render)
 				.bind('remove', this.remove);
-			accounts.bind('all', this.renderAccounts);
-			this.renderAccounts();
 		},
 		
 		render: function() {
@@ -203,10 +201,6 @@ $(function() {
 			instance.desc = '*deleted*';
 			this.model.save();
 			this.render();
-		},
-		
-		renderAccounts: function() {
-			$('select.transfer-account').empty().append('<option value=""></option>').append(accounts.options());
 		}
 		
 	});
@@ -219,10 +213,13 @@ $(function() {
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'addOne', 'addAll');
+			_.bindAll(this, 'addOne', 'addAll', 'renderAccounts');
 			schedules.bind('add', this.addOne);
 			schedules.bind('refresh', this.addAll);
 			schedules.fetch();
+			
+			accounts.bind('all', this.renderAccounts);
+			this.renderAccounts();
 		},
 		
 		create: function(e) {
@@ -249,6 +246,10 @@ $(function() {
 		
 		addAll: function() {
 			schedules.each(this.addOne);
+		},
+		
+		renderAccounts: function() {
+			$('select.transfer-account').empty().append('<option value="">Select for transfer</option>').append(accounts.options());
 		}
 		
 	});
