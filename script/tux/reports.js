@@ -14,6 +14,7 @@ $(function() {
 		
 		getTxList: function() {
 			var txList = [],
+				transferList = [],
 				start = new Date(),
 				end = new Date(),
 				inclAcc = this.get('accountid'),
@@ -26,9 +27,22 @@ $(function() {
 			
 			// generate tx list
 			schedules.each(function(schedule) {
-				if (_.indexOf(inclAcc, schedule.get('accountid')) === -1) return;
+				var isScopedTx = _.indexOf(inclAcc, schedule.get('accountid')) > -1,
+					isScopedTransfer = _.indexOf(inclAcc, schedule.get('transfer')) > -1;
+				
+				if (!isScopedTx && !isScopedTransfer) return;
+				
+				// push schedule out to end date
 				schedule.next(end);
-				txList.push(schedule.instances);
+				if (isScopedTx) {
+					// add to tx list
+					txList.push(schedule.instances);
+				}
+				
+				if (isScopedTransfer) {
+					// add to transfer list
+					txList.push(schedule.transfers);
+				}
 			})
 			
 			// flatten and sort array

@@ -1,7 +1,6 @@
 /* all */
 body {
-	background-size: cover;
-	background-repeat: no-repeat;
+	background-size: contain;
 	color: #fff;
 }
 
@@ -22,7 +21,7 @@ body.water {
 	background-image: url(../themes/water/bg.jpg);
 }
 body.water #headstrip {
-	background: -webkit-linear-gradient(top, rgba(30, 90, 150, 0.85) 0%, rgba(125, 185, 230, 0.7) 100%);
+	background: -webkit-linear-gradient(top, rgba(30, 90, 150, 0.75) 0%, rgba(125, 185, 230, 0.6) 100%);
 }
 body.water h2,
 body.water h3 {
@@ -34,7 +33,7 @@ body.autumn {
 	background-image: url(../themes/autumn/bg.jpg);
 }
 body.autumn #headstrip {
-	background: -webkit-linear-gradient(top, rgba(240, 150, 20, 0.85) 0%, rgba(255, 190, 80, 0.7) 100%);
+	background: -webkit-linear-gradient(top, rgba(240, 150, 20, 0.7) 0%, rgba(255, 190, 80, 0.45) 100%);
 }
 body.autumn h2,
 body.autumn h3 {
@@ -44,7 +43,6 @@ body.autumn h3 {
 /* noise */
 body.noise {
 	background-image: url(../themes/noise/bg.png);
-	background-repeat: repeat;
 	background-size: auto;
 }
 body.noise #headstrip {

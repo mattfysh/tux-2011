@@ -15,6 +15,7 @@ $(function() {
 			if (!this.get('except')) this.set({except: {}});
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
+			this.transfer = accounts.get(this.get('transfer'));
 			_.bindAll(this, 'destroy', 'changeAccName');
 			this.account.bind('remove', this.destroy)
 				.bind('change:name', this.changeAccName);
@@ -67,7 +68,17 @@ $(function() {
 				nextTx.cents = nextTx.amount;
 				nextTx.amount = util.formatCurrency(nextTx.amount);
 				nextTx.date = util.formatDate(nextTx.date);
+				nextTx.account = this.account.get('name');
 				this.instances.push(nextTx);
+				
+				// push transfer tx
+				if (this.transfer) {
+					nextTx = _.clone(nextTx);
+					nextTx.cents = nextTx.cents * -1;
+					nextTx.amount = util.formatCurrency(nextTx.cents);
+					nextTx.account = this.transfer.get('name');
+					this.transfers.push(nextTx);
+				}
 				
 				// calculate next date and if expired
 				if (this.freqFn === 'expire') {
@@ -83,6 +94,7 @@ $(function() {
 			this.nextDate = new Date(this.get('start').getTime());
 			this.expired = false;
 			this.instances = [];
+			this.transfers = [];
 			this.freqFn = this.freqMap[this.get('frequency')];
 		}
 		
@@ -111,9 +123,11 @@ $(function() {
 		},
 		
 		initialize: function(model) {
-			_.bindAll(this, 'render', 'remove');
+			_.bindAll(this, 'render', 'remove', 'renderAccounts');
 			this.model.bind('change:name', this.render)
 				.bind('remove', this.remove);
+			accounts.bind('all', this.renderAccounts);
+			this.renderAccounts();
 		},
 		
 		render: function() {
@@ -123,6 +137,7 @@ $(function() {
 			tmplData.end && (tmplData.end = util.formatDate(tmplData.end));
 			tmplData.frequency = this.freqNameMap[tmplData.frequency];
 			tmplData.account = this.model.account.toJSON();
+			if (this.model.transfer) tmplData.transfer = this.model.transfer.toJSON();
 			tmplData.instances = this.model.instances;
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
@@ -188,6 +203,10 @@ $(function() {
 			instance.desc = '*deleted*';
 			this.model.save();
 			this.render();
+		},
+		
+		renderAccounts: function() {
+			$('select.transfer-account').empty().append('<option value=""></option>').append(accounts.options());
 		}
 		
 	});
