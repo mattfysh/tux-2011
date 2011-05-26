@@ -24,6 +24,7 @@ $(function() {
 				txList = [];
 				end.setMonth(end.getMonth() + 1);
 				schedules.each(function(schedule) {
+					if (schedule.transfer) return; // ignore transfers in calculating net worth
 					schedule.next(end);
 					txList.push(schedule.instances);
 				});
@@ -41,10 +42,10 @@ $(function() {
 					if (when) return;
 					tx.runningTotal = (total += parseInt(tx.cents));
 					if (tx.runningTotal >= goal) when = tx.date;
-					tx.runningTotal = util.formatCurrency(tx.runningTotal);
 				});
 				
 			}
+			
 			// return
 			return when || 'Not in the next year';
 			
