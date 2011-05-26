@@ -13,7 +13,7 @@ $(function() {
 				txList = [],
 				goal = this.get('goal'),
 				credit = this.get('credit'),
-				availCredit = Math.abs(accounts.availCredit()),
+				availCredit = Math.abs(accounts.totalLimit()),
 				goal = goal - Math.min(credit, availCredit),
 				total,
 				when;

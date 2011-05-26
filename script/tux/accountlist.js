@@ -21,20 +21,12 @@ $(function() {
 			}).join('');
 		},
 		
-		availCredit: function() {
-			var totalLimit = 0,
-				totalUsed = 0,
-				
-				crAccs = this.filter(function(account) {
-					return account.get('type') === 'c';
-				});
-			
-			_.each(crAccs, function(account) {
-				totalLimit += parseInt(account.get('limit'));
-				totalUsed += parseInt(account.get('bal'));
+		totalLimit: function() {
+			var limit = 0;
+			this.each(function(account) {
+				if (account.get('type') === 'c' && account.get('limit')) limit += parseInt(account.get('limit'));
 			});
-			
-			return totalLimit - totalUsed;
+			return limit;
 		}
 		
 	});
