@@ -136,6 +136,11 @@ th {
 th, td {
 	padding-right: 30px;
 }
-#reports .remove {
-	float: right;
+#reports h3 {
+	margin-bottom: 0;
+}
+#reports div.chart {
+	-webkit-box-shadow: 0 0 10px rgba(60, 60, 60, 0.5);
+	padding: 20px;
+	margin: 25px;
 }

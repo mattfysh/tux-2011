@@ -38,14 +38,19 @@ tux.util = (function() {
 		return new Date(s[2], s[1] - 1, s[0], 0, 0, 0, 0);
 	}
 	
-	function fD(d) {
+	function fD(d, noYear) {
 		var y = d.getFullYear(),
 			m = d.getMonth() + 1,
 			d = d.getDate();
 		
 		if (m < 10) m = '0' + m;
 		
-		return [d, m, y].join('/');
+		if (noYear) {
+			return [d, m].join('/');
+		} else {
+			return [d, m, y].join('/');			
+		}
+		
 	}
 	
 	function gISO(d) {

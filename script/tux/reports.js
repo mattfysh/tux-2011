@@ -12,14 +12,27 @@ $(function() {
 	
 	tux.Report = Backbone.Model.extend({
 		
-		getTxList: function() {
+		initialize: function() {
+			this.generateChartData();
+		},
+		
+		getTxList: function(accountType) {
 			var txList = [],
 				transferList = [],
 				start = new Date(),
 				end = new Date(),
 				inclAcc = this.get('accountid'),
-				total = accounts.total(inclAcc),
-				tx;
+				total, tx;
+			
+			// remove accounts that dont match type filter
+			if (accountType) {
+				inclAcc = _.filter(inclAcc, function(accId) {
+					return accounts.get(accId).get('type') === accountType
+				});
+			}
+			
+			// get total
+			total = accounts.total(inclAcc);
 			
 			// set start and end dates, reset schedules
 			start.setDate(start.getDate() - parseInt(this.get('behind')));
@@ -27,7 +40,7 @@ $(function() {
 			
 			// add start marker
 			var tx = {
-				date: new Date(),
+				date: start,
 				amount: total,
 				desc: 'Start Marker'
 			};
@@ -61,6 +74,15 @@ $(function() {
 				return tx.date;
 			});
 			
+			// add end marker
+			var tx = {
+				date: end,
+				amount: 0,
+				desc: 'End Marker'
+			};
+			tx.date = util.makeDate(util.formatDate(tx.date)); // hack to reset to midnight
+			txList.push(tx)
+			
 			// add running total
 			_.each(txList, function(tx) {
 				total += parseInt(tx.amount);
@@ -71,13 +93,16 @@ $(function() {
 		},
 		
 		generateChartData: function() {
-			var txList = this.getTxList(),
-				dayTotal, lastDate, gap, chartData;
+			var savingsTxList = this.getTxList('s'),
+				creditTxList = this.getTxList('c'),
+				
+				savingsChartData, creditChartData, netChartData = [],
+				
+				dayTotal, lastDate, gap;
 			
 			// map tx list to timeline chart data
-			
-			chartData = _.map(txList, function(tx, i) {
-				if (!lastDate) {
+			function convertToChart(tx, i, txList) {
+				if (i === 0) {
 					lastDate = tx.date;
 					dayTotal = tx.runningTotal;
 				} else if (tx.date.getTime() === lastDate.getTime()) {
@@ -100,18 +125,33 @@ $(function() {
 					});
 					return gap;
 				}
-			});
+			}
+			
+			// convert savings and credit tx lists to timeline chart data
+			savingsChartData = _.map(savingsTxList, convertToChart);
+			creditChartData = _.map(creditTxList, convertToChart);
 			
 			// flatten, remove undefined from array
-			chartData = _.flatten(chartData);
-			chartData = _.filter(chartData, function(t) {
-				return t;
-			});
-			chartData = _.pluck(chartData, 'total');
+			savingsChartData = _.flatten(savingsChartData);
+			savingsChartData = _.compact(savingsChartData);
 			
-			this.chartData = _.map(chartData, function(row) {
-				return [row / 100];
-			});
+			creditChartData = _.flatten(creditChartData);
+			creditChartData = _.compact(creditChartData);
+			
+			// build netChartData
+			netChartData = [];
+			for (var i = 0, l = savingsChartData.length; i < l; i += 1) {
+				netChartData[i] = {
+						date: util.formatDate(savingsChartData[i].date),
+						total: savingsChartData[i].total + creditChartData[i].total
+				};
+			}
+			
+			// pluck then zip
+			allChartData = [_.pluck(netChartData, 'date'), _.pluck(savingsChartData, 'total'),
+			                _.pluck(creditChartData, 'total'), _.pluck(netChartData, 'total')];
+			
+			this.chartData = _.zip.apply(this, allChartData)
 		}
 		
 	});
@@ -145,7 +185,6 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, 'remove');
 			this.model.bind('remove', this.remove);
-			this.model.generateChartData();
 		},
 		
 		render: function() {
@@ -207,17 +246,45 @@ $(function() {
 		
 		chartLoad: function() {
 			reports.each(function(rpt) {
+				// setup data
 				var data = new google.visualization.DataTable();
-				data.addColumn('number', 'Total');
+				data.addColumn('string', 'x')
+				data.addColumn('number', 'Savings');
+				data.addColumn('number', 'Credit');
+				data.addColumn('number', 'Net');
 				data.addRows(rpt.chartData);
 				
-				var chart = new google.visualization.AreaChart(document.getElementById('report-' + rpt.id));
+				// format data
+				var formatter = new google.visualization.NumberFormat({
+					prefix: '$',
+					negativeColor: 'red',
+					negativeParens: true
+				});
+				formatter.format(data, 1);
+				
+				// render chart
+				var chart = new google.visualization.LineChart(document.getElementById('report-' + rpt.id));
 				chart.draw(data, {
-					width: 1100,
+					width: 850,
 					height: 350,
 					fontSize: '11',
 					legend: 'none',
-					backgroundColor: 'transparent'
+					backgroundColor: 'transparent',
+					chartArea: {
+						top: 25,
+						left: 25,
+						width: 800,
+						height: 300
+					},
+					hAxis: {
+						textPosition: 'in',
+						maxAlternation: 1,
+						showTextEvery: 14
+					},
+					vAxis: {
+						textPosition: 'in',
+						format: '$#,###.##'
+					}
 				})
 			});
 		}
