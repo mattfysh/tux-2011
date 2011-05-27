@@ -25,6 +25,16 @@ $(function() {
 			start.setDate(start.getDate() - parseInt(this.get('behind')));
 			end.setDate(end.getDate() + parseInt(this.get('ahead')));
 			
+			// add start marker
+			var tx = {
+				date: new Date(),
+				amount: total,
+				desc: 'Start Marker'
+			};
+			tx.date = util.makeDate(util.formatDate(tx.date)); // hack to reset to midnight
+			txList.push(tx)
+			total = 0;
+			
 			// generate tx list
 			schedules.each(function(schedule) {
 				var isScopedTx = _.indexOf(inclAcc, schedule.get('accountid')) > -1,
@@ -48,15 +58,60 @@ $(function() {
 			// flatten and sort array
 			txList = _.flatten(txList);
 			txList = _.sortBy(txList, function(tx) {
-				return util.makeDate(tx.date);
+				return tx.date;
 			});
 			
 			// add running total
 			_.each(txList, function(tx) {
-				tx.runningTotal = util.formatCurrency(total += parseInt(tx.cents));
+				total += parseInt(tx.amount);
+				tx.runningTotal = total;
 			})
 			
 			return txList;
+		},
+		
+		generateChartData: function() {
+			var txList = this.getTxList(),
+				dayTotal, lastDate, gap, chartData;
+			
+			// map tx list to timeline chart data
+			
+			chartData = _.map(txList, function(tx, i) {
+				if (!lastDate) {
+					lastDate = tx.date;
+					dayTotal = tx.runningTotal;
+				} else if (tx.date.getTime() === lastDate.getTime()) {
+					dayTotal = tx.runningTotal;
+				} else  {
+					// new date, save last total, fill gap and start again
+					gap = [];
+					lastDate = new Date(lastDate.getTime());
+					while (lastDate.getTime() !== tx.date.getTime()) {
+						gap.push({
+							date: new Date(lastDate.getTime()),
+							total: dayTotal
+						});
+						lastDate.setDate(lastDate.getDate() + 1);
+					}
+					dayTotal = tx.runningTotal;
+					if (i === txList.length - 1) gap.push({
+						date: new Date(lastDate.getTime()),
+						total: dayTotal
+					});
+					return gap;
+				}
+			});
+			
+			// flatten, remove undefined from array
+			chartData = _.flatten(chartData);
+			chartData = _.filter(chartData, function(t) {
+				return t;
+			});
+			chartData = _.pluck(chartData, 'total');
+			
+			this.chartData = _.map(chartData, function(row) {
+				return [row / 100];
+			});
 		}
 		
 	});
@@ -90,11 +145,11 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, 'remove');
 			this.model.bind('remove', this.remove);
+			this.model.generateChartData();
 		},
 		
 		render: function() {
 			var tmplData = this.model.toJSON();
-			tmplData.txList = this.model.getTxList();
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
@@ -148,6 +203,23 @@ $(function() {
 		
 		addAll: function() {
 			reports.each(this.addOne);
+		},
+		
+		chartLoad: function() {
+			reports.each(function(rpt) {
+				var data = new google.visualization.DataTable();
+				data.addColumn('number', 'Total');
+				data.addRows(rpt.chartData);
+				
+				var chart = new google.visualization.AreaChart(document.getElementById('report-' + rpt.id));
+				chart.draw(data, {
+					width: 1100,
+					height: 350,
+					fontSize: '11',
+					legend: 'none',
+					backgroundColor: 'transparent'
+				})
+			});
 		}
 		
 	});

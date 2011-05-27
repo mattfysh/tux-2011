@@ -64,18 +64,14 @@ $(function() {
 					_.extend(nextTx, except);
 				}
 				
-				// apply formatting
-				nextTx.cents = nextTx.amount;
-				nextTx.amount = util.formatCurrency(nextTx.amount);
-				nextTx.date = util.formatDate(nextTx.date);
+				// get account name and push to list
 				nextTx.account = this.account.get('name');
 				this.instances.push(nextTx);
 				
 				// push transfer tx
 				if (this.transfer) {
 					nextTx = _.clone(nextTx);
-					nextTx.cents = nextTx.cents * -1;
-					nextTx.amount = util.formatCurrency(nextTx.cents);
+					nextTx.amount = nextTx.amount * -1;
 					nextTx.account = this.transfer.get('name');
 					this.transfers.push(nextTx);
 				}

@@ -105,14 +105,9 @@
 				<input type="submit" />
 			</form>
 			<script type="text/html" id="report-tmpl">
-				<h3>${title}</h3>
 				<a href="#" class="remove">delete</a>
-				<table>
-					<tr><th>Date</th><th>Account</th><th>Amount</th><th>Description</th><th>Running Total</th><th></th></tr>
-					{{each txList}}
-					<tr><td>${date}</td><td>${account}</td><td>${amount}</td><td>${desc}</td><td>${runningTotal}</td></tr>
-					{{/each}}
-				</table>
+				<h3>${title}</h3>
+				<div id="report-${id}"></div>
 			</script>
 		</div>
 		
@@ -135,30 +130,30 @@
 	</div>
 	
 	<!-- libraries -->
-	<script type="text/javascript" src="script/lib/jquery-1.6.min.js"></script>
-	<script type="text/javascript" src="script/lib/jquery.tmpl.min.js"></script>
-	<script type="text/javascript" src="script/lib/underscore-min.js"></script>
-	<script type="text/javascript" src="script/lib/backbone.js"></script>
-	<script type="text/javascript" src="script/lib/backbone.localStorage.js"></script>
+	<script src="script/lib/jquery-1.6.min.js"></script>
+	<script src="script/lib/jquery.tmpl.min.js"></script>
+	<script src="script/lib/underscore-min.js"></script>
+	<script src="script/lib/backbone.js"></script>
+	<script src="script/lib/backbone.localStorage.js"></script>
 	
 	<!-- tux utils -->
-	<script type="text/javascript" src="script/tux/util.js"></script>
+	<script src="script/tux/util.js"></script>
 	<!-- config -->
-	<script type="text/javascript" src="script/tux/config.js"></script>
+	<script src="script/tux/config.js"></script>
 	<!-- accounts -->
-	<script type="text/javascript" src="script/tux/account.js"></script>
-	<script type="text/javascript" src="script/tux/accountlist.js"></script>
-	<script type="text/javascript" src="script/tux/accountview.js"></script>
-	<script type="text/javascript" src="script/tux/accountcontrol.js"></script>
+	<script src="script/tux/account.js"></script>
+	<script src="script/tux/accountlist.js"></script>
+	<script src="script/tux/accountview.js"></script>
+	<script src="script/tux/accountcontrol.js"></script>
 	<!-- schedules -->
-	<script type="text/javascript" src="script/tux/schedule.js"></script>
+	<script src="script/tux/schedule.js"></script>
 	<!-- reports -->
-	<script type="text/javascript" src="script/tux/reports.js"></script>
+	<script src="script/tux/reports.js"></script>
 	<!-- goals -->
-	<script type="text/javascript" src="script/tux/goals.js"></script>
+	<script src="script/tux/goals.js"></script>
 	
 	<!-- bootstrap -->
-	<script type="text/javascript">
+	<script>
 	$(function() {
 		tux.configApp = new tux.ConfigView;
 		tux.accountApp = new tux.AccountControl;
@@ -166,6 +161,17 @@
 		tux.reportApp = new tux.ReportApp;
 		tux.goalApp = new tux.GoalApp;
 	});
+	</script>
+	
+	<!-- Google Charts -->
+	<script src="https://www.google.com/jsapi"></script>
+	<script>
+		$(function() {
+			google.load('visualization', '1', {
+				packages:['corechart'],
+				callback: tux.reportApp.chartLoad
+			});
+		});
 	</script>
 </body>
 </html>

@@ -28,7 +28,7 @@ h1, h2 {
  */
 #headstrip {
 	overflow: auto;
-	background: -webkit-linear-gradient(top, rgba(100, 100, 100, 0.7) 0%, rgba(160, 160, 160, 0.45) 100%);
+	background: -webkit-linear-gradient(top, rgba(100, 100, 100, 0.55) 0%, rgba(160, 160, 160, 0.15) 100%);
 	-webkit-box-shadow: 0px 0px 8px #333;
 	line-height: 40px;
 }
@@ -135,4 +135,7 @@ th {
 }
 th, td {
 	padding-right: 30px;
+}
+#reports .remove {
+	float: right;
 }
