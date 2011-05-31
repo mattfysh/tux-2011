@@ -109,10 +109,13 @@ $(function() {
 		
 		tagName: 'tbody',
 		template: $('#schedule-tmpl').template(),
+		editTemplate: $('#schedule-edit-tmpl').template(),
 		editTxTemplate: $('#schedule-edit-tx-tmpl').template(),
 		
 		events: {
+			'click a.edit': 'edit',
 			'click a.remove': 'destroy',
+			'click a.save': 'save',
 			'click a.next': 'displayNext',
 			'click a.edit-tx': 'editTx',
 			'click a.remove-tx': 'removeTx',
@@ -136,6 +139,30 @@ $(function() {
 			tmplData.instances = this.model.instances;
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
+		},
+		
+		edit: function(e) {
+			e.preventDefault();
+			var tmplData = this.model.toJSON();
+			tmplData.start = util.formatDate(tmplData.start);
+			tmplData.end && (tmplData.end = util.formatDate(tmplData.end));
+			tmplData.account = this.model.account.toJSON();
+			$(this.el).empty().append($.tmpl(this.editTemplate, tmplData));
+			this.$('select[name=accountid]').append(accounts.options()).val(tmplData.accountid);
+			this.$('select[name=transfer]').append(accounts.options()).val(tmplData.transfer);
+			this.$('select[name=frequency]').val(tmplData.frequency);
+		},
+		
+		save: function(e) {
+			e.preventDefault();
+			var schedule = {};
+			this.$(':input').each(function() {
+				 if ($(this).val()) schedule[this.getAttribute('name')] = $(this).val();
+			});
+			schedule.start = util.makeDate(schedule.start);
+			if (schedule.end) schedule.end = util.makeDate(schedule.end);
+			this.model.set(schedule).save();
+			this.render();
 		},
 		
 		freqNameMap: {

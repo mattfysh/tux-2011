@@ -41,7 +41,7 @@
 					<option value="s">Savings</option>
 					<option value="c">Credit</option>
 				</select>
-				<input type="text" name="limit" placeholder="Credit Limit (credit only)" />
+				<input type="text" name="limit" placeholder="Credit Limit" />
 				<input type="submit" />
 			</form>
 			<table>
@@ -52,6 +52,11 @@
 			</script>
 			<script type="text/html" id="account-edit-tmpl">
 				<td><input type="text" name="name" value="${name}" /></td><td><input type="text" name="bal" value="${bal}" /></td>
+				<td><select name="type">
+					<option value="s">Savings</option>
+					<option value="c">Credit</option>
+				</select></td>
+				<td><input type="text" name="limit" value="${limit}" /></td>
 				<td><a href="#" class="save">save</a> | <a href="#" class="remove">delete</a></td>
 			</script>
 			<script type="text/html" id="accounts-total-tmpl">
@@ -66,7 +71,6 @@
 				<input type="text" name="amount" placeholder="Amount" />
 				<input type="text" name="desc" placeholder="Description" />
 				<select name="transfer" class="transfer-account"></select>
-				<br />
 				<input type="text" name="start" placeholder="Start Date" />
 				<select name="frequency">
 					<option value="o">Once only</option>
@@ -86,12 +90,25 @@
 				<tr><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
 					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a> | <a href="#" class="next">show next</a></td></tr>
 				{{each(i) instances}}
-					<tr data-index="${i}"><td>${date}</td><td>${amount}</td><td>${desc}</td><td></td><td></td><td></td><td></td>
+					<tr data-index="${i}"><td>${tux.util.formatDate(date)}</td><td>${tux.util.formatCurrency(amount)}</td><td>${desc}</td><td></td><td></td><td></td><td></td>
 						<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
 				{{/each}}
 			</script>
+			<script type="text/html" id="schedule-edit-tmpl">
+				<tr class="edit-mode"><td><select name="accountid" class="accounts"></select></td><td><input type="text" name="amount" value="${amount}" /></td>
+					<td><input type="text" name="desc" value="${desc}" /></td><td><select name="transfer" class="transfer-account"><option value=""></option></select></td>
+					<td><input type="text" name="start" value="${start}" /></td><td><select name="frequency">
+						<option value="o">Once only</option>
+						<option value="d">Daily</option>
+						<option value="w">Weekly</option>
+						<option value="f">Fortnightly</option>
+						<option value="m">Monthly</option>
+						<option value="y">Yearly</option>
+					</select></td><td><input type="text" name="end" value="${end}" /></td>
+					<td><a href="#" class="save">save</a> | <a href="#" class="remove">delete</a></td></tr>
+			</script>
 			<script type="text/html" id="schedule-edit-tx-tmpl">
-				<td><input type="text" name="date" value="${date}" /></td><td><input type="text" name="amount" value="${amount}" /></td><td><input type="text" name="desc" value="${desc}" /></td><td></td><td></td></td><td></td><td>
+				<td><input type="text" name="date" value="${tux.util.formatDate(date)}" /></td><td><input type="text" name="amount" value="${amount}" /></td><td><input type="text" name="desc" value="${desc}" /></td><td></td><td></td></td><td></td><td>
 							<td><a href="#" class="save-tx">save</a> | <a href="#" class="remove-tx">delete</a></td>
 			</script>
 		</div>
@@ -132,7 +149,7 @@
 	<!-- libraries -->
 	<script src="script/lib/jquery-1.6.min.js"></script>
 	<script src="script/lib/jquery.tmpl.min.js"></script>
-	<script src="script/lib/underscore-min.js"></script>
+	<script src="script/lib/underscore.js"></script>
 	<script src="script/lib/backbone.js"></script>
 	<script src="script/lib/backbone.localStorage.js"></script>
 	
@@ -159,7 +176,7 @@
 		tux.accountApp = new tux.AccountControl;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;
-		tux.goalApp = new tux.GoalApp;
+		//tux.goalApp = new tux.GoalApp;
 	});
 	</script>
 	

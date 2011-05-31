@@ -43,13 +43,16 @@ $(function() {
 		edit: function(e) {
 			e.preventDefault();
 			$(this.el).empty().append($.tmpl(this.editTemplate, this.model.toJSON()));
+			this.$('select[name=type]').val(this.model.get('type'));
 		},
 		
 		save: function(e) {
 			e.preventDefault();
 			this.model.set({
 				name: this.$('input[name=name]').val(),
-				bal: this.$('input[name=bal]').val()
+				bal: this.$('input[name=bal]').val(),
+				type: this.$('select[name=type]').val(),
+				limit: this.$('input[name=limit]').val()
 			}).save();
 			this.render();
 		}

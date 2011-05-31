@@ -34,7 +34,7 @@ $(function() {
 			// get total
 			total = accounts.total(inclAcc);
 			
-			// set start and end dates, reset schedules
+			// set start and end dates
 			start.setDate(start.getDate() - parseInt(this.get('behind')));
 			end.setDate(end.getDate() + parseInt(this.get('ahead')));
 			
@@ -96,7 +96,7 @@ $(function() {
 			var savingsTxList = this.getTxList('s'),
 				creditTxList = this.getTxList('c'),
 				
-				savingsChartData, creditChartData, netChartData = [],
+				savingsChartData, creditChartData, netChartData,
 				
 				dayTotal, lastDate, gap;
 			
@@ -107,6 +107,12 @@ $(function() {
 					dayTotal = tx.runningTotal;
 				} else if (tx.date.getTime() === lastDate.getTime()) {
 					dayTotal = tx.runningTotal;
+					if (i === txList.length - 1) {
+						gap.push({
+							date: new Date(lastDate.getTime()),
+							total: dayTotal
+						});
+					}
 				} else  {
 					// new date, save last total, fill gap and start again
 					gap = [];
@@ -119,39 +125,35 @@ $(function() {
 						lastDate.setDate(lastDate.getDate() + 1);
 					}
 					dayTotal = tx.runningTotal;
-					if (i === txList.length - 1) gap.push({
-						date: new Date(lastDate.getTime()),
-						total: dayTotal
-					});
+					if (i === txList.length - 1) {
+						gap.push({
+							date: new Date(lastDate.getTime()),
+							total: dayTotal
+						});
+					}
 					return gap;
 				}
 			}
 			
 			// convert savings and credit tx lists to timeline chart data
-			savingsChartData = _.map(savingsTxList, convertToChart);
-			creditChartData = _.map(creditTxList, convertToChart);
+			savingsChartData = _(savingsTxList).chain().map(convertToChart).flatten().compact().value();
+			creditChartData = _(creditTxList).chain().map(convertToChart).flatten().compact().value();
 			
-			// flatten, remove undefined from array
-			savingsChartData = _.flatten(savingsChartData);
-			savingsChartData = _.compact(savingsChartData);
-			
-			creditChartData = _.flatten(creditChartData);
-			creditChartData = _.compact(creditChartData);
-			
-			// build netChartData
+			// build netChartData and convert all totals to decimal
 			netChartData = [];
 			for (var i = 0, l = savingsChartData.length; i < l; i += 1) {
-				netChartData[i] = {
-						date: util.formatDate(savingsChartData[i].date),
-						total: savingsChartData[i].total + creditChartData[i].total
-				};
+				netChartData[i] = (savingsChartData[i].total + creditChartData[i].total) / 100
+				savingsChartData[i].total = savingsChartData[i].total / 100
+				creditChartData[i].total = creditChartData[i].total / 100
 			}
 			
 			// pluck then zip
-			allChartData = [_.pluck(netChartData, 'date'), _.pluck(savingsChartData, 'total'),
-			                _.pluck(creditChartData, 'total'), _.pluck(netChartData, 'total')];
+			allChartData = [_.pluck(savingsChartData, 'date'),
+			                _.pluck(savingsChartData, 'total'),
+			                _.pluck(creditChartData, 'total'),
+			                netChartData];
 			
-			this.chartData = _.zip.apply(this, allChartData)
+			this.chartData = _.zip.apply(this, allChartData);
 		}
 		
 	});
@@ -248,7 +250,7 @@ $(function() {
 			reports.each(function(rpt) {
 				// setup data
 				var data = new google.visualization.DataTable();
-				data.addColumn('string', 'x')
+				data.addColumn('date', 'x')
 				data.addColumn('number', 'Savings');
 				data.addColumn('number', 'Credit');
 				data.addColumn('number', 'Net');
@@ -261,9 +263,16 @@ $(function() {
 					negativeParens: true
 				});
 				formatter.format(data, 1);
+				formatter.format(data, 2);
+				formatter.format(data, 3);
+				
+				formatter = new google.visualization.DateFormat({
+					pattern: 'd/MM'
+				});
+				formatter.format(data, 0);
 				
 				// render chart
-				var chart = new google.visualization.LineChart(document.getElementById('report-' + rpt.id));
+				var chart = new google.visualization.ComboChart(document.getElementById('report-' + rpt.id));
 				chart.draw(data, {
 					width: 850,
 					height: 350,
@@ -284,6 +293,12 @@ $(function() {
 					vAxis: {
 						textPosition: 'in',
 						format: '$#,###.##'
+					},
+					seriesType: 'line',
+					series: {
+						2: {
+							type: 'area'
+						}
 					}
 				})
 			});

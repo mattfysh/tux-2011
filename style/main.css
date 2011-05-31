@@ -22,6 +22,10 @@ h1, h2 {
 ::-webkit-input-placeholder {
 	font-style: italic;
 }
+input,
+select {
+	font-size: 1em;
+}
 
 /**
  * Header
@@ -136,6 +140,9 @@ th {
 th, td {
 	padding-right: 30px;
 }
+tr.edit-mode td {
+	padding: 0;
+}
 #reports h3 {
 	margin-bottom: 0;
 }
@@ -143,4 +150,17 @@ th, td {
 	-webkit-box-shadow: 0 0 10px rgba(60, 60, 60, 0.5);
 	padding: 20px;
 	margin: 25px;
+}
+
+
+input[name=bal],
+input[name=limit],
+input[name=amount],
+input[name=start],
+input[name=end],
+input[name=ahead] {
+	width: 60px;
+}
+select {
+	padding: 1px;
 }
