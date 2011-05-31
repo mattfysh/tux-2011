@@ -136,7 +136,7 @@ $(function() {
 			tmplData.frequency = this.freqNameMap[tmplData.frequency];
 			tmplData.account = this.model.account.toJSON();
 			if (this.model.transfer) tmplData.transfer = this.model.transfer.toJSON();
-			tmplData.instances = this.model.instances;
+			tmplData.instances = this.nextInstances;
 			$(this.el).empty().append($.tmpl(this.template, tmplData));
 			return this;
 		},
@@ -181,14 +181,25 @@ $(function() {
 		
 		displayNext: function(e) {
 			e.preventDefault();
-			this.model.next(5);
+			// make sure cache stretches far enough
+			if (!this.nextInstances) this.nextInstances = [];
+			var i = this.nextInstances.length,
+				l = i + 5;
+			if (this.model.instances.length < l) {
+				this.model.next(l - this.model.instances.length);
+			}
+			// add to view instances
+			for (; i < l && this.model.instances[i]; i += 1) {
+				this.nextInstances[i] = this.model.instances[i];
+			}
+			// render
 			this.render();
 		},
 		
 		editTx: function(e) {
 			e.preventDefault();
 			var index = $(e.target).parents('tr').data('index'),
-				instance = this.model.instances[index];
+				instance = this.nextInstances[index];
 			
 			$(e.target).parents('tr').empty().append($.tmpl(this.editTxTemplate, instance));
 		},
@@ -197,7 +208,7 @@ $(function() {
 			e.preventDefault();
 			var newTx = {},
 				index = $(e.target).parents('tr').data('index'),
-				instances = this.model.instances,
+				instances = this.nextInstances,
 				except = this.model.get('except');
 			
 			$(e.target).parents('tr').find(':input:not(:submit)').each(function() {
@@ -214,7 +225,7 @@ $(function() {
 		removeTx: function(e) {
 			e.preventDefault();
 			var index = $(e.target).parents('tr').data('index'),
-				instance = this.model.instances[index],
+				instance = this.nextInstances[index],
 				except = this.model.get('except');
 				
 			except[instance.iso] = {
