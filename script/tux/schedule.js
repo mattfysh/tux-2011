@@ -11,7 +11,11 @@ $(function() {
 			var end = this.get('end');
 			if (end) this.set({end: new Date(end)});
 			this.set({start: new Date(this.get('start'))});
-			this.reset();
+			this.nextDate = new Date(this.get('start').getTime());
+			this.expired = false;
+			this.instances = [];
+			this.transfers = [];
+			this.freqFn = this.freqMap[this.get('frequency')];
 			if (!this.get('except')) this.set({except: {}});
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
@@ -86,12 +90,18 @@ $(function() {
 			}
 		},
 		
-		reset: function() {
-			this.nextDate = new Date(this.get('start').getTime());
-			this.expired = false;
-			this.instances = [];
-			this.transfers = [];
-			this.freqFn = this.freqMap[this.get('frequency')];
+		getInstances: function(end) {
+			var end = new Date(end.getTime() + 1), // +1 hack to make end date inclusive
+				endIndex = _(this.instances).chain().pluck('date').sortedIndex(end).value();
+		
+			return this.instances.slice(0, endIndex);
+		},
+		
+		getTransfers: function(end) {
+			var end = new Date(end.getTime() + 1), // +1 hack to make end date inclusive
+				endIndex = _(this.transfers).chain().pluck('date').sortedIndex(end).value();
+		
+			return this.transfers.slice(0, endIndex);
 		}
 		
 	});

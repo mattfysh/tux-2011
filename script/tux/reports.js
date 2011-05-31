@@ -59,12 +59,12 @@ $(function() {
 				schedule.next(end);
 				if (isScopedTx) {
 					// add to tx list
-					txList.push(schedule.instances);
+					txList.push(schedule.getInstances(end));
 				}
 				
 				if (isScopedTransfer) {
 					// add to transfer list
-					txList.push(schedule.transfers);
+					txList.push(schedule.getTransfers(end));
 				}
 			})
 			
