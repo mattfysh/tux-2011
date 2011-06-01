@@ -88,7 +88,7 @@
 			</table>
 			<script type="text/html" id="schedule-tmpl">
 				<tr><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
-					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a>{{if frequency !== 'Only Once'}} | <a href="#" class="next">next five</a>{{/if}}</td></tr>
+					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a>{{if frequency !== 'Only Once'}} | <a href="#" class="next">next five</a> | <a href="#" class="hide-txs">hide all</a>{{/if}}</td></tr>
 				{{each(i) instances}}
 					<tr data-index="${i}"><td>${tux.util.formatDate(date)}</td><td>${tux.util.formatCurrency(amount)}</td><td>${desc}</td><td></td><td></td><td></td><td></td>
 						<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
@@ -165,7 +165,7 @@
 	<!-- schedules -->
 	<script src="script/tux/schedule.js"></script>
 	<!-- reports -->
-	<script src="script/tux/reports.js"></script>
+	<script src="script/tux/reports.js?v=2"></script>
 	<!-- goals -->
 	<script src="script/tux/goals.js"></script>
 	
@@ -186,7 +186,7 @@
 		$(function() {
 			google.load('visualization', '1', {
 				packages:['corechart'],
-				callback: tux.reportApp.chartLoad
+				callback: tux.reports.chartLoad
 			});
 		});
 	</script>

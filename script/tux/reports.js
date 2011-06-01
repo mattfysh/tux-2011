@@ -165,7 +165,13 @@ $(function() {
 	tux.ReportList = Backbone.Collection.extend({
 		
 		model: tux.Report,
-		localStorage: new Store('reports')
+		localStorage: new Store('reports'),
+		
+		chartLoad: function() {
+			reports.each(function(rpt) {
+				rpt.trigger('change:chartdata');
+			});
+		}
 	
 	});
 	
@@ -185,8 +191,9 @@ $(function() {
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'remove');
-			this.model.bind('remove', this.remove);
+			_.bindAll(this, 'remove', 'renderChart');
+			this.model.bind('remove', this.remove)
+				.bind('change:chartdata', this.renderChart);
 		},
 		
 		render: function() {
@@ -198,6 +205,65 @@ $(function() {
 		destroy: function(e) {
 			e.preventDefault();
 			this.model.destroy();
+		},
+		
+		renderChart: function() {
+			// empty chart holder
+			this.$('.chart').empty();
+			
+			// setup data
+			var data = new google.visualization.DataTable();
+			data.addColumn('date', 'x');
+			data.addColumn('number', 'Savings');
+			data.addColumn('number', 'Credit');
+			data.addColumn('number', 'Net');
+			data.addRows(this.model.chartData);
+			
+			// format data
+			var formatter = new google.visualization.NumberFormat({
+				prefix: '$',
+				negativeColor: 'red',
+				negativeParens: true
+			});
+			formatter.format(data, 1);
+			formatter.format(data, 2);
+			formatter.format(data, 3);
+			
+			formatter = new google.visualization.DateFormat({
+				pattern: 'd/MM'
+			});
+			formatter.format(data, 0);
+			
+			// render chart
+			var chart = new google.visualization.ComboChart(this.$('.chart')[0]);
+			chart.draw(data, {
+				width: 850,
+				height: 350,
+				fontSize: '11',
+				legend: 'none',
+				backgroundColor: 'transparent',
+				chartArea: {
+					top: 25,
+					left: 25,
+					width: 800,
+					height: 300
+				},
+				hAxis: {
+					textPosition: 'in',
+					maxAlternation: 1,
+					showTextEvery: 14
+				},
+				vAxis: {
+					textPosition: 'in',
+					format: '$#,###.##'
+				},
+				seriesType: 'line',
+				series: {
+					2: {
+						type: 'area'
+					}
+				}
+			})
 		}
 		
 	});
@@ -215,10 +281,11 @@ $(function() {
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'addOne', 'addAll');
+			_.bindAll(this, 'addOne', 'addAll', 'refreshAll');
 			reports.bind('add', this.addOne);
 			reports.bind('refresh', this.addAll);
 			reports.fetch();
+			schedules.bind('all', this.refreshAll);
 		},
 		
 		create: function(e) {
@@ -240,67 +307,19 @@ $(function() {
 		addOne: function(report) {
 			var view = new tux.ReportView({model: report});
 			this.el.append(view.render().el);
+			if (google.visualization) {
+				view.renderChart();
+			}
 		},
 		
 		addAll: function() {
 			reports.each(this.addOne);
 		},
 		
-		chartLoad: function() {
+		refreshAll: function() {
 			reports.each(function(rpt) {
-				// setup data
-				var data = new google.visualization.DataTable();
-				data.addColumn('date', 'x')
-				data.addColumn('number', 'Savings');
-				data.addColumn('number', 'Credit');
-				data.addColumn('number', 'Net');
-				data.addRows(rpt.chartData);
-				
-				// format data
-				var formatter = new google.visualization.NumberFormat({
-					prefix: '$',
-					negativeColor: 'red',
-					negativeParens: true
-				});
-				formatter.format(data, 1);
-				formatter.format(data, 2);
-				formatter.format(data, 3);
-				
-				formatter = new google.visualization.DateFormat({
-					pattern: 'd/MM'
-				});
-				formatter.format(data, 0);
-				
-				// render chart
-				var chart = new google.visualization.ComboChart(document.getElementById('report-' + rpt.id));
-				chart.draw(data, {
-					width: 850,
-					height: 350,
-					fontSize: '11',
-					legend: 'none',
-					backgroundColor: 'transparent',
-					chartArea: {
-						top: 25,
-						left: 25,
-						width: 800,
-						height: 300
-					},
-					hAxis: {
-						textPosition: 'in',
-						maxAlternation: 1,
-						showTextEvery: 14
-					},
-					vAxis: {
-						textPosition: 'in',
-						format: '$#,###.##'
-					},
-					seriesType: 'line',
-					series: {
-						2: {
-							type: 'area'
-						}
-					}
-				})
+				rpt.generateChartData();
+				rpt.trigger('change:chartdata');
 			});
 		}
 		

@@ -129,7 +129,8 @@ $(function() {
 			'click a.next': 'displayNext',
 			'click a.edit-tx': 'editTx',
 			'click a.remove-tx': 'removeTx',
-			'click a.save-tx': 'saveTx'
+			'click a.save-tx': 'saveTx',
+			'click a.hide-txs': 'hideInstances'
 		},
 		
 		initialize: function(model) {
@@ -167,11 +168,13 @@ $(function() {
 			e.preventDefault();
 			var schedule = {};
 			this.$(':input').each(function() {
-				 if ($(this).val()) schedule[this.getAttribute('name')] = $(this).val();
+				 schedule[this.getAttribute('name')] = $(this).val();
 			});
 			schedule.start = util.makeDate(schedule.start);
 			if (schedule.end) schedule.end = util.makeDate(schedule.end);
 			this.model.set(schedule).save();
+			this.model.account = accounts.get(this.model.get('accountid'));
+			this.model.transfer = accounts.get(this.model.get('transfer'));
 			this.render();
 		},
 		
@@ -245,6 +248,12 @@ $(function() {
 			instance.amount = util.formatCurrency(0);
 			instance.desc = '*deleted*';
 			this.model.save();
+			this.render();
+		},
+		
+		hideInstances: function(e) {
+			e.preventDefault();
+			this.nextInstances = [];
 			this.render();
 		}
 		
