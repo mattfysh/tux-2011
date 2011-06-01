@@ -15,39 +15,44 @@ $(function() {
 				credit = this.get('credit'),
 				availCredit = Math.abs(accounts.totalLimit()),
 				goal = goal - Math.min(credit, availCredit),
-				total,
-				when;
+				total, when, altTotal;
 			
-			// keep generating
-			for (var i = 0; !when && i < 12; i += 1) {
-				// push to next month
-				txList = [];
-				end.setMonth(end.getMonth() + 1);
-				schedules.each(function(schedule) {
-					if (schedule.transfer) return; // ignore transfers in calculating net worth
-					schedule.next(end);
-					txList.push(schedule.instances);
-				});
-				
-				// flatten
-				txList = _.flatten(txList);
-				// sort
-				txList = _.sortBy(txList, function(tx) {
-					return util.makeDate(tx.date);
-				});
-				
-				// add running total
-				total = accounts.total()
-				_.each(txList, function(tx) {
-					if (when) return;
-					tx.runningTotal = (total += parseInt(tx.cents));
-					if (tx.runningTotal >= goal) when = tx.date;
-				});
-				
-			}
+			// push one year away and get all non-transfer schedules
+			txList = [];
+			end.setFullYear(end.getFullYear() + 1);
+			schedules.each(function(schedule) {
+				if (schedule.transfer) return; // ignore transfers in calculating net worth
+				schedule.next(end);
+				txList.push(schedule.getInstances(end));
+			});
 			
+			// flatten, sort
+			txList = _.flatten(txList);
+			txList = _.sortBy(txList, function(tx) {
+				return tx.date;
+			});
+			
+			// add running total
+			total = accounts.total();
+			_.each(txList, function(tx) {
+				// calc total after this tx
+				tx.runningTotal = (total += parseInt(tx.amount));
+				if (total >= goal && !altTotal) {
+					// first possible date found, need to continue and ensure purchase doesnt push balance into red
+					total -= parseInt(goal);
+					when = tx.date;
+					altTotal = true;
+				} else if (altTotal && when && total < 0) {
+					// bal is back in red when total is affected by purchase, cancel when
+					when = null;
+				} else if (altTotal && !when && total >= 0) {
+					// bal is back above 0, store when
+					when = tx.date;
+				}
+			});
+	
 			// return
-			return when || 'Not in the next year';
+			return when || 'Outside 12-months';
 			
 		}
 		
@@ -77,6 +82,7 @@ $(function() {
 		render: function() {
 			var tmplData = this.model.toJSON();
 			tmplData.when = this.model.findWhen();
+			if (typeof tmplData.when !== 'string') tmplData.when = util.formatDate(tmplData.when);
 			tmplData.goal = util.formatCurrency(tmplData.goal);
 			tmplData.credit = util.formatCurrency(tmplData.credit);
 			$(this.el).empty().append($.tmpl(this.template, tmplData));

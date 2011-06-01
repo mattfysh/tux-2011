@@ -88,7 +88,8 @@
 			</table>
 			<script type="text/html" id="schedule-tmpl">
 				<tr><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
-					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a>{{if frequency !== 'Only Once'}} | <a href="#" class="next">next five</a> | <a href="#" class="hide-txs">hide all</a>{{/if}}</td></tr>
+					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a>{{if frequency !== 'Only Once'}} | <a href="#" class="next">next five</a>{{/if}}
+					{{if instances && instances.length}} | <a href="#" class="hide-txs">hide all</a>{{/if}}</td></tr>
 				{{each(i) instances}}
 					<tr data-index="${i}"><td>${tux.util.formatDate(date)}</td><td>${tux.util.formatCurrency(amount)}</td><td>${desc}</td><td></td><td></td><td></td><td></td>
 						<td><a href="#" class="edit-tx">edit</a> | <a href="#" class="remove-tx">delete</a></td></tr>
@@ -123,7 +124,7 @@
 			</form>
 			<script type="text/html" id="report-tmpl">
 				<h3>${title}</h3>
-				<a href="#" class="remove">delete</a>
+				<a href="#" class="remove">delete</a> | <a href="#" class="refresh">refresh</a>
 				<div id="report-${id}" class="chart"></div>
 			</script>
 		</div>
@@ -176,7 +177,7 @@
 		tux.accountApp = new tux.AccountControl;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;
-		//tux.goalApp = new tux.GoalApp;
+		tux.goalApp = new tux.GoalApp;
 	});
 	</script>
 	

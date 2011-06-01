@@ -187,7 +187,8 @@ $(function() {
 		template: $('#report-tmpl').template(),
 		
 		events: {
-			'click a.remove': 'destroy'
+			'click a.remove': 'destroy',
+			'click a.refresh': 'refreshChart'
 		},
 		
 		initialize: function() {
@@ -205,6 +206,11 @@ $(function() {
 		destroy: function(e) {
 			e.preventDefault();
 			this.model.destroy();
+		},
+		
+		refreshChart: function(e) {
+			e.preventDefault();
+			this.renderChart();
 		},
 		
 		renderChart: function() {

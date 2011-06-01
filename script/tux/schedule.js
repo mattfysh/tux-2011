@@ -11,18 +11,16 @@ $(function() {
 			var end = this.get('end');
 			if (end) this.set({end: new Date(end)});
 			this.set({start: new Date(this.get('start'))});
-			this.nextDate = new Date(this.get('start').getTime());
-			this.expired = false;
-			this.instances = [];
-			this.transfers = [];
-			this.freqFn = this.freqMap[this.get('frequency')];
-			if (!this.get('except')) this.set({except: {}});
+			
+			this.reset();
+			
 			// getting account model
 			this.account = accounts.get(this.get('accountid'));
 			this.transfer = accounts.get(this.get('transfer'));
-			_.bindAll(this, 'destroy', 'changeAccName');
+			_.bindAll(this, 'destroy', 'changeAccName', 'reset');
 			this.account.bind('remove', this.destroy)
 				.bind('change:name', this.changeAccName);
+			this.bind('change', this.reset);
 		},
 		
 		changeAccName: function() {
@@ -36,6 +34,14 @@ $(function() {
 			f: ['Date', 14],
 			m: ['Month', 1],
 			y: ['FullYear', 1]
+		},
+		
+		reset: function() {
+			this.nextDate = new Date(this.get('start').getTime());
+			this.expired = false;
+			this.instances = [];
+			this.transfers = [];
+			this.freqFn = this.freqMap[this.get('frequency')];
 		},
 		
 		next: function(limit) {
@@ -134,8 +140,9 @@ $(function() {
 		},
 		
 		initialize: function(model) {
-			_.bindAll(this, 'render', 'remove');
+			_.bindAll(this, 'render', 'remove', 'resetInstances');
 			this.model.bind('change:name', this.render)
+				.bind('change', this.resetInstances)
 				.bind('remove', this.remove);
 		},
 		
@@ -207,6 +214,10 @@ $(function() {
 			}
 			// render
 			this.render();
+		},
+		
+		resetInstances: function() {
+			this.nextInstances = [];
 		},
 		
 		editTx: function(e) {
