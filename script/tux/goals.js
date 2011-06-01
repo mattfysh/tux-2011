@@ -8,52 +8,39 @@ $(function() {
 	
 	tux.Goal = Backbone.Model.extend({
 		
-		findWhen: function() {
-			var end = new Date(),
-				txList = [],
-				goal = this.get('goal'),
-				credit = this.get('credit'),
-				availCredit = Math.abs(accounts.totalLimit()),
-				goal = goal - Math.min(credit, availCredit),
-				total, when, altTotal;
+		findWhen: function(txList, start) {
+			var goal = this.get('goal'),
+				when, altTotal, found;
 			
-			// push one year away and get all non-transfer schedules
-			txList = [];
-			end.setFullYear(end.getFullYear() + 1);
-			schedules.each(function(schedule) {
-				if (schedule.transfer) return; // ignore transfers in calculating net worth
-				schedule.next(end);
-				txList.push(schedule.getInstances(end));
-			});
+			if (typeof start === 'undefined') start = 0;
 			
-			// flatten, sort
-			txList = _.flatten(txList);
-			txList = _.sortBy(txList, function(tx) {
-				return tx.date;
-			});
-			
-			// add running total
-			total = accounts.total();
-			_.each(txList, function(tx) {
-				// calc total after this tx
-				tx.runningTotal = (total += parseInt(tx.amount));
-				if (total >= goal && !altTotal) {
+			// look through txList and find when goal can be met
+			_.each(txList, function(tx, i) {
+				if (i < start) return;
+				if (tx.runningTotal >= goal && !altTotal) {
 					// first possible date found, need to continue and ensure purchase doesnt push balance into red
-					total -= parseInt(goal);
+					tx.runningTotal -= parseInt(goal);
 					when = tx.date;
+					found = i;
 					altTotal = true;
-				} else if (altTotal && when && total < 0) {
-					// bal is back in red when total is affected by purchase, cancel when
-					when = null;
-				} else if (altTotal && !when && total >= 0) {
-					// bal is back above 0, store when
-					when = tx.date;
+				} else if (altTotal) {
+					tx.runningTotal -= parseInt(goal);
+					if (when && tx.runningTotal < 0) {
+						// bal is back in red when total is affected by purchase, cancel when
+						when = undefined;
+						found = undefined;
+					} else if (!when && tx.runningTotal >= 0) {
+						// bal is back above 0, store when
+						when = tx.date;
+						found = i;
+					}
 				}
 			});
-	
-			// return
-			return when || 'Outside 12-months';
 			
+			// store when
+			this.when = when || 'Outside 12-months';
+			
+			return found;
 		}
 		
 	});
@@ -81,7 +68,7 @@ $(function() {
 		
 		render: function() {
 			var tmplData = this.model.toJSON();
-			tmplData.when = this.model.findWhen();
+			tmplData.when = this.model.when;
 			if (typeof tmplData.when !== 'string') tmplData.when = util.formatDate(tmplData.when);
 			tmplData.goal = util.formatCurrency(tmplData.goal);
 			tmplData.credit = util.formatCurrency(tmplData.credit);
@@ -107,11 +94,47 @@ $(function() {
 		},
 		
 		initialize: function() {
+			this.txList = this.calcNet();
+			this.availCredit = Math.abs(accounts.totalLimit());
+			
 			_.bindAll(this, 'addOne', 'render', 'addAll');
 			goals.bind('add', this.addOne);
 			goals.bind('all', this.render);
 			goals.bind('refresh', this.addAll);
 			goals.fetch();
+		},
+		
+		calcNet: function() {
+			var end = new Date(),
+				txList = [],
+				total;
+		
+			// push one year away and get all non-transfer schedules
+			txList = [];
+			end.setFullYear(end.getFullYear() + 1);
+			schedules.each(function(schedule) {
+				if (schedule.transfer) return; // ignore transfers in calculating net worth
+				schedule.next(end);
+				txList.push(schedule.getInstances(end));
+			});
+			
+			// flatten, sort
+			txList = _.flatten(txList);
+			txList = _.sortBy(txList, function(tx) {
+				return tx.date;
+			});
+			
+			// transform to just date and running total
+			total = accounts.total();
+			_.each(txList, function(tx, i, list) {
+				list[i] = {
+						date: tx.date,
+						runningTotal: (total += parseInt(tx.amount))
+				}
+			});
+	console.dir(txList);
+			// return 1 year tx list
+			return txList;
 		},
 		
 		create: function(e) {
@@ -129,6 +152,10 @@ $(function() {
 		},
 		
 		addOne: function(goal) {
+			// calc when
+			this.lastFoundIndex = goal.findWhen(this.txList, this.lastFoundIndex);
+			
+			// create view
 			var view = new tux.GoalView({model: goal});
 			this.el.find('table').append(view.render().el);
 		},
