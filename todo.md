@@ -11,11 +11,9 @@ current dev
 * expire a schedule when no more due tx's
 
 ### pending
-* include pending tx's in reports
-* delete a pending tx
 * approve pending tx -> ledger, update account balance
 * edit before approval
-
+* create 2 tx's when approving transfers
 
 product backlog
 ---------------
@@ -29,6 +27,7 @@ product backlog
 * track the budget and report on remaining $$ for each tag
 * feedback widget
 * next 5 / last 5 tx widget
+* clean up API's
 
 ### ui todo's
 * split features across screens that scroll horizontally
@@ -41,5 +40,6 @@ product backlog
 * input validation
 * actions as icons, fade in/out on hover
 
-### maybe todo's
+### dev todos
 * cross-browser support?
+* unit tests for models, apps, collections and possibly views

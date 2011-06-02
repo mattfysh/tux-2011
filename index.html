@@ -77,6 +77,16 @@
 			</script>
 		</div>
 		
+		<div id="ledger" class="mini-app">
+			<h2>Ledger</h2>
+			<table>
+				<tr><th>Date</th><th>Account</th><th>Amount</th><th>Desciption</th></tr>
+			</table>
+			<script type="text/html" id="ledger-tmpl">
+				<td>${date}</td><td>${account.name}</td><td>${amount}</td><td>${desc}</td>
+			</script>
+		</div>
+		
 		<div id="schedules" class="mini-app">
 			<h2>Schedules</h2>
 			<form>
@@ -178,6 +188,8 @@
 	<script src="script/tux/accountcontrol.js"></script>
 	<!-- pending -->
 	<script src="script/tux/pending.js"></script>
+	<!-- ledger -->
+	<script src="script/tux/ledger.js"></script>
 	<!-- schedules -->
 	<script src="script/tux/schedule.js"></script>
 	<!-- reports -->
@@ -190,6 +202,7 @@
 	$(function() {
 		tux.configApp = new tux.ConfigView;
 		tux.accountApp = new tux.AccountControl;
+		tux.ledgerApp = new tux.LedgerApp;
 		tux.pendingApp = new tux.PendingApp;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;

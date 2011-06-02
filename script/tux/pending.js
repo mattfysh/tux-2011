@@ -41,7 +41,7 @@ $(function() {
 		events: {
 			'click a.review': 'review',
 			'click a.approve': 'approve',
-			'click a.delete': 'destroy'
+			'click a.remove': 'destroy'
 		},
 		
 		initialize: function() {

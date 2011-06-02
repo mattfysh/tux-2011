@@ -132,7 +132,7 @@ $(function() {
 						runningTotal: (total += parseInt(tx.amount))
 				}
 			});
-	console.dir(txList);
+	
 			// return 1 year tx list
 			return txList;
 		},

@@ -3,6 +3,7 @@ namespace('tux');
 $(function() {
 	
 	var schedules = tux.schedules,
+		pending = tux.pending,
 		accounts = tux.accounts,
 		util = tux.util;
 	

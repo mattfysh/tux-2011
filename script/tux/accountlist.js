@@ -9,9 +9,28 @@ $(function() {
 		
 		total: function(accounts) {
 			var total = 0;
+			
+			// get account totals
 			this.each(function(account) {
 				if (!accounts || _.indexOf(accounts, account.id) > -1) total += parseInt(account.get('bal'));
 			})
+			
+			// get pending totals
+			tux.pending.each(function(pending) {
+				var accScope = !accounts || _(accounts).indexOf(pending.get('accountid')) > -1,
+					isTransfer = pending.get('transfer'),
+					transferScope = isTransfer && _(accounts).indexOf(pending.get('transfer')) > -1;
+					
+				// if pending tx is a transfer, and both accounts are in scope, ignore
+				if (accScope && transferScope) return;
+				// otherwise update total
+				if (accScope) {
+					total += parseInt(pending.get('amount'));
+				} else if (transferScope) {
+					total -= parseInt(pending.get('amount'));
+				}
+			});
+			
 			return total;
 		},
 		
