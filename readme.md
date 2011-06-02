@@ -11,11 +11,16 @@ features
 * track savings goals and when you'll reach them
 * choose from six vibrant themes
 
+in dev
+------
+
+* move scheduled transactions into a pending state when they're due
+* edit users' name
+* ui- drag goals to play with what-if scenarios
+
 feature todo's
 --------------
 
-* edit users' name
-* move scheduled transactions into a pending state when they're due
 * review and approve pending transactions, moving them to the ledger
 * manually add tx's to ledger
 * add tags to all tx's
@@ -29,7 +34,6 @@ feature todo's
 ui todo's
 ---------
 
-* drag goals to play with what-if scenarios
 * split features across screens that scroll horizontally
 * data entry and editing via lightbox forms
 * a calendar-type interface for future transactions
@@ -38,6 +42,7 @@ ui todo's
 * cleaner look
 * use google image search to let user choose from images of savings goal
 * input validation
+* actions as icons, fade in/out on hover
 
 maybe todo's
 ------------

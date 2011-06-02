@@ -64,6 +64,19 @@
 			</script>
 		</div>
 		
+		<div id="pending" class="mini-app">
+			<h2>Pending</h2>
+			<table>
+				<tr><th>Date</th><th>Account</th><th>Amount</th><th>Desciption</th><th>Transfer</th><th></th></tr>
+			</table>
+			<script type="text/html" id="pending-tmpl">
+				<td>${date}</td><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td><a href="#" class="review">review</a> | <a href="#" class="remove">delete</a></td>
+			</script>
+			<script type="text/html" id="pending-edit-tmpl">
+				<td>${date}</td><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td><a href="#" class="approve">approve</a> | <a href="#" class="remove">delete</a></td>
+			</script>
+		</div>
+		
 		<div id="schedules" class="mini-app">
 			<h2>Schedules</h2>
 			<form>
@@ -163,6 +176,8 @@
 	<script src="script/tux/accountlist.js"></script>
 	<script src="script/tux/accountview.js"></script>
 	<script src="script/tux/accountcontrol.js"></script>
+	<!-- pending -->
+	<script src="script/tux/pending.js"></script>
 	<!-- schedules -->
 	<script src="script/tux/schedule.js"></script>
 	<!-- reports -->
@@ -175,6 +190,7 @@
 	$(function() {
 		tux.configApp = new tux.ConfigView;
 		tux.accountApp = new tux.AccountControl;
+		tux.pendingApp = new tux.PendingApp;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;
 		tux.goalApp = new tux.GoalApp;
