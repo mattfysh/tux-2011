@@ -69,7 +69,10 @@ $(function() {
 		},
 		
 		approve: function(e) {
-			e.preventdefault();
+			e.preventDefault();
+			// move model from pending to ledger
+			tux.ledger.create(this.model);
+			pending.remove(this.model);
 		},
 		
 		destroy: function(e) {
