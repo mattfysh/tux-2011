@@ -3,7 +3,8 @@ namespace('tux');
 $(function() {
 	
 	var accounts = tux.accounts,
-		util = tux.util;
+		util = tux.util,
+		pending = tux.pending;
 	
 	tux.Schedule = Backbone.Model.extend({
 		
@@ -21,6 +22,10 @@ $(function() {
 			this.account.bind('remove', this.destroy)
 				.bind('change:name', this.changeAccName);
 			this.bind('change', this.reset);
+			
+			// move due into pending state
+			this.next(new Date());
+			this.processDue();
 		},
 		
 		changeAccName: function() {
@@ -108,6 +113,38 @@ $(function() {
 				endIndex = _(this.transfers).chain().pluck('date').sortedIndex(end).value();
 		
 			return this.transfers.slice(0, endIndex);
+		},
+		
+		processDue: function() {
+			var end = new Date(),
+				endIndexInst = _(this.instances).chain().pluck('date').sortedIndex(end).value(),
+				endIndexTran = _(this.transfers).chain().pluck('date').sortedIndex(end).value(),
+				due;
+			
+			// remove transfers
+			if (endIndexTran) this.transfers.splice(0, endIndexTran);
+			
+			if (endIndexInst) {
+				// move due to pending
+				// TODO remove exception if used (saves space)
+				due = this.instances.splice(0, endIndexInst);
+				_(due).each(function(tx) {
+					delete tx.iso;
+					delete tx.account;
+					delete tx.transfer;
+					tx.accountid = this.get('accountid');
+					tx.transfer = this.get('transfer');
+					pending.create(tx);
+				}, this);
+				
+				// set the next date on the schedule and save model
+				// TODO expired schedules otherwise this will throw error
+				this.next(1);
+				this.set({
+					start: this.instances[0].date
+				}).save();
+			}
+			
 		}
 		
 	});
