@@ -6,23 +6,18 @@ list of todo's broken down by mini-app.
 current dev
 -----------
 
-### schedules
-* expired tx in chart bug
-* remove old exceptions when processing due tx's
-
 ### pending
 * apply to account when approving
-* edit before approval
 
 ### ledger
 * create 2 tx's when applying transfer
-* show running total
+* show (store?) running total
 * add manual tx's to ledger
 
 product backlog
 ---------------
 
-### general feature todo's
+### general feature todos
 * add tags to all tx's
 * create past-view reports, using ledger and pending tx's
 * add pie charts for income vs expense, and tags
@@ -32,7 +27,7 @@ product backlog
 * next 5 / last 5 tx widget
 * clean up API's
 
-### ui todo's
+### ui todos
 * split features across screens that scroll horizontally
 * data entry and editing via lightbox forms
 * a calendar-type interface for future transactions
@@ -46,3 +41,9 @@ product backlog
 ### dev todos
 * cross-browser support?
 * unit tests for models, apps, collections and possibly views
+
+### schedule todo's
+* handle exceptions that have altered the date
+
+### pending todos
+* edit before approval

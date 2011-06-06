@@ -45,7 +45,7 @@ $(function() {
 		
 		reset: function() {
 			this.nextDate = new Date(this.get('start').getTime());
-			this.expired = false;
+			this.expired = this.get('expired') || false;
 			this.instances = [];
 			this.transfers = [];
 			this.freqFn = this.freqMap[this.get('frequency')];
@@ -82,7 +82,7 @@ $(function() {
 				}
 				
 				// get account name and push to list
-				nextTx.account = (this.account && this.account.get('name')) || 'dsjhasdfjhasdfjh';
+				nextTx.account = this.account.get('name');
 				this.instances.push(nextTx);
 				
 				// push transfer tx
@@ -128,19 +128,21 @@ $(function() {
 			
 			if (endIndexInst) {
 				// move due to pending
-				// TODO remove exception if used (saves space)
 				due = this.instances.splice(0, endIndexInst);
 				_(due).each(function(tx) {
+					// remove exception if used
+					delete this.get('except')[tx.iso];
+					// process tx before moving into the pending hold
 					delete tx.iso;
 					delete tx.account;
 					delete tx.transfer;
 					tx.accountid = this.get('accountid');
 					tx.transfer = this.get('transfer');
+					// add to the pending collection
 					pending.create(tx);
 				}, this);
 				
 				// set the next date on the schedule and save model
-				// TODO expired schedules otherwise this will throw error
 				this.next(1);
 				if (!this.instances.length) {
 					this.set({
@@ -293,7 +295,7 @@ $(function() {
 			
 			except[instances[index].iso] = newTx;
 			instances[index] = newTx;
-			this.model.save();
+			this.model.trigger('change').save();
 			this.render();
 		},
 		
