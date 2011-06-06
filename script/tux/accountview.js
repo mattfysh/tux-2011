@@ -17,8 +17,9 @@ $(function() {
 		},
 		
 		initialize: function() {
-			_.bindAll(this, 'remove');
-			this.model.bind('remove', this.remove);
+			_.bindAll(this, 'remove', 'render');
+			this.model.bind('remove', this.remove)
+				.bind('change', this.render);
 		},
 		
 		render: function() {

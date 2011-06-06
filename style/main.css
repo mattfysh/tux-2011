@@ -146,6 +146,9 @@ tr.edit-mode td {
 tr.total {
 	font-weight: bold;
 }
+tr.expired {
+	opacity: 0.45;
+}
 #reports h3 {
 	margin-bottom: 0;
 }

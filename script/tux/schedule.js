@@ -24,8 +24,10 @@ $(function() {
 			this.bind('change', this.reset);
 			
 			// move due into pending state
-			this.next(new Date());
-			this.processDue();
+			if (!this.get('expired')) {
+				this.next(new Date());
+				this.processDue();
+			}
 		},
 		
 		changeAccName: function() {
@@ -80,7 +82,7 @@ $(function() {
 				}
 				
 				// get account name and push to list
-				nextTx.account = this.account.get('name');
+				nextTx.account = (this.account && this.account.get('name')) || 'dsjhasdfjhasdfjh';
 				this.instances.push(nextTx);
 				
 				// push transfer tx
@@ -140,9 +142,16 @@ $(function() {
 				// set the next date on the schedule and save model
 				// TODO expired schedules otherwise this will throw error
 				this.next(1);
-				this.set({
-					start: this.instances[0].date
-				}).save();
+				if (!this.instances.length) {
+					this.set({
+						expired: true
+					}).save();
+				} else {
+					this.set({
+						start: this.instances[0].date
+					}).save();
+				}
+				
 			}
 			
 		}
@@ -152,7 +161,12 @@ $(function() {
 	tux.ScheduleList = Backbone.Collection.extend({
 		
 		model: tux.Schedule,
-		localStorage: new Store('schedules')
+		localStorage: new Store('schedules'),
+		
+		comparator: function(schedule) {
+			if (schedule.get('expired')) return -1;
+			return schedule.get('start');
+		}
 		
 	});
 	

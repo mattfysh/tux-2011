@@ -7,19 +7,22 @@ current dev
 -----------
 
 ### schedules
+* expired tx in chart bug
 * remove old exceptions when processing due tx's
-* expire a schedule when no more due tx's
 
 ### pending
-* approve pending tx -> ledger, update account balance
+* apply to account when approving
 * edit before approval
-* create 2 tx's when approving transfers
+
+### ledger
+* create 2 tx's when applying transfer
+* show running total
+* add manual tx's to ledger
 
 product backlog
 ---------------
 
 ### general feature todo's
-* manually add tx's to ledger
 * add tags to all tx's
 * create past-view reports, using ledger and pending tx's
 * add pie charts for income vs expense, and tags

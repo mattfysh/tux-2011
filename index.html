@@ -110,7 +110,7 @@
 				<tr><th>Account</th><th>Amount</th><th>Description</th><th>Transfer</th><th>Start</th><th>Frequency</th><th>Ending</th><th></th></tr>
 			</table>
 			<script type="text/html" id="schedule-tmpl">
-				<tr><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
+				<tr {{if expired}}class="expired"{{/if}}><td>${account.name}</td><td>${amount}</td><td>${desc}</td><td>{{if transfer}}${transfer.name}{{/if}}</td><td>${start}</td><td>${frequency}</td><td>${end}</td>
 					<td><a href="#" class="edit">edit</a> | <a href="#" class="remove">delete</a>{{if frequency !== 'Only Once'}} | <a href="#" class="next">next five</a>{{/if}}
 					{{if instances && instances.length}} | <a href="#" class="hide-txs">hide all</a>{{/if}}</td></tr>
 				{{each(i) instances}}
@@ -151,7 +151,7 @@
 				<div id="report-${id}" class="chart"></div>
 			</script>
 		</div>
-		
+		<!--
 		<div id="goals" class="mini-app">
 			<h2>Savings Goals</h2>
 			<form>
@@ -166,7 +166,7 @@
 			<script type="text/html" id="goal-tmpl">
 				<td>${what}</td><td>${goal}</td><td>${credit}<td>${when}</td><td><a href="#" class="remove">delete</a></td>
 			</script>
-		</div>
+		</div>-->
 	
 	</div>
 	
@@ -194,8 +194,6 @@
 	<script src="script/tux/schedule.js"></script>
 	<!-- reports -->
 	<script src="script/tux/reports.js?v=2"></script>
-	<!-- goals -->
-	<script src="script/tux/goals.js"></script>
 	
 	<!-- bootstrap -->
 	<script>
@@ -206,7 +204,6 @@
 		tux.pendingApp = new tux.PendingApp;
 		tux.sheduleApp = new tux.ScheduleApp;
 		tux.reportApp = new tux.ReportApp;
-		tux.goalApp = new tux.GoalApp;
 	});
 	</script>
 	

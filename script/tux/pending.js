@@ -26,7 +26,11 @@ $(function() {
 	tux.PendingHold = Backbone.Collection.extend({
 		
 		model: tux.Pending,
-		localStorage: new Store('pending')
+		localStorage: new Store('pending'),
+		
+		comparator: function(tx) {
+			return tx.get('date');
+		}
 		
 	});
 	
@@ -71,8 +75,8 @@ $(function() {
 		approve: function(e) {
 			e.preventDefault();
 			// move model from pending to ledger
-			tux.ledger.create(this.model);
-			pending.remove(this.model);
+			tux.ledger.create(this.model.clone());
+			this.model.destroy();
 		},
 		
 		destroy: function(e) {

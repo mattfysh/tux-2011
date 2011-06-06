@@ -24,7 +24,11 @@ $(function() {
 	tux.Ledger = Backbone.Collection.extend({
 		
 		model: tux.Tx,
-		localStorage: new Store('ledger')
+		localStorage: new Store('ledger'),
+		
+		comparator: function(tx) {
+			return tx.get('date');
+		}
 		
 	});
 	
@@ -55,6 +59,7 @@ $(function() {
 			ledger.bind('add', this.addOne);
 			ledger.bind('refresh', this.addAll);
 			ledger.fetch();
+			ledger.bind('add', this.applyToAccount);
 		},
 		
 		addOne: function(tx) {
@@ -64,6 +69,10 @@ $(function() {
 		
 		addAll: function() {
 			ledger.each(this.addOne);
+		},
+		
+		applyToAccount: function(tx) {
+			tx.account.applyAmount(tx.get('amount'));
 		}
 		
 	});
