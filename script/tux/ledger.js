@@ -72,7 +72,29 @@ $(function() {
 		},
 		
 		applyToAccount: function(tx) {
+			// apply added amount to account
 			tx.account.applyAmount(tx.get('amount'));
+			
+			// handle transfer
+			if (tx.transfer) {
+				
+				// create a new tx, invert for transfer
+				var trTx = tx.clone();
+				trTx.set({
+					accountid: trTx.get('transfer'),
+					amount: trTx.get('amount') * -1
+				});
+				trTx.account = trTx.transfer;
+				
+				// delete transfer data from both tx's now that it has been processed
+				tx.unset('transfer');
+				delete tx.transfer;
+				trTx.unset('transfer');
+				delete trTx.transfer;
+				
+				// add transfer, calls this fn recursively to apply amount to transfer account
+				ledger.create(trTx);
+			}
 		}
 		
 	});

@@ -6,13 +6,10 @@ list of todo's broken down by mini-app.
 current dev
 -----------
 
-### pending
-* apply to account when approving
-
 ### ledger
-* create 2 tx's when applying transfer
 * show (store?) running total
 * add manual tx's to ledger
+* filter view by account
 
 product backlog
 ---------------
@@ -37,6 +34,7 @@ product backlog
 * use google image search to let user choose from images of savings goal
 * input validation
 * actions as icons, fade in/out on hover
+* tag auto-complete
 
 ### dev todos
 * cross-browser support?
