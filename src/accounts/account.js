@@ -1,4 +1,10 @@
+namespace('tux.accounts');
+
 // account model
-(function() {
+tux.accounts.Account = Backbone.Model.extend({
 	
-}());
+	defaults: {
+		balance: 0
+	}
+	
+});
