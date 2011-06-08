@@ -40,9 +40,27 @@ describe('Account model', function() {
 		it('should not allow direct updates post-creation', function() {
 			var account = this.account,
 				errorSpy = sinon.spy();
+			
 			account.bind('error', errorSpy);
+			account.set({
+				balance: 200
+			})
+			
 			expect(errorSpy.called).toBeTruthy();
-			expect(account.get('balance')).toNotEqual(200);
+			expect(account.get('balance')).toEqual(10000);
+		});
+		
+		it('should trigger change events', function() {
+			var account = this.account,
+				changeSpy = sinon.spy(),
+				changeBalSpy = sinon.spy();
+			
+			account.bind('change:balance', changeBalSpy)
+				.bind('change', changeSpy);
+			account.adjustBalance(200);
+			
+			expect(changeBalSpy).toHaveBeenCalled();
+			expect(changeSpy).toHaveBeenCalled();
 		});
 		
 	});
