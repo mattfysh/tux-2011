@@ -1,3 +1,5 @@
+/*global test */
+
 describe('tux util', function() {
 	
 	describe('namespace', function() {

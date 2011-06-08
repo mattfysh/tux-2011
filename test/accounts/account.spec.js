@@ -44,7 +44,7 @@ describe('Account model', function() {
 			account.bind('error', errorSpy);
 			account.set({
 				balance: 200
-			})
+			});
 			
 			expect(errorSpy.called).toBeTruthy();
 			expect(account.get('balance')).toEqual(10000);
