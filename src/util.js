@@ -13,3 +13,5 @@ function namespace(path) {
 		parent = parent[scope];
 	}
 }
+// global noop function
+function noop() {}

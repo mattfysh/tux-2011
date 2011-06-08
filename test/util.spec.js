@@ -15,5 +15,13 @@ describe('tux util', function() {
 		});
 	
 	});
+	
+	describe('noop', function() {
+		
+		it('should define an empty function', function() {
+			expect(noop).toBeDefined();
+		});
+		
+	});
 
 });
