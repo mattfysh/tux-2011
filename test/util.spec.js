@@ -1,19 +1,18 @@
-describe('tux util', function() {
+(function() {
 	
-	describe('namespace', function() {
+	TestCase('tux util', {
 		
-		it('should create a namespace', function() {
+		'test namespace should create a namespace': function() {
 			namespace('test.spec.namespace');
-			expect(test.spec.namespace).toBeDefined();
-		});
+			assertNotUndefined(test.spec.namespace);
+		},
 		
-		it('should not overwrite existing values', function() {
+		'test namespace should not overwriting existing value': function() {
 			namespace('test');
 			test.namespace = 'exists';
 			namespace('test.namespace');
-			expect(test.namespace).toBe('exists');
-		});
-	
+			assertEquals(test.namespace, 'exists');
+		}
 	});
-
-});
+	
+}());
