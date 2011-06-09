@@ -9,30 +9,29 @@
 
 	<!-- lint source -->
 	<target name="lint-src">
-		<apply dir="./build" executable="java" failonerror="true">
-			<fileset dir="src">
-				<include name="*.js" />
-				<include name="*/*.js" />
-			</fileset>
-			<arg line="-jar rhino.jar jshint-rhino.js" />
-			<srcfile />
-			<arg value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store" />
-		</apply>
-		<echo>JSHint Passed (source)</echo>
+		<antcall target="lint">
+			<param name="dir" value="src" />
+			<param name="opt" value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store" />
+		</antcall>
 	</target>
 
 	<!-- lint tests -->
 	<target name="lint-tests">
+		<antcall target="lint">
+			<param name="dir" value="test" />
+			<param name="opt" value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store;describe;it;beforeEach;expect;sinon" />
+		</antcall>
+	</target>
+
+	<!-- lint -->
+	<target name="lint">
 		<apply dir="./build" executable="java" failonerror="true">
-			<fileset dir="test">
-				<include name="*.js" />
-				<include name="*/*.js" />
-			</fileset>
+			<fileset dir="${dir}" includes="**/*.js" />
 			<arg line="-jar rhino.jar jshint-rhino.js" />
 			<srcfile />
-			<arg value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store;describe;it;beforeEach;expect;sinon" />
+			<arg value="${opt}" />
 		</apply>
-		<echo>JSHint Passed (tests)</echo>
+		<echo>${dir} JSHint Passed</echo>
 	</target>
 
 	<!-- run unit tests -->
