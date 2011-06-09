@@ -1,1 +1,3 @@
-# no files to ignore, yet
+# eclipse resources
+.*
+/.gitignore
