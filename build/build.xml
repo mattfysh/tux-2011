@@ -14,9 +14,9 @@
 				<include name="*.js" />
 				<include name="*/*.js" />
 			</fileset>
-			<arg line="-jar rhino.jar rhino-jshint.js" />
+			<arg line="-jar rhino.jar jshint-rhino.js" />
 			<srcfile />
-			<arg value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone" />
+			<arg value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store" />
 		</apply>
 		<echo>JSHint Passed (source)</echo>
 	</target>
@@ -28,9 +28,9 @@
 				<include name="*.js" />
 				<include name="*/*.js" />
 			</fileset>
-			<arg line="-jar rhino.jar rhino-jshint.js" />
+			<arg line="-jar rhino.jar jshint-rhino.js" />
 			<srcfile />
-			<arg value="undef=true,maxerr=25,predef=describe;it;beforeEach;expect;sinon;tux;namespace;noop" />
+			<arg value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store;describe;it;beforeEach;expect;sinon" />
 		</apply>
 		<echo>JSHint Passed (tests)</echo>
 	</target>

@@ -6,7 +6,8 @@ load("jshint.js");
     var name   = args[0],
         optstr = args[1], // arg1=val1,arg2=val2,...
         opts   = { rhino: true },
-        input, predef = {};
+        predef = {},
+        input;
 
     if (!name) {
         print('Usage: jshint.js file.js');
@@ -23,15 +24,18 @@ load("jshint.js");
                 case 'false':
                     return false;
                 default:
-                	return ov;
+                    return ov;
                 }
             })(o[1]);
         });
         if (opts.predef) {
-        	opts.predef.split(';').map(function (globalVar) {
-        		predef[globalVar] = false;
-        	});
-        	opts.predef = predef;
+            opts.predef.split(';').forEach(function (def) {
+                var d = def.split(':');
+                predef[d[0]] = (function (dv) {
+                    return (dv === 'false') ? false : true;
+                })(d[1]);
+            });
+            opts.predef = predef;
         }
     }
 
@@ -44,7 +48,7 @@ load("jshint.js");
 
     if (!JSHINT(input, opts)) {
         for (var i = 0, err; err = JSHINT.errors[i]; i++) {
-            print(err.reason + ' (' + name.split('\\').pop() + ':' + err.line + ':' + err.character + ')');
+            print(err.reason + ' (line: ' + err.line + ', character: ' + err.character + ')');
             print('> ' + (err.evidence || '').replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1"));
             print('');
         }
