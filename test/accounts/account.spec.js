@@ -2,16 +2,20 @@ var Account = tux.accounts.Account;
 
 describe('Account model', function() {
 	
-	describe('when created', function() {
+	describe('creation', function() {
 		
 		it('should default to zero balance', function() {
 			var account = new Account({
-				name: 'test',
-				typeCode: 's'
+				name: 'test'
 			});
-			expect(account.get('balance')).toEqual(0);
+			expect(account.get('balance')).toBe(0);
 		});
 		
+	});
+	
+	describe('persistence', function() {
+		// 1) create, save, clear, restore
+		// 2) check balance is proper type when restored
 	});
 	
 	describe('validation', function() {
@@ -19,23 +23,30 @@ describe('Account model', function() {
 		beforeEach(function() {
 			this.account = new Account({
 				name: 'test',
-				typeCode: 's'
+				balance: 100
 			});
+			this.errorSpy = sinon.spy();
+			this.account.bind('error', this.errorSpy);
 		});
 		
 		it('should require balance to be a number', function() {
-			var errorSpy = sinon.spy();
-			
-			this.account.bind('error', errorSpy);
 			this.account.set({
 				balance: 20
 			});
 			
-			expect(errorSpy).toNotHaveBeenCalled();
+			expect(this.errorSpy).not.toHaveBeenCalled();
 		});
 		
 		it('should throw error if balance is not a number', function() {
+			this.account.set({
+				balance: '20'
+			});
+			this.account.set({
+				balance: function() {}
+			});
 			
+			expect(this.errorSpy).toHaveBeenCalledTwice();
+			expect(this.account.get('balance')).toBe(100);
 		});
 		
 	});
@@ -45,15 +56,14 @@ describe('Account model', function() {
 		beforeEach(function() {
 			this.account = new Account({
 				name: 'test',
-				balance: 10000,
-				typeCode: 's'
+				balance: 10000
 			});
 		});
 		
 		it('should adjust the balance', function() {
 			var account = this.account;
 			account.adjustBalance(200);
-			expect(account.get('balance')).toEqual(10200);
+			expect(account.get('balance')).toBe(10200);
 		}); 
 		
 	});

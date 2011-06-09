@@ -11,6 +11,12 @@ tux.accounts.Account = Backbone.Model.extend({
 		this.set({
 			balance: this.get('balance') + amount
 		});
+	},
+	
+	validate: function(attrs) {
+		if (typeof attrs.balance !== 'number') {
+			return 'balance must be a number';
+		}
 	}
 	
 });
