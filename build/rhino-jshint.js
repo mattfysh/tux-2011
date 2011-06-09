@@ -1,7 +1,6 @@
 /*jshint boss: true */
 
 load("jshint.js");
-load("json2.js");
 
 (function (args) {
     var name   = args[0],

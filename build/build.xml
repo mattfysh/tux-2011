@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<project name="tux" default="build" basedir="../">
+
+	<target name="build">
+		<antcall target="lint-src" />
+		<antcall target="lint-tests" />
+		<antcall target="test" />
+	</target>
+
+	<!-- lint source -->
+	<target name="lint-src">
+		<apply dir="./build" executable="java" failonerror="true">
+			<fileset dir="src">
+				<include name="*.js" />
+				<include name="*/*.js" />
+			</fileset>
+			<arg line="-jar rhino.jar rhino-jshint.js" />
+			<srcfile />
+			<arg value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone" />
+		</apply>
+		<echo>JSHint Passed (source)</echo>
+	</target>
+
+	<!-- lint tests -->
+	<target name="lint-tests">
+		<apply dir="./build" executable="java" failonerror="true">
+			<fileset dir="test">
+				<include name="*.js" />
+				<include name="*/*.js" />
+			</fileset>
+			<arg line="-jar rhino.jar rhino-jshint.js" />
+			<srcfile />
+			<arg value="undef=true,maxerr=25,predef=describe;it;beforeEach;expect;sinon;tux;namespace;noop" />
+		</apply>
+		<echo>JSHint Passed (tests)</echo>
+	</target>
+
+	<!-- run unit tests -->
+	<target name="test">
+		<exec executable="java" failonerror="true">
+			<arg line="-jar build/JsTestDriver-1.3.2.jar --reset --tests all" />
+		</exec>
+		<echo>Jasmine Specs Passed</echo>
+	</target>
+
+</project>
