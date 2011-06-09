@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <project name="tux" default="build" basedir="../">
+	
+	<property name="jshint.flags" value="maxerr=25,undef=true,curly=true,debug=true,eqeqeq=true,immed=true,newcap=true,onevar=true,plusplus=true,strict=true" />
+	<property name="jshint.predef" value="predef=namespace;noop;tux;Backbone;Store;_" />
+	<property name="jshint.predef.test" value="${jshint.predef};describe;it;beforeEach;expect;sinon" />
+	
+	<property name="jshint.fullopt" value="${jshint.flags},${jshint.predef}" />
+	<property name="jshint.fullopt.test" value="${jshint.flags},${jshint.predef.test}" />
 
 	<target name="build">
 		<antcall target="lint-src" />
@@ -11,7 +18,7 @@
 	<target name="lint-src">
 		<antcall target="lint">
 			<param name="dir" value="src" />
-			<param name="opt" value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store" />
+			<param name="opt" value="${jshint.fullopt}" />
 		</antcall>
 	</target>
 
@@ -19,7 +26,7 @@
 	<target name="lint-tests">
 		<antcall target="lint">
 			<param name="dir" value="test" />
-			<param name="opt" value="undef=true,maxerr=25,predef=namespace;noop;tux;Backbone;Store;describe;it;beforeEach;expect;sinon" />
+			<param name="opt" value="${jshint.fullopt.test}" />
 		</antcall>
 	</target>
 

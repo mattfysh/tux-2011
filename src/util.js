@@ -1,17 +1,30 @@
-// global namespace function
-function namespace(path) {
-	var spaces = path.split('.'),
-		parent = this,
-		i, l, scope;
+(function() {
+	"use strict";
+	var global = (function() {return this;}());
 	
-	// progress through the namespace and create each scope if required
-	for (i = 0, l = spaces.length; i < l; i += 1) {
-		scope = spaces[i];
-		if (typeof parent[scope] === 'undefined') {
-			parent[scope] = {};
+	// global namespace function
+	function namespace(path) {
+		var spaces = path.split('.'),
+			parent = global,
+			i, l, scope;
+		
+		// progress through the namespace and create each scope if required
+		for (i = 0, l = spaces.length; i < l; i += 1) {
+			scope = spaces[i];
+			if (typeof parent[scope] === 'undefined') {
+				parent[scope] = {};
+			}
+			parent = parent[scope];
 		}
-		parent = parent[scope];
 	}
-}
-// global noop function
-function noop() {}
+	// global noop function
+	function noop() {}
+	
+	// export global functions
+	_(global).extend({
+		namespace: namespace,
+		noop: noop
+	});
+	
+}());
+
