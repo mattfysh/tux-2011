@@ -25,7 +25,7 @@
 
 	<!-- lint -->
 	<target name="lint">
-		<apply dir="./build" executable="java" failonerror="true">
+		<apply dir="build" executable="java" failonerror="true">
 			<fileset dir="${dir}" includes="**/*.js" />
 			<arg line="-jar rhino.jar jshint-rhino.js" />
 			<srcfile />
