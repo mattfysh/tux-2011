@@ -1,25 +1,33 @@
 namespace('tux.accounts');
 
-(function() {
+// account model
+tux.accounts.Account = (function() {
 	"use strict";
-	// account model
-	tux.accounts.Account = Backbone.Model.extend({
-		
-		defaults: {
+	
+	// model defaults
+	var defaults = {
 			balance: 0
-		},
-		
-		adjustBalance: function(amount) {
-			this.set({
-				balance: this.get('balance') + amount
-			});
-		},
-		
-		validate: function(attrs) {
-			if (typeof attrs.balance !== 'number') {
-				return 'balance must be a number';
-			}
+	};
+	
+	// adjust the balance by amount
+	// TODO allow strict + function declaration + this value
+	function adjustBalance(amount) {
+		this.set({
+			balance: this.get('balance') + amount
+		});
+	}
+	
+	// validation
+	function validate(attrs) {
+		if (typeof attrs.balance !== 'number') {
+			return 'balance must be a number';
 		}
-		
+	}
+	
+	// build model api
+	return Backbone.Model.extend({
+		defaults: defaults,
+		adjustBalance: adjustBalance,
+		validate: validate
 	});
 }());
