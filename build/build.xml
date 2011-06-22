@@ -2,8 +2,8 @@
 <project name="tux" default="build" basedir="../">
 
 	<property name="jshint.flags" value="browser=true,maxerr=25,undef=true,curly=true,debug=true,eqeqeq=true,immed=true,newcap=true,onevar=true,plusplus=true,strict=true" />
-	<property name="jshint.predef" value="console,namespace,noop,tux,Backbone,Store,_" />
-	<property name="jshint.predef.test" value="${jshint.predef},describe,it,beforeEach,afterEach,expect,sinon" />
+	<property name="jshint.predef" value="console,$,namespace,noop,tux,Backbone,Store,_" />
+	<property name="jshint.predef.test" value="${jshint.predef},describe,xdescribe,xit,it,beforeEach,afterEach,expect,sinon,jasmine,loadFixtures,setFixtures" />
 
 	<target name="build">
 		<antcall target="lint-src" />
