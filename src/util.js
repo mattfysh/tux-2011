@@ -1,6 +1,7 @@
 (function() {
-	"use strict";
-	var global = (function() {return this;}());
+	'use strict';
+	
+	var global = (function() { return this; }());
 	
 	// global namespace function
 	function namespace(path) {

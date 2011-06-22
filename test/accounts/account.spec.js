@@ -1,5 +1,5 @@
 (function() {
-	"use strict";
+	'use strict';
 	
 	// requires
 	var Account = tux.accounts.Account;
@@ -15,11 +15,6 @@
 				expect(account.get('balance')).toBe(0);
 			});
 			
-		});
-		
-		describe('persistence', function() {
-			// 1) create, save, clear, restore
-			// 2) check balance is proper type when restored
 		});
 		
 		describe('validation', function() {

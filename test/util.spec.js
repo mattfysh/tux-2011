@@ -1,6 +1,6 @@
 /*global test */
 (function() {
-	"use strict";
+	'use strict';
 	
 	describe('tux util', function() {
 		
