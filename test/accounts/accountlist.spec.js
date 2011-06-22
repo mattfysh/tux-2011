@@ -23,7 +23,6 @@
 		afterEach(function() {
 			localStorage.clear();
 			this.accounts.localStorage.records = [];
-			this.accounts.refresh();
 		});
 			
 		it('should maintain accounts between sessions', function() {
