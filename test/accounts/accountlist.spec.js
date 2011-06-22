@@ -22,7 +22,6 @@
 		
 		afterEach(function() {
 			localStorage.clear();
-			this.accounts.localStorage.records = [];
 		});
 			
 		it('should maintain accounts between sessions', function() {

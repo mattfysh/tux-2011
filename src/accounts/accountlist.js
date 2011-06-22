@@ -1,28 +1,22 @@
 namespace('tux.accounts');
 
-// accounts collection
-tux.accounts.AccountList = (function() {
+(function() {
 	'use strict';
 	
-	var
-	
-	// init
-	init = function() {
-		this.fetch();
-	},
-	
-	// calculate totals
-	getTotal = function() {
-		return _(this.models).reduce(function(memo, account) {
-			return memo + account.get('balance');
-		}, 0);
-	};
-	
-	// define collection api
-	return Backbone.Collection.extend({
-		localStorage: new Store('accounts'),
-		initialize: init,
-		getTotal: getTotal
-	});
+	tux.accounts.AccountList = Backbone.Collection.extend({
+		
+		initialize: function() {
+			this.localStorage = new Store('accounts');
+			this.fetch();
+		},
+		
+		getTotal: function() {
+			// calculate totals from all accounts
+			return _(this.models).reduce(function(memo, account) {
+				return memo + account.get('balance');
+			}, 0);
+		}
+		
+	});	
 	
 }());
