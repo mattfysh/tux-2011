@@ -1,1 +1,3 @@
-Read me? Read you!
+# todo
+* build accounts mini-app
+* design main app architecture
