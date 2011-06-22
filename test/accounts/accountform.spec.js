@@ -1,4 +1,4 @@
-jasmine.getFixtures().fixturesPath = '/test/src/accounts/tmpl';
+jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
 
 (function() {
 	'use strict';
@@ -15,7 +15,7 @@ jasmine.getFixtures().fixturesPath = '/test/src/accounts/tmpl';
 		}
 		
 		beforeEach(function() {
-			loadFixtures('account-form.html');
+			loadFixtures('account-form.jst');
 			this.view = new AccountForm();
 			this.view.render();
 			setFixtures($(this.view.el));

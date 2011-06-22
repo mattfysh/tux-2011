@@ -5,16 +5,19 @@ namespace('tux.accounts');
 	
 	tux.accounts.Account = Backbone.Model.extend({
 		
+		// model defaults
 		defaults: {
 			balance: 0
 		},
 		
+		// adjust balance by given amount
 		adjustBalance: function (amount) {
 			this.set({
 				balance: this.get('balance') + amount
 			});
 		},
 		
+		// validate model
 		validate: function (attrs) {
 			if (typeof attrs.balance !== 'number') {
 				return 'balance must be a number';

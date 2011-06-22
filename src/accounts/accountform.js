@@ -20,17 +20,16 @@ namespace('tux.accounts');
 		},
 		
 		submit: function(e) {
-			// build account object from form data
-			var account;
+			var account = this.getAccountFormData();
 			e.preventDefault();
-			account = this._getAccountFormData();
 			// custom event
 			this.trigger('newaccount', account);
 			// reset form
 			e.target.reset();
 		},
 		
-		_getAccountFormData: function() {
+		getAccountFormData: function() {
+			// build account object from form data
 			var account = {};
 			this.$(':input:not(:submit)').each(function() {
 				account[this.getAttribute('name')] = $(this).val();
