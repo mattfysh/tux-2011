@@ -1,5 +1,3 @@
-jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
-
 (function() {
 	'use strict';
 	
@@ -15,6 +13,7 @@ jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
 		}
 		
 		beforeEach(function() {
+			jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
 			loadFixtures('account-form.jst');
 			this.view = new AccountForm();
 			this.view.render();

@@ -22,7 +22,7 @@
 	<!-- lint tests -->
 	<target name="lint-tests">
 		<antcall target="lint">
-			<param name="dir" value="test" />
+			<param name="dir" value="specs" />
 			<param name="predef" value="${jshint.predef.test}" />
 		</antcall>
 	</target>
