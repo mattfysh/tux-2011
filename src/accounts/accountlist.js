@@ -6,6 +6,7 @@ namespace('tux.accounts');
 	tux.accounts.AccountList = Backbone.Collection.extend({
 		
 		initialize: function() {
+			this.model = tux.accounts.Account;
 			this.localStorage = new Store('accounts');
 			this.fetch();
 		},
@@ -17,6 +18,6 @@ namespace('tux.accounts');
 			}, 0);
 		}
 		
-	});	
+	});
 	
 }());

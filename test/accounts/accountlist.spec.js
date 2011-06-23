@@ -7,6 +7,11 @@
 	describe('Accounts collection', function() {
 		
 		beforeEach(function() {
+			// stub account model
+			this.origModel = tux.accounts.Account;
+			tux.accounts.Account = Backbone.Model;
+			
+			// add accounts
 			this.accounts = new AccountList();
 			this.accounts.add([{
 				name: 'a',
@@ -21,6 +26,9 @@
 		});
 		
 		afterEach(function() {
+			// restore model
+			tux.accounts.Account = this.origModel;
+			// clear local storage
 			localStorage.clear();
 		});
 			
