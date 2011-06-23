@@ -6,24 +6,22 @@ namespace('tux.accounts');
 	tux.accounts.AccountListView = Backbone.View.extend({
 	
 		initialize: function() {
-			// bindings
-			_(this).bindAll('renderAccount');
 			// compile and cache template
 			$('#account-list-view').template('accountListView');
+			
+			// event binding
+			_(this).bindAll('render');
+			this.collection
+				.bind('add', this.render)
+				.bind('remove', this.render)
+				.bind('change:balance', this.render);
 		},
 		
 		render: function() {
-			var data = {
+			var result = $.tmpl('accountListView', {
 					total: this.collection.getTotal()
-				},
-				result = $.tmpl('accountListView', data);
-			
+				});
 			$(this.el).empty().append(result);
-			this.collection.each(this.renderAccount);
-		},
-		
-		renderAccount: function(account) {
-			this.$('tr.total').before(account.el);
 		}
 	
 	});
