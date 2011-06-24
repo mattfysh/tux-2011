@@ -3,14 +3,14 @@ namespace('tux.accounts');
 (function() {
 	'use strict';
 	
-	tux.accounts.AccountListView = Backbone.View.extend({
+	tux.accounts.TotalView = Backbone.View.extend({
 		
 		tagName: 'tr',
 		className: 'total',
 	
 		initialize: function() {
 			// compile and cache template
-			$('#account-list-view').template('accountListView');
+			$('#accounts-total-view').template('totalView');
 			
 			// event binding
 			_(this).bindAll('render');
@@ -24,7 +24,7 @@ namespace('tux.accounts');
 		},
 		
 		render: function() {
-			var result = $.tmpl('accountListView', {
+			var result = $.tmpl('totalView', {
 					total: this.collection.getTotal()
 				});
 			$(this.el).empty().append(result);

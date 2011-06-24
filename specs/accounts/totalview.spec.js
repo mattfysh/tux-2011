@@ -2,18 +2,18 @@
 	'use strict';
 	
 	// requires
-	var AccountListView = tux.accounts.AccountListView;
+	var TotalView = tux.accounts.TotalView;
 	
 	describe('Account list view', function() {
 		
 		beforeEach(function() {
 			jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
-			loadFixtures('account-list-view.jst');
+			loadFixtures('total-view.jst');
 			
 			this.list = new Backbone.Collection();
 			this.list.getTotal = sinon.stub().returns(320);
 			
-			this.view = new AccountListView({
+			this.view = new TotalView({
 				collection: this.list
 			});
 		});

@@ -11,23 +11,23 @@ namespace('tux.accounts');
 			// event binding
 			_(this).bindAll('addAccountToList', 'displayAccount');
 			
-			// load accounts
+			// accounts list
 			this.list = new tux.accounts.AccountList();
 			
-			// render the totals view
-			totals = new tux.accounts.AccountListView({
+			// totals view
+			totals = new tux.accounts.TotalView({
 				collection: this.list
 			});
 			this.$('table').append(totals.el);
 			
-			// render each account
-			this.list.each(this.displayAccount);
-			this.list.bind('add', this.displayAccount);
-			
-			// setup form
+			// form
 			form = new tux.accounts.AccountForm();
 			form.bind('newaccount', this.addAccountToList);
 			$(this.el).append(form.el);
+			
+			// accounts models
+			this.list.each(this.displayAccount);
+			this.list.bind('add', this.displayAccount);
 		},
 		
 		addAccountToList: function(account) {

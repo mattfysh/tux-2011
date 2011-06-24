@@ -50,7 +50,7 @@
 			totalsView = new Backbone.View({
 				el: $('<tr class="total"><td>Total</td><td>320</td></tr>')[0]
 			});
-			this.totalsStub = sinon.stub(tux.accounts, 'AccountListView');
+			this.totalsStub = sinon.stub(tux.accounts, 'TotalView');
 			this.totalsStub.withArgs({
 				collection: list
 			}).returns(totalsView);
