@@ -7,7 +7,7 @@
 	describe('Accounts app', function() {
 		
 		beforeEach(function() {
-			var list, view1, view2, totalsView;
+			var list, view1, view2, view3, totalsView;
 			
 			// load html fixture
 			jasmine.getFixtures().fixturesPath = '/test/specs/accounts/html';
@@ -16,6 +16,7 @@
 			// fake models and stub collection
 			this.acc1 = new Backbone.Model();
 			this.acc2 = new Backbone.Model();
+			this.acc3 = new Backbone.Model();
 			this.list = list = new Backbone.Collection();
 			list.add([this.acc1, this.acc2]);
 			this.listStub = sinon.stub(tux.accounts, 'AccountList')
@@ -28,13 +29,22 @@
 			view2 = new Backbone.View({
 				el: $('<tr><td>CommBank</td><td>300</td></tr>')[0]
 			});
+			view3 = new Backbone.View({
+				el: $('<tr><td>ME</td><td>12</td></tr>')[0]
+			});
 			this.viewStub = sinon.stub(tux.accounts, 'AccountView');
+			
 			this.viewStub.withArgs({
 				model: this.acc1
 			}).returns(view1);
+			
 			this.viewStub.withArgs({
 				model: this.acc2
 			}).returns(view2);
+			
+			this.viewStub.withArgs({
+				model: this.acc3
+			}).returns(view3);
 			
 			// stub totals view
 			totalsView = new Backbone.View({
@@ -44,6 +54,13 @@
 			this.totalsStub.withArgs({
 				collection: list
 			}).returns(totalsView);
+			
+			// stub form
+			this.form = new Backbone.View({
+				el: $('<form></form>')[0]
+			});
+			this.formStub = sinon.stub(tux.accounts, 'AccountForm')
+				.returns(this.form);
 			
 			// create app
 			this.accounts = new AccountsApp({
@@ -55,6 +72,7 @@
 			this.listStub.restore();
 			this.viewStub.restore();
 			this.totalsStub.restore();
+			this.formStub.restore();
 		});
 		
 		it('should load the accounts list', function() {
@@ -79,10 +97,27 @@
 			expect(this.totalsStub).toHaveBeenCalledWithExactly({
 				collection: this.list
 			});
-		})
+		});
 		
-		it('should add the totals last', function() {
+		it('should add the totals view last', function() {
 			expect($('#accounts tr:last td:eq(1)')).toHaveText('320');
+		});
+		
+		it('should add the accounts form to the page', function() {
+			expect($('#accounts form')).toExist();
+		});
+		
+		it('should add new accounts from the form to the collection', function() {
+			this.form.trigger('newaccount', {
+				name: 'test'
+			});
+			expect(this.list.length).toBe(3);
+			expect(this.list.at(2).get('name')).toBe('test');
+		});
+		
+		it('should show any new accounts added to the collection', function() {
+			this.list.trigger('add', this.acc3);
+			expect($('#accounts tr:eq(2) td:eq(0)')).toHaveText('ME');
 		});
 	
 	});
