@@ -44,30 +44,30 @@
 			
 		});
 		
-		describe('unformatter', function() {
+		describe('parseter', function() {
 			
 			it('should convert simple whole dollars to cents', function() {
-				expect(unformat(12)).toBe(1200);
+				expect(parse(12)).toBe(1200);
 			});
 			
 			it('should convert decimal dollars to cents', function() {
-				expect(unformat(123.45)).toBe(12345);
+				expect(parse(123.45)).toBe(12345);
 			});
 			
 			it('should remove all decimal places from cents value', function() {
-				expect(unformat(1234.567)).toBe(123456);
+				expect(parse(1234.567)).toBe(123456);
 			});
 			
 			it('should convert dollar strings to cents', function() {
-				expect(unformat('12.34')).toBe(1234);
+				expect(parse('12.34')).toBe(1234);
 			});
 			
 			it('should successfully convert values with symbols', function() {
-				expect(unformat('$123,456.00')).toBe(12345600);
+				expect(parse('$123,456.00')).toBe(12345600);
 			});
 			
 			it('should successfully convert negative string values', function() {
-				expect(unformat('-12')).toBe(-1200);
+				expect(parse('-12')).toBe(-1200);
 			});
 		});
 

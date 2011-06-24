@@ -3,6 +3,9 @@ namespace('tux.accounts');
 (function() {
 	'use strict';
 	
+	// balance validation
+	var rBalance = /^(|(-?\$?|\$?-?)\d+\.?\d*)$/;
+	
 	tux.accounts.AccountForm = Backbone.View.extend({
 		
 		initialize: function() {
@@ -18,16 +21,31 @@ namespace('tux.accounts');
 		},
 		
 		events: {
-			'submit form': 'submit'
+			'submit form': 'process'
 		},
 		
-		submit: function(e) {
-			var account = this.getAccountFormData();
+		process: function(e) {
+			var account, error;
 			e.preventDefault();
-			// custom event
-			this.trigger('newaccount', account);
-			// reset form
-			e.target.reset();
+			
+			// get form data
+			account = this.getAccountFormData();
+			// clear previous error
+			this.$('p.error').remove();
+			// validate form
+			if (error = this.validate(account)) {
+				$(this.el).append($('<p>', {
+					'class': 'error',
+					text: error
+				}));
+			} else {
+				// parse balance
+				account.balance = parse(account.balance);
+				// custom event
+				this.trigger('newaccount', account);
+				// reset form
+				e.target.reset();
+			}
 		},
 		
 		getAccountFormData: function() {
@@ -36,8 +54,15 @@ namespace('tux.accounts');
 			this.$(':input:not(:submit)').each(function() {
 				account[this.getAttribute('name')] = $(this).val();
 			});
-			account.balance = unformat(account.balance);
 			return account;
+		},
+		
+		validate: function(account) {
+			if (!account.name) {
+				return 'name required';
+			} else if(!rBalance.test(account.balance)) {
+				return 'invalid balance format';
+			}
 		}
 		
 	});
