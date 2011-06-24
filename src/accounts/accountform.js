@@ -8,6 +8,8 @@ namespace('tux.accounts');
 		initialize: function() {
 			// compile and cache template
 			$('#account-form').template('accountForm');
+			// render
+			this.render();
 		},
 		
 		render: function() {
