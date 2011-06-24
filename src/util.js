@@ -21,10 +21,32 @@
 	// global noop function
 	function noop() {}
 	
+	// formatting
+	function format(value) {
+		var prefix = (value < 0) ? '-' : '',
+			value = Math.abs((value / 100)).toFixed(2),
+			rGroup = /\d{1,3}(?=(\d{3})+(?!\d))/g;
+		
+		value = value.replace(rGroup, function(g) {
+			return g + ',';
+		});
+		
+		return prefix + '$' + value;
+	}
+	
+	function unformat(value) {
+		if (typeof value === 'string') {
+			value = value.replace(/[^\d|\.|-]/g, '');
+		}
+		return Math.floor(value * 100);
+	}
+	
 	// export global functions
 	_(global).extend({
 		namespace: namespace,
-		noop: noop
+		noop: noop,
+		format: format,
+		unformat: unformat
 	});
 	
 }());
