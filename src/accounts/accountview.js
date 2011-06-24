@@ -4,7 +4,9 @@ namespace('tux.accounts');
 	'use strict';
 	
 	tux.accounts.AccountView = Backbone.View.extend({
-	
+		
+		tagName: 'tr',
+		
 		initialize: function() {
 			// compile and cache template
 			$('#account-view').template('accountView');

@@ -22,6 +22,10 @@
 				model: account
 			});
 		});
+		
+		it('should use a row as the view', function() {
+			expect($(this.view.el)).toBe('tr');
+		});
 	
 		it('should display name and balance data', function() {
 			expect($(this.view.el).find('td:eq(0)')).toHaveText('test');
