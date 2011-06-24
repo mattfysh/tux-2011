@@ -11,10 +11,10 @@
 
 	<!-- fixtures -->
 <script id="account-view" type="text/x-jquery-tmpl">
-	<td>${name}</td><td>${balance}</td>
+	<td>${name}</td><td>${format(balance)}</td><td><a class="destroy" href="destroy">delete</a></td>
 </script>
 <script id="account-list-view" type="text/x-jquery-tmpl">
-	<td>Total</td><td>${total}</td>
+	<td>Total</td><td>${format(total)}</td>
 </script>
 <script id="account-form" type="text/x-jquery-tmpl">
 	<form>
@@ -44,7 +44,6 @@
 
 	<!-- bootstrap -->
 <script>
-	localStorage.clear();
 	var accounts = new tux.accounts.AccountsApp({
 		el: document.getElementById('accounts')
 	});

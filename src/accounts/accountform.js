@@ -36,7 +36,7 @@ namespace('tux.accounts');
 			this.$(':input:not(:submit)').each(function() {
 				account[this.getAttribute('name')] = $(this).val();
 			});
-			account.balance = parseInt(account.balance, 10);
+			account.balance = unformat(account.balance);
 			return account;
 		}
 		

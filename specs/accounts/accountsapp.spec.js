@@ -111,12 +111,15 @@
 			expect($('#accounts form')).toExist();
 		});
 		
-		it('should add new accounts from the form to the collection', function() {
-			this.form.trigger('newaccount', {
-				name: 'test'
-			});
-			expect(this.list.length).toBe(3);
-			expect(this.list.at(2).get('name')).toBe('test');
+		it('should create new accounts from the form', function() {
+			var createStub = sinon.stub(this.list, 'create'),
+				newAccount = {
+						name: 'test'
+				};
+			
+			this.form.trigger('newaccount', newAccount);
+			
+			expect(createStub).toHaveBeenCalledWithExactly(newAccount);
 		});
 		
 		it('should show any new accounts added to the collection', function() {

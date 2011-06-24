@@ -28,11 +28,10 @@ namespace('tux.accounts');
 			form = new tux.accounts.AccountForm();
 			form.bind('newaccount', this.addAccountToList);
 			$(this.el).append(form.el);
-			
 		},
 		
 		addAccountToList: function(account) {
-			this.list.add(account);
+			this.list.create(account);
 		},
 		
 		displayAccount: function(account) {

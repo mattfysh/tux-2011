@@ -10,8 +10,15 @@ namespace('tux.accounts');
 		initialize: function() {
 			// compile and cache template
 			$('#account-view').template('accountView');
+			// event binding
+			_(this).bindAll('remove');
+			this.model.bind('remove', this.remove);
 			// render view
 			this.render();
+		},
+		
+		events: {
+			'click a.destroy': 'destroy'
 		},
 		
 		render: function() {
@@ -19,6 +26,11 @@ namespace('tux.accounts');
 				result = $.tmpl('accountView', data);
 			$(this.el).empty().append(result);
 			return this;
+		},
+		
+		destroy: function(e) {
+			e.preventDefault();
+			this.model.destroy();
 		}
 	
 	});

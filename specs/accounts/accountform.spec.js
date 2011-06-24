@@ -8,7 +8,7 @@
 		
 		function fillForm(view) {
 			$(view.el).find('input[name=name]').val('test').end()
-				.find('input[name=balance]').val(12).end()
+				.find('input[name=balance]').val('$300.00').end()
 				.find('input[type=submit]').click();
 		}
 		
@@ -35,7 +35,7 @@
 			expect(eventSpy).toHaveBeenCalledOnce();
 			expect(eventSpy).toHaveBeenCalledWithExactly({
 				name: 'test',
-				balance: 12
+				balance: 30000
 			});
 		});
 		

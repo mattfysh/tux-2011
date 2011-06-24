@@ -32,8 +32,7 @@
 			localStorage.clear();
 		});
 		
-		// TODO temp disabled, building app without persistence first
-		xit('should maintain accounts between sessions', function() {
+		it('should maintain accounts between sessions', function() {
 			var accounts = this.accounts;
 			
 			// save all accounts
