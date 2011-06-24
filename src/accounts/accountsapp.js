@@ -9,7 +9,7 @@ namespace('tux.accounts');
 			var totals, form;
 			
 			// event binding
-			_(this).bindAll('createNewAccount', 'displayAccount');
+			_(this).bindAll('addAccountToList', 'displayAccount');
 			
 			// load accounts
 			this.list = new tux.accounts.AccountList();
@@ -26,12 +26,12 @@ namespace('tux.accounts');
 			
 			// setup form
 			form = new tux.accounts.AccountForm();
-			form.bind('newaccount', this.createNewAccount);
+			form.bind('newaccount', this.addAccountToList);
 			$(this.el).append(form.el);
 			
 		},
 		
-		createNewAccount: function(account) {
+		addAccountToList: function(account) {
 			this.list.add(account);
 		},
 		
@@ -39,7 +39,7 @@ namespace('tux.accounts');
 			var view = new tux.accounts.AccountView({
 				model: account
 			});
-			this.$('table tr:last').before(view.el);
+			this.$('table tr.total').before(view.el);
 		}
 	
 	});

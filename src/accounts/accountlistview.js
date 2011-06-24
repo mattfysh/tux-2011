@@ -6,6 +6,7 @@ namespace('tux.accounts');
 	tux.accounts.AccountListView = Backbone.View.extend({
 		
 		tagName: 'tr',
+		className: 'total',
 	
 		initialize: function() {
 			// compile and cache template

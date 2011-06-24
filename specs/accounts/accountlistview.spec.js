@@ -18,8 +18,8 @@
 			});
 		});
 		
-		it('should use a row as the view', function() {
-			expect($(this.view.el)).toBe('tr');
+		it('should use a row with correct class as the view', function() {
+			expect($(this.view.el)).toBe('tr.total');
 		});
 		
 		it('should get and display the total', function() {

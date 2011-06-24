@@ -48,7 +48,7 @@
 			
 			// stub totals view
 			totalsView = new Backbone.View({
-				el: $('<tr><td>Total</td><td>320</td></tr>')[0]
+				el: $('<tr class="total"><td>Total</td><td>320</td></tr>')[0]
 			});
 			this.totalsStub = sinon.stub(tux.accounts, 'AccountListView');
 			this.totalsStub.withArgs({
@@ -101,6 +101,10 @@
 		
 		it('should add the totals view last', function() {
 			expect($('#accounts tr:last td:eq(1)')).toHaveText('320');
+		});
+		
+		it('should create a new accounts form', function() {
+			expect(this.formStub).toHaveBeenCalled();
 		});
 		
 		it('should add the accounts form to the page', function() {
