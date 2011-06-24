@@ -3,6 +3,12 @@
 <html>
 <body>
 
+	<div id="accounts">
+	
+		<table></table>
+	
+	</div>
+
 	<!-- fixtures -->
 <script id="account-view" type="text/x-jquery-tmpl">
 	<tr><td>${name}</td><td>${balance}</td></tr>
@@ -18,6 +24,31 @@
 	</form>
 </script>
 
+	<!-- libs -->
+<script src="lib/jquery-1.6.1.js"></script>
+<script src="lib/jquery.tmpl.js"></script>
+<script src="lib/underscore.js"></script>
+<script src="lib/backbone.js"></script>
+<script src="lib/backbone.localStorage.js"></script>
+
+	<!-- util -->
+<script src="src/util.js"></script>
+
+	<!-- accounts -->
+<script src="src/accounts/account.js"></script>
+<script src="src/accounts/accountform.js"></script>
+<script src="src/accounts/accountlist.js"></script>
+<script src="src/accounts/accountlistview.js"></script>
+<script src="src/accounts/accountsapp.js"></script>
+<script src="src/accounts/accountview.js"></script>
+
+	<!-- bootstrap -->
+<script>
+	localStorage.clear();
+	var accounts = new tux.accounts.AccountsApp({
+		el: document.getElementById('accounts')
+	});
+</script>
 
 </body>
 </html>
