@@ -16,7 +16,10 @@
 			this.view = new AccountListView({
 				collection: this.list
 			});
-			this.view.render();
+		});
+		
+		it('should use a row as the view', function() {
+			expect($(this.view.el)).toBe('tr');
 		});
 		
 		it('should get and display the total', function() {

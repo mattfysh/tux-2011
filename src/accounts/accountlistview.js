@@ -4,6 +4,8 @@ namespace('tux.accounts');
 	'use strict';
 	
 	tux.accounts.AccountListView = Backbone.View.extend({
+		
+		tagName: 'tr',
 	
 		initialize: function() {
 			// compile and cache template
@@ -15,6 +17,9 @@ namespace('tux.accounts');
 				.bind('add', this.render)
 				.bind('remove', this.render)
 				.bind('change:balance', this.render);
+			
+			// render
+			this.render();
 		},
 		
 		render: function() {
