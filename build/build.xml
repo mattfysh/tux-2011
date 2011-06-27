@@ -4,7 +4,7 @@
 	<property name="jshint.flags" value="browser=true,maxerr=25,undef=true,curly=true,debug=true,eqeqeq=true,immed=true,newcap=true,onevar=true,plusplus=true,strict=true" />
 	<property name="jshint.predef" value="console,$,namespace,noop,tux,Backbone,Store,_,format,parse" />
 	<property name="jshint.predef.test" value="${jshint.predef},describe,xdescribe,xit,it,beforeEach,afterEach,expect,sinon,jasmine,loadFixtures,setFixtures,loadTemplate" />
-
+	
 	<target name="build">
 		<antcall target="lint-src" />
 		<antcall target="lint-tests" />
@@ -60,19 +60,30 @@
 	<target name="build-app">
 		<basename file="${basedir}" property="app" />
 		<property name="appfile" value="../../scripts/${app}.js" />
+		
 		<!-- concat src js -->
 		<concat destfile="${appfile}">
 			<fileset dir="." includes="*.js" />
 		</concat>
+		
 		<!-- namespace the templates -->
 		<echo file="${appfile}" append="true">namespace('tux.${app}');${line.separator}</echo>
+		
 		<!-- append compiled jst files -->
 		<apply dir="../../build" executable="java" output="${appfile}" append="true">
 			<fileset dir="jst" includes="*.jst" />
 			<arg line="-jar rhino.jar compile-jst.js" />
 			<srcfile />
 		</apply>
+		
+		<!-- build compressed version -->
+		<java jar="../../build/compiler.jar" fork="true" dir="../../scripts">
+			<arg line="--js ${app}.js --js_output_file ${app}.min.js" />
+		</java>
+		
 		<echo>${app} app build successful</echo>
 	</target>
+	
+	
 
 </project>
