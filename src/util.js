@@ -26,7 +26,7 @@
 		var prefix = (value < 0) ? '-' : '',
 			rGroup = /\d{1,3}(?=(\d{3})+(?!\d))/g;
 		
-		value = Math.abs((value / 100)).toFixed(2)
+		value = Math.abs((value / 100)).toFixed(2);
 		value = value.replace(rGroup, function(g) {
 			return g + ',';
 		});
@@ -37,7 +37,7 @@
 	// parse currency value/strings
 	function parse(value) {
 		if (typeof value === 'string') {
-			value = value.replace(/[^\d|\.|-]/g, '');
+			value = value.replace(/[^\d|\.|\-]/g, '');
 		}
 		return Math.floor(value * 100);
 	}

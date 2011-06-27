@@ -33,7 +33,8 @@ namespace('tux.accounts');
 			// clear previous error
 			this.$('p.error').remove();
 			// validate form
-			if (error = this.validate(account)) {
+			error = this.validate(account);
+			if (error) {
 				$(this.el).append($('<p>', {
 					'class': 'error',
 					text: error
