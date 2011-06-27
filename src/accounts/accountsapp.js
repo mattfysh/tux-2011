@@ -1,12 +1,15 @@
-namespace('tux.accounts');
-
 (function() {
 	'use strict';
 	
 	tux.accounts.AccountsApp = Backbone.View.extend({
 	
+		id: 'accounts',
+		
 		initialize: function() {
 			var totals, form;
+			
+			// add table to view
+			$('<table>').appendTo(this.el);
 			
 			// event binding
 			_(this).bindAll('addAccountToList', 'displayAccount');

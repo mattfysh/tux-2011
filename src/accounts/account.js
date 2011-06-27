@@ -1,5 +1,3 @@
-namespace('tux.accounts');
-
 (function() {
 	'use strict';
 	

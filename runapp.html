@@ -1,53 +1,31 @@
 <!doctype html>
 
 <html>
+
+<head>
+<title>tux</title>
+<link rel="stylesheet" href="style/main.css" />
+</head>
+
 <body>
 
-	<div id="accounts">
-	
-		<table></table>
-	
-	</div>
-
-	<!-- fixtures -->
-<script id="account-view" type="text/x-jquery-tmpl">
-	<td>${name}</td><td>${format(balance)}</td><td><a class="destroy" href="destroy">delete</a></td>
-</script>
-<script id="accounts-total-view" type="text/x-jquery-tmpl">
-	<td>Total</td><td>${format(total)}</td>
-</script>
-<script id="account-form" type="text/x-jquery-tmpl">
-	<form>
-		<input type="text" name="name" />
-		<input type="text" name="balance" />
-		<input type="submit" />
-	</form>
-</script>
-
 	<!-- libs -->
-<script src="lib/jquery-1.6.1.js"></script>
-<script src="lib/jquery.tmpl.js"></script>
-<script src="lib/underscore.js"></script>
-<script src="lib/backbone.js"></script>
-<script src="lib/backbone.localStorage.js"></script>
+	<script src="lib/jquery-1.6.1.js"></script>
+	<script src="lib/jquery.tmpl.js"></script>
+	<script src="lib/underscore.js"></script>
+	<script src="lib/backbone.js"></script>
+	<script src="lib/backbone.localStorage.js"></script>
 
-	<!-- util -->
-<script src="src/util.js"></script>
-
-	<!-- accounts -->
-<script src="src/accounts/account.js"></script>
-<script src="src/accounts/accountform.js"></script>
-<script src="src/accounts/accountlist.js"></script>
-<script src="src/accounts/TotalView.js"></script>
-<script src="src/accounts/accountsapp.js"></script>
-<script src="src/accounts/accountview.js"></script>
+	<!-- tux -->
+	<script src="lib/util.js"></script>
+	<script src="scripts/accounts.js"></script>
 
 	<!-- bootstrap -->
-<script>
-	var accounts = new tux.accounts.AccountsApp({
-		el: document.getElementById('accounts')
-	});
-</script>
+	<script>
+		var accounts = new tux.accounts.AccountsApp();
+		$('body').append(accounts.el);
+	</script>
 
 </body>
+
 </html>

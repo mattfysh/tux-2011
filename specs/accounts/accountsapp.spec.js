@@ -75,6 +75,14 @@
 			this.formStub.restore();
 		});
 		
+		it('should have accounts id', function() {
+			expect($(this.accounts.el)).toHaveId('accounts');
+		});
+		
+		it('should add a table', function() {
+			expect(this.accounts.$('table')).toExist();
+		});
+		
 		it('should load the accounts list', function() {
 			expect(this.listStub).toHaveBeenCalled();
 		});
@@ -89,8 +97,8 @@
 		});
 		
 		it('should add each account view in order', function() {
-			expect($('#accounts tr:eq(0) td:eq(0)')).toHaveText('ANZ');
-			expect($('#accounts tr:eq(1) td:eq(0)')).toHaveText('CommBank');
+			expect(this.accounts.$('tr:eq(0) td:eq(0)')).toHaveText('ANZ');
+			expect(this.accounts.$('tr:eq(1) td:eq(0)')).toHaveText('CommBank');
 		});
 		
 		it('should create a totals view for the list', function() {
@@ -100,7 +108,7 @@
 		});
 		
 		it('should add the totals view last', function() {
-			expect($('#accounts tr:last td:eq(1)')).toHaveText('320');
+			expect(this.accounts.$('tr:last td:eq(1)')).toHaveText('320');
 		});
 		
 		it('should create a new accounts form', function() {
@@ -108,7 +116,7 @@
 		});
 		
 		it('should add the accounts form to the page', function() {
-			expect($('#accounts form')).toExist();
+			expect(this.accounts.$('form')).toExist();
 		});
 		
 		it('should create new accounts from the form', function() {
@@ -124,7 +132,7 @@
 		
 		it('should show any new accounts added to the collection', function() {
 			this.list.trigger('add', this.acc3);
-			expect($('#accounts tr:eq(2) td:eq(0)')).toHaveText('ME');
+			expect(this.accounts.$('tr:eq(2) td:eq(0)')).toHaveText('ME');
 		});
 	
 	});

@@ -1,5 +1,3 @@
-namespace('tux.accounts');
-
 (function() {
 	'use strict';
 	
@@ -9,14 +7,12 @@ namespace('tux.accounts');
 	tux.accounts.AccountForm = Backbone.View.extend({
 		
 		initialize: function() {
-			// compile and cache template
-			$('#account-form').template('accountForm');
 			// render
 			this.render();
 		},
 		
 		render: function() {
-			var result = $.tmpl('accountForm');
+			var result = tux.accounts.accountForm();
 			$(this.el).empty().append(result);
 		},
 		

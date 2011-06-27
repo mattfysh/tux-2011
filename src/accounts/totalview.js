@@ -1,5 +1,3 @@
-namespace('tux.accounts');
-
 (function() {
 	'use strict';
 	
@@ -9,9 +7,6 @@ namespace('tux.accounts');
 		className: 'total',
 	
 		initialize: function() {
-			// compile and cache template
-			$('#accounts-total-view').template('totalView');
-			
 			// event binding
 			_(this).bindAll('render');
 			this.collection
@@ -24,7 +19,7 @@ namespace('tux.accounts');
 		},
 		
 		render: function() {
-			var result = $.tmpl('totalView', {
+			var result = tux.accounts.totalView({
 					total: this.collection.getTotal()
 				});
 			$(this.el).empty().append(result);

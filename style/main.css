@@ -1,0 +1,11 @@
+body {
+	font: 12px Arial;
+}
+
+td {
+	padding: 2px 8px;
+}
+
+tr.total {
+	font-weight: bold;
+}
