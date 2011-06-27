@@ -9,3 +9,7 @@ td {
 tr.total {
 	font-weight: bold;
 }
+
+form {
+	margin-top: 15px;
+}

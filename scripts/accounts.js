@@ -1,4 +1,4 @@
-namespace('tux.accounts');namespace('tux.accounts');
+namespace('tux.accounts');
 
 (function() {
 	'use strict';
@@ -238,6 +238,7 @@ namespace('tux.accounts');
 	});
 	
 }());
+namespace('tux.accounts');
 tux.accounts.accountForm = function(obj) {
     var __p = [], print = function () {
         __p.push.apply(__p, arguments);
