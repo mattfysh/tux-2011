@@ -6,11 +6,9 @@
 	
 	describe('Account view', function() {
 		
+		loadTemplate('/test/src/accounts/jst/account-view.jst');
+		
 		beforeEach(function() {
-			// load account view template
-			jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
-			loadFixtures('account-view.jst');
-			
 			// create account model
 			this.account = new Backbone.Model({
 				name: 'test',

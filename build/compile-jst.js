@@ -20,7 +20,8 @@ load('underscore.js');
 	// mustachify underscore templates
 	_.templateSettings = {
 		interpolate: /\{\{(.+?)\}\}/g
-	}
+	};
+	
 	// generate the template function declaration
 	template = _.template(readFile(jst)).toString()
 		.replace('function anonymous(obj)', 'function(obj)')

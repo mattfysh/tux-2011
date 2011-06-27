@@ -6,10 +6,9 @@
 	
 	describe('Account list view', function() {
 		
+		loadTemplate('/test/src/accounts/jst/total-view.jst');
+		
 		beforeEach(function() {
-			jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
-			loadFixtures('total-view.jst');
-			
 			this.list = new Backbone.Collection();
 			this.list.getTotal = sinon.stub().returns(320);
 			

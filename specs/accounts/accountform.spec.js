@@ -6,6 +6,8 @@
 	
 	describe('Accounts form', function() {
 		
+		loadTemplate('/test/src/accounts/jst/account-form.jst');
+		
 		function fillForm(view, balance) {
 			$(view.el).find('input[name=name]').val('test').end()
 				.find('input[name=balance]').val(balance || '$300.00').end()
@@ -13,8 +15,6 @@
 		}
 		
 		beforeEach(function() {
-			jasmine.getFixtures().fixturesPath = '/test/src/accounts/jst';
-			loadFixtures('account-form.jst');
 			this.view = new AccountForm();
 			setFixtures($(this.view.el));
 		});

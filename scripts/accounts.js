@@ -1,4 +1,6 @@
-namespace('tux.accounts');(function() {
+namespace('tux.accounts');namespace('tux.accounts');
+
+(function() {
 	'use strict';
 	
 	tux.accounts.Account = Backbone.Model.extend({
@@ -25,6 +27,8 @@ namespace('tux.accounts');(function() {
 	});
 	
 }());
+namespace('tux.accounts');
+
 (function() {
 	'use strict';
 	
@@ -92,6 +96,8 @@ namespace('tux.accounts');(function() {
 	});
 	
 }());
+namespace('tux.accounts');
+
 (function() {
 	'use strict';
 	
@@ -113,6 +119,8 @@ namespace('tux.accounts');(function() {
 	});
 	
 }());
+namespace('tux.accounts');
+
 (function() {
 	'use strict';
 	
@@ -162,6 +170,8 @@ namespace('tux.accounts');(function() {
 	});
 	
 }());
+namespace('tux.accounts');
+
 (function() {
 	'use strict';
 	
@@ -196,6 +206,8 @@ namespace('tux.accounts');(function() {
 	});
 	
 }());
+namespace('tux.accounts');
+
 (function() {
 	'use strict';
 	

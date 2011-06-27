@@ -9,10 +9,6 @@
 		beforeEach(function() {
 			var list, view1, view2, view3, totalsView;
 			
-			// load html fixture
-			jasmine.getFixtures().fixturesPath = '/test/specs/accounts/html';
-			loadFixtures('accounts-app.html');
-			
 			// fake models and stub collection
 			this.acc1 = new Backbone.Model();
 			this.acc2 = new Backbone.Model();
