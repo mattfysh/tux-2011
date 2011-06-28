@@ -1,4 +1,5 @@
-Personal finance management
+# tux
+## personal finance
 * manage accounts
 * add transactions
 * schedule income and expenses
