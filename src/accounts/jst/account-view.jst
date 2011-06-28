@@ -1,1 +1,6 @@
-<span class="name">{{ name }}</span><span class="balance">{{ format(balance) }}</span><a class="destroy" href="destroy">delete</a>
+<span class="tools">
+	<a class="destroy" href="destroy" title="Delete this account">delete</a>
+	<a class="edit" href="edit" title="Edit account details">edit</a>
+</span>
+<span class="name">{{ name }}</span>
+<span class="balance">{{ format(balance) }}</span>

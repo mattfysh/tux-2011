@@ -32,7 +32,9 @@
 		});
 		
 		it('should have a remove link', function() {
-			expect($(this.view.el)).toContain('a.destroy');
+			var link = this.view.$('a.destroy');
+			expect(link).toExist();
+			expect(link).toHaveAttr('title', 'Delete this account');
 		});
 		
 		it('should destroy the model on remove link click', function() {
@@ -45,6 +47,12 @@
 		it('should remove itself from the DOM when model destroyed', function() {
 			this.account.trigger('remove');
 			expect($.contains(document.body, this.view.el)).toBeFalsy();
+		});
+		
+		it('should have an edit link', function() {
+			var link = this.view.$('a.edit');
+			expect(link).toExist();
+			expect(link).toHaveAttr('title', 'Edit account details');
 		});
 	
 	});

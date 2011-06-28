@@ -1,33 +1,77 @@
+/**
+ * General
+ */
 body {
 	font: 12px Arial;
 	margin: 0;
 	padding: 0;
+	color: #333;
 }
-
-td {
-	padding: 2px 8px;
-}
-
-tr.total {
-	font-weight: bold;
-}
-
-form {
-	margin-top: 15px;
-}
-
 #appwrap {
 	margin: 0 auto;
 	width: 900px;
 }
-
 h1 {
 	background-color: #e9e9e9;
 	border-bottom: 4px solid #ccc;
 	margin: 0;
 	padding: 4px 12px;
+	font-family: Georgia;
 }
 
+/**
+ * Accounts
+ */
 #accounts {
 	margin: 20px;
+}
+#accounts ul {
+	list-style: none none outside;
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+#accounts li {
+	padding: 3px;
+	border-radius: 3px;
+	margin: 1px 0;
+}
+#accounts li:not(.total):hover {
+	background-color: #cdc;
+}
+#accounts li span {
+	display: inline-block;
+}
+#accounts span.tools {
+	opacity: 0;
+	padding-right: 12px;
+}
+#accounts span.tools a {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	text-indent: -90px;
+	overflow: hidden;
+	vertical-align: bottom;
+}
+#accounts a.destroy {
+	background-image: url(../img/ico/delete.png);
+}
+#accounts a.edit {
+	background-image: url(../img/ico/edit.png);
+}
+#accounts li:hover span.tools {
+	opacity: 1;
+}
+#accounts span.name {
+	width: 160px;
+}
+#accounts span.balance {
+	width: 80px;
+}
+#accounts li.total {
+	font-weight: bold;
+	margin-top: 12px;
+	border-top: 1px dotted #aaa;
+	padding-top: 3px;
 }

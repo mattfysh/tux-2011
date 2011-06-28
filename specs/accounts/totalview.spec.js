@@ -25,7 +25,7 @@
 			var el = $(this.view.el);
 			
 			expect(this.list.getTotal).toHaveBeenCalled();
-			expect(el.find('span.total')).toHaveText('$3.20');
+			expect(el.find('span.balance')).toHaveText('$3.20');
 		});
 		
 		it('should refresh when an account is added or removed', function() {
@@ -33,11 +33,11 @@
 			
 			this.list.getTotal.returns(620);
 			this.list.trigger('add');
-			expect(el.find('span.total')).toHaveText('$6.20');
+			expect(el.find('span.balance')).toHaveText('$6.20');
 			
 			this.list.getTotal.returns(600);
 			this.list.trigger('remove');
-			expect(el.find('span.total')).toHaveText('$6.00');
+			expect(el.find('span.balance')).toHaveText('$6.00');
 		});
 		
 		it('should refresh when an account balance changes', function() {
@@ -45,7 +45,7 @@
 			this.list.getTotal.returns(1000);
 			this.list.trigger('change');
 			this.list.trigger('change:balance');
-			expect(el.find('span.total')).toHaveText('$10.00');
+			expect(el.find('span.balance')).toHaveText('$10.00');
 		});
 		
 		it('should not refresh for other account attribute updates', function() {
