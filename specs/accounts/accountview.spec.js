@@ -31,20 +31,20 @@
 			});
 			
 			it('should display name and balance data', function() {
+				expect($(this.view.el)).toContain('span.name');
 				expect(this.view.$('span.name')).toHaveText('test');
+				expect($(this.view.el)).toContain('span.balance');
 				expect(this.view.$('span.balance')).toHaveText('$0.12');
 			});
 			
 			it('should have a remove link', function() {
-				var link = this.view.$('a.destroy');
-				expect(link).toExist();
-				expect(link).toHaveAttr('title', 'Delete this account');
+				expect($(this.view.el)).toContain('a.destroy');
+				expect(this.view.$('a.destroy')).toHaveAttr('title', 'Delete this account');
 			});
 			
 			it('should have an edit link', function() {
-				var link = this.view.$('a.edit');
-				expect(link).toExist();
-				expect(link).toHaveAttr('title', 'Edit account details');
+				expect($(this.view.el)).toContain('a.edit');
+				expect(this.view.$('a.edit')).toHaveAttr('title', 'Edit account details');
 			});
 			
 		});
@@ -58,7 +58,7 @@
 				destroyStub.restore();
 			});
 			
-			it('should remove itself from the DOM when model destroyed', function() {
+			it('should remove itself from the document when model destroyed', function() {
 				this.account.trigger('remove');
 				expect($.contains(document.body, this.view.el)).toBeFalsy();
 			});
@@ -77,21 +77,14 @@
 			}
 			
 			it('should switch to edit template on click', function() {
-				expect(this.view.$('form')).toExist();
-				expect($(document.activeElement)).toBe('input[name=name]');
+				var el = $(this.view.el)
+				expect(el).toContain('form');
+				expect(el).toContain('span.name input[name=name]');
 				expect(this.view.$('span.name input[name=name]')).toHaveValue('test');
+				expect(el).toContain('span.balance input[name=balance]');
 				expect(this.view.$('span.balance input[name=balance]')).toHaveValue('$0.12');
-			});
-			
-			it('should submit the form on enter', function() {
-				var submitSpy = sinon.spy(),
-					enterKey = $.Event('keyup');
-				
-				enterKey.which = 13;
-				this.view.$('form').submit(submitSpy);
-				
-				this.view.$('input:eq(0)').trigger(enterKey);
-				expect(submitSpy).toHaveBeenCalled();
+				expect(el).toContain(':submit');
+				expect($(document.activeElement)).toBe('input[name=name]');
 			});
 			
 			it('should set new values on submit', function() {
@@ -106,7 +99,7 @@
 			});
 			
 			it('should revert to regular view after saving edit', function() {
-				fillForm(this.view).trigger('submit');
+				fillForm(this.view).submit();
 				
 				expect(this.view.$('span.name')).toHaveText('new name');
 				expect(this.view.$('span.balance')).toHaveText('$12.34');

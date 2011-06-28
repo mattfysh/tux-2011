@@ -37,6 +37,7 @@ h1 {
 	padding: 3px;
 	border-radius: 3px;
 	margin: 1px 0;
+	cursor: default;
 }
 #accounts li:not(.total):hover {
 	background-color: #cdc;
@@ -73,9 +74,10 @@ h1 {
 }
 #accounts li.total {
 	font-weight: bold;
-	margin: 12px 0 30px;
+	margin: 3px 0 30px;
 	border-top: 1px dotted #aaa;
 	padding-top: 3px;
+	text-transform: uppercase;
 }
 /* accounts input */
 #accounts input {
@@ -89,4 +91,8 @@ h1 {
 }
 #accounts span.balance input {
 	width: 74px;
+}
+#accounts li input[type=submit] {
+	width: 0px;
+	visibility: hidden;
 }

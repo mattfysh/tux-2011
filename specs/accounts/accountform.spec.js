@@ -23,7 +23,7 @@
 			var el = $(this.view.el);
 			expect(el).toContain('input[name=name]');
 			expect(el).toContain('input[name=balance]');
-			expect(el).toContain('input[type=submit]');
+			expect(el).toContain(':submit');
 		});
 		
 		it('should pass form data to custom event when submitted', function() {

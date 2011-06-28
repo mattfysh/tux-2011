@@ -49,15 +49,13 @@ namespace('tux.accounts');
 				name: this.$('input[name=name]').val(),
 				balance: parse(this.$('input[name=balance]').val())
 			}).save();
-			// rever to regular view
+			// revert to regular view
 			this.render();
 		},
 		
 		formKey: function(e) {
 			if (e.which === 27) {
 				this.render();
-			} else if (e.which === 13) {
-				this.$('form').submit();
 			}
 		}
 	
