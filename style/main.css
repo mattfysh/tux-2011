@@ -2,10 +2,13 @@
  * General
  */
 body {
-	font: 12px Arial;
 	margin: 0;
 	padding: 0;
 	color: #333;
+}
+body,
+input {
+	font: 13px "Myriad Pro", "Trebuchet MS", "Arial";
 }
 #appwrap {
 	margin: 0 auto;
@@ -16,7 +19,6 @@ h1 {
 	border-bottom: 4px solid #ccc;
 	margin: 0;
 	padding: 4px 12px;
-	font-family: Georgia;
 }
 
 /**
@@ -71,7 +73,20 @@ h1 {
 }
 #accounts li.total {
 	font-weight: bold;
-	margin-top: 12px;
+	margin: 12px 0 30px;
 	border-top: 1px dotted #aaa;
 	padding-top: 3px;
+}
+/* accounts input */
+#accounts input {
+	border: 1px solid #ddd;
+	height: 16px;
+	margin: 0;
+	padding: 0 2px;
+}
+#accounts span.name input {
+	width: 154px;
+}
+#accounts span.balance input {
+	width: 74px;
 }

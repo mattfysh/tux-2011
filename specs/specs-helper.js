@@ -16,6 +16,11 @@
 						return match[1].toUpperCase();
 					});
 
+		// dont fetch more than once
+		if (typeof tux[app][name] !== 'undefined') {
+			return;
+		}
+		
 		// make sync request for template file
 		$.ajax({
 			url: url,

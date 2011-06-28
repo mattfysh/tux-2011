@@ -78,7 +78,7 @@
 		
 		<!-- build compressed version -->
 		<java jar="../../build/compiler.jar" fork="true" dir="../../scripts">
-			<arg line="--js ${app}.js --js_output_file ${app}.min.js" />
+			<arg line="--js ${app}.js --js_output_file ${app}.min.js --warning_level QUIET" />
 		</java>
 		
 		<echo>${app} app build successful</echo>
