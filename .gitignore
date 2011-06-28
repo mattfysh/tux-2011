@@ -1,3 +1,4 @@
 # eclipse resources
 .*
 /.gitignore
+scripts/
