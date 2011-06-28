@@ -22,17 +22,17 @@
 			setFixtures(this.view.el);
 		});
 		
-		it('should use a row as the view', function() {
-			expect($(this.view.el)).toBe('tr');
+		it('should use li as the view', function() {
+			expect($(this.view.el)).toBe('li');
 		});
 	
 		it('should display name and balance data', function() {
-			expect($(this.view.el).find('td:eq(0)')).toHaveText('test');
-			expect($(this.view.el).find('td:eq(1)')).toHaveText('$0.12');
+			expect($(this.view.el).find('span.name')).toHaveText('test');
+			expect($(this.view.el).find('span.balance')).toHaveText('$0.12');
 		});
 		
 		it('should have a remove link', function() {
-			expect($(this.view.el).find('td:eq(2)')).toContain('a.destroy');
+			expect($(this.view.el)).toContain('a.destroy');
 		});
 		
 		it('should destroy the model on remove link click', function() {

@@ -11,7 +11,7 @@ namespace('tux.accounts');
 			var totals, form;
 			
 			// add table to view
-			$('<table>').appendTo(this.el);
+			$('<ul>').appendTo(this.el);
 			
 			// event binding
 			_(this).bindAll('addAccountToList', 'displayAccount');
@@ -23,7 +23,7 @@ namespace('tux.accounts');
 			totals = new tux.accounts.TotalView({
 				collection: this.list
 			});
-			this.$('table').append(totals.el);
+			this.$('ul').append(totals.el);
 			
 			// form
 			form = new tux.accounts.AccountForm();
@@ -43,7 +43,7 @@ namespace('tux.accounts');
 			var view = new tux.accounts.AccountView({
 				model: account
 			});
-			this.$('table tr.total').before(view.el);
+			this.$('ul li.total').before(view.el);
 		}
 	
 	});

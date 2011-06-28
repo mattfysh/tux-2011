@@ -5,7 +5,7 @@ namespace('tux.accounts');
 	
 	tux.accounts.TotalView = Backbone.View.extend({
 		
-		tagName: 'tr',
+		tagName: 'li',
 		className: 'total',
 	
 		initialize: function() {

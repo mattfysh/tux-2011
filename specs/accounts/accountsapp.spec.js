@@ -20,13 +20,13 @@
 			
 			// stub view
 			view1 = new Backbone.View({
-				el: $('<tr><td>ANZ</td><td>20</td></tr>')[0]
+				el: $('<li>ANZ</li>')[0]
 			});
 			view2 = new Backbone.View({
-				el: $('<tr><td>CommBank</td><td>300</td></tr>')[0]
+				el: $('<li>CommBank</li>')[0]
 			});
 			view3 = new Backbone.View({
-				el: $('<tr><td>ME</td><td>12</td></tr>')[0]
+				el: $('<li>ME Bank</li>')[0]
 			});
 			this.viewStub = sinon.stub(tux.accounts, 'AccountView');
 			
@@ -44,7 +44,7 @@
 			
 			// stub totals view
 			totalsView = new Backbone.View({
-				el: $('<tr class="total"><td>Total</td><td>320</td></tr>')[0]
+				el: $('<li class="total">Total</li>')[0]
 			});
 			this.totalsStub = sinon.stub(tux.accounts, 'TotalView');
 			this.totalsStub.withArgs({
@@ -75,8 +75,8 @@
 			expect($(this.accounts.el)).toHaveId('accounts');
 		});
 		
-		it('should add a table', function() {
-			expect(this.accounts.$('table')).toExist();
+		it('should add a list', function() {
+			expect(this.accounts.$('ul')).toExist();
 		});
 		
 		it('should load the accounts list', function() {
@@ -93,8 +93,8 @@
 		});
 		
 		it('should add each account view in order', function() {
-			expect(this.accounts.$('tr:eq(0) td:eq(0)')).toHaveText('ANZ');
-			expect(this.accounts.$('tr:eq(1) td:eq(0)')).toHaveText('CommBank');
+			expect(this.accounts.$('li:eq(0)')).toHaveText('ANZ');
+			expect(this.accounts.$('li:eq(1)')).toHaveText('CommBank');
 		});
 		
 		it('should create a totals view for the list', function() {
@@ -104,7 +104,7 @@
 		});
 		
 		it('should add the totals view last', function() {
-			expect(this.accounts.$('tr:last td:eq(1)')).toHaveText('320');
+			expect(this.accounts.$('li:last')).toHaveText('Total');
 		});
 		
 		it('should create a new accounts form', function() {
@@ -128,7 +128,7 @@
 		
 		it('should show any new accounts added to the collection', function() {
 			this.list.trigger('add', this.acc3);
-			expect(this.accounts.$('tr:eq(2) td:eq(0)')).toHaveText('ME');
+			expect(this.accounts.$('li:eq(2)')).toHaveText('ME Bank');
 		});
 	
 	});

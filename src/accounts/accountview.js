@@ -5,7 +5,7 @@ namespace('tux.accounts');
 	
 	tux.accounts.AccountView = Backbone.View.extend({
 		
-		tagName: 'tr',
+		tagName: 'li',
 		
 		initialize: function() {
 			// event binding

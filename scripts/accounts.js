@@ -132,7 +132,7 @@ namespace('tux.accounts');
 			var totals, form;
 			
 			// add table to view
-			$('<table>').appendTo(this.el);
+			$('<ul>').appendTo(this.el);
 			
 			// event binding
 			_(this).bindAll('addAccountToList', 'displayAccount');
@@ -144,7 +144,7 @@ namespace('tux.accounts');
 			totals = new tux.accounts.TotalView({
 				collection: this.list
 			});
-			this.$('table').append(totals.el);
+			this.$('ul').append(totals.el);
 			
 			// form
 			form = new tux.accounts.AccountForm();
@@ -164,7 +164,7 @@ namespace('tux.accounts');
 			var view = new tux.accounts.AccountView({
 				model: account
 			});
-			this.$('table tr.total').before(view.el);
+			this.$('ul li.total').before(view.el);
 		}
 	
 	});
@@ -177,7 +177,7 @@ namespace('tux.accounts');
 	
 	tux.accounts.AccountView = Backbone.View.extend({
 		
-		tagName: 'tr',
+		tagName: 'li',
 		
 		initialize: function() {
 			// event binding
@@ -213,7 +213,7 @@ namespace('tux.accounts');
 	
 	tux.accounts.TotalView = Backbone.View.extend({
 		
-		tagName: 'tr',
+		tagName: 'li',
 		className: 'total',
 	
 		initialize: function() {
@@ -253,7 +253,7 @@ tux.accounts.accountView = function(obj) {
         __p.push.apply(__p, arguments);
     };
     with (obj || {}) {
-        __p.push("<td>", name, "</td><td>", format(balance), "</td><td><a class=\"destroy\" href=\"destroy\">delete</a></td>\r\n");
+        __p.push("<span class=\"name\">", name, "</span><span class=\"balance\">", format(balance), "</span><a class=\"destroy\" href=\"destroy\">delete</a>\r\n");
     }
     return __p.join("");
 };
@@ -262,7 +262,7 @@ tux.accounts.totalView = function(obj) {
         __p.push.apply(__p, arguments);
     };
     with (obj || {}) {
-        __p.push("<td>Total</td><td>", format(total), "</td>\r\n");
+        __p.push("Total<span class=\"total\">", format(total), "</span>\r\n");
     }
     return __p.join("");
 };
