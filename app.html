@@ -8,9 +8,6 @@
 </head>
 
 <body>
-<div id="appwrap">
-
-	<h1>tux</h1>
 
 	<!-- libs -->
 	<script src="lib/jquery-1.6.1.js"></script>
@@ -20,15 +17,21 @@
 
 	<!-- tux -->
 	<script src="scripts/util.js"></script>
-	<script src="scripts/accounts.min.js"></script>
+	<script src="scripts/core.js"></script>
+	<script src="scripts/accounts.js"></script>
 
 	<!-- bootstrap -->
 	<script>
-		var accounts = new tux.accounts.AccountsApp();
-		$('#appwrap').append(accounts.el);
+		var app = new tux.core.App({
+			modules: [{
+				app: 'accounts',
+				obj: 'AccountsApp',
+				title: 'Accounts'
+			}]
+		});
+		$('body').prepend(app.el);
 	</script>
-
-</div>
+	
 </body>
 
 </html>

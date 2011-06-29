@@ -71,10 +71,6 @@
 			this.formStub.restore();
 		});
 		
-		it('should have accounts id', function() {
-			expect($(this.accounts.el)).toHaveId('accounts');
-		});
-		
 		it('should add a list', function() {
 			expect(this.accounts.$('ul')).toExist();
 		});

@@ -77,7 +77,7 @@
 			}
 			
 			it('should switch to edit template on click', function() {
-				var el = $(this.view.el)
+				var el = $(this.view.el);
 				expect(el).toContain('form');
 				expect(el).toContain('span.name input[name=name]');
 				expect(this.view.$('span.name input[name=name]')).toHaveValue('test');

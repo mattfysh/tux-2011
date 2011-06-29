@@ -5,8 +5,6 @@ namespace('tux.accounts');
 	
 	tux.accounts.AccountsApp = Backbone.View.extend({
 	
-		id: 'accounts',
-		
 		initialize: function() {
 			var totals, form;
 			

@@ -5,28 +5,45 @@ body {
 	margin: 0;
 	padding: 0;
 	color: #333;
+	background: url('../img/bg-texture.jpg') #bcb;
 }
 body,
 input {
 	font: 13px "Myriad Pro", "Trebuchet MS", "Arial";
 }
-#appwrap {
-	margin: 0 auto;
-	width: 900px;
+
+/* nav block */
+#nav-container {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	width: 200px;
+	color: #eee;
+	padding-left: 20px;
 }
-h1 {
-	background-color: #e9e9e9;
-	border-bottom: 4px solid #ccc;
-	margin: 0;
-	padding: 4px 12px;
+#nav-container a {
+	color: #eee;
+}
+
+/* apps hold */
+#app-container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 200px;
+	right: 0;
+	box-shadow: -5px 0 12px rgba(0, 0, 0, 0.65);
+	padding: 20px;
+	background-color: #f2f2f2;
+}
+h2 {
+	border-left: 4px solid #9c9;
+	padding-left: 10px;
 }
 
 /**
  * Accounts
  */
-#accounts {
-	margin: 20px;
-}
 #accounts ul {
 	list-style: none none outside;
 	display: inline-block;
@@ -40,7 +57,7 @@ h1 {
 	cursor: default;
 }
 #accounts li:not(.total):hover {
-	background-color: #cdc;
+	background-color: #aca;
 }
 #accounts li span {
 	display: inline-block;
@@ -80,7 +97,7 @@ h1 {
 	text-transform: uppercase;
 }
 /* accounts input */
-#accounts input {
+#accounts ul input {
 	border: 1px solid #ddd;
 	height: 16px;
 	margin: 0;
