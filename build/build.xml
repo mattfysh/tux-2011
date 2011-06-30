@@ -42,8 +42,8 @@
 
 	<!-- run unit tests -->
 	<target name="test">
-		<java failonerror="true" jar="build/JsTestDriver-1.3.2.jar" fork="true">
-			<arg line="--reset --tests all" />
+		<java failonerror="true" dir="build" jar="build/JsTestDriver-1.3.2.jar" fork="true">
+			<arg line="--reset --tests all --basePath ${basedir}" />
 		</java>
 		<echo>Jasmine Specs Passed</echo>
 	</target>
