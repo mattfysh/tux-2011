@@ -51,7 +51,7 @@ h2 {
 	margin: 0;
 }
 #accounts li {
-	padding: 3px;
+	padding: 3px 6px;
 	border-radius: 3px;
 	margin: 1px 0;
 	cursor: default;
@@ -62,9 +62,19 @@ h2 {
 #accounts li span {
 	display: inline-block;
 }
+#accounts span.name {
+	width: 160px;
+}
+#accounts span.balance {
+	width: 80px;
+	text-align: right;
+}
 #accounts span.tools {
 	opacity: 0;
-	padding-right: 12px;
+	padding-left: 12px;
+}
+#accounts li:hover span.tools {
+	opacity: 1;
 }
 #accounts span.tools a {
 	display: inline-block;
@@ -79,15 +89,6 @@ h2 {
 }
 #accounts a.edit {
 	background-image: url(../img/ico/edit.png);
-}
-#accounts li:hover span.tools {
-	opacity: 1;
-}
-#accounts span.name {
-	width: 160px;
-}
-#accounts span.balance {
-	width: 80px;
 }
 #accounts li.total {
 	font-weight: bold;
