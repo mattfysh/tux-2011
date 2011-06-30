@@ -56,9 +56,6 @@ h2 {
 	margin: 1px 0;
 	cursor: default;
 }
-#accounts li:not(.total):hover {
-	background-color: #aca;
-}
 #accounts li span {
 	display: inline-block;
 }
