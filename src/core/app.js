@@ -10,6 +10,7 @@ namespace('tux.core');
 			this.render();
 			
 			// add modules
+			namespace('tux.refs');
 			_(options.modules).each(_(function(module) {
 				var appWrap, app, link;
 				
@@ -19,8 +20,11 @@ namespace('tux.core');
 					title: module.title
 				}));
 				
-				// create app, wrap its view and append to app container
-				app = new tux[module.app][module.obj]();
+				// create app and export a reference
+				app = tux.refs[module.app] = new tux[module.app][module.obj]();
+				
+				// wrap the app and append to app container
+				
 				appWrap.append(app.el);
 				this.$('#app-container').append(appWrap);
 				

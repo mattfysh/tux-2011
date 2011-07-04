@@ -46,8 +46,12 @@
 				expect($(this.app.el)).toContain('ul#nav');
 			});
 			
-			it('should load app and append its wrapped view', function() {
+			it('should load the app and make a reference globally available', function() {
 				expect(this.TestApp).toHaveBeenCalled();
+				expect(tux.refs.test).toBeDefined();
+			});
+			
+			it('should append the apps wrapped view', function() {
 				expect($(this.app.el)).toContain('div#test');
 				expect(this.app.$('#test')).toContain(this.testView);
 			});

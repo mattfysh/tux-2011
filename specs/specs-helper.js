@@ -15,11 +15,6 @@
 					.replace(/\-\w/g, function(match) {
 						return match[1].toUpperCase();
 					});
-
-		// dont fetch more than once
-		if (typeof tux[app][name] !== 'undefined') {
-			return;
-		}
 		
 		// make sync request for template file
 		$.ajax({
@@ -33,9 +28,19 @@
 		});
 	}
 	
+	// fill form
+	function fillForm(form, data) {
+		form = $(form);
+		_(data).each(function(value, name) {
+			form.find(':input[name=' + name + ']').val(value);
+		});
+		return form;
+	}
+	
 	// export
 	_(global).extend({
-		loadTemplate: loadTemplate
+		loadTemplate: loadTemplate,
+		fillForm: fillForm
 	});
 	
 }());

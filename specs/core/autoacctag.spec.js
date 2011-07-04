@@ -33,7 +33,7 @@
 				
 				it('should show an account and tag icon', function() {
 					expect(span).toContain('img.account');
-					expect(span).toContain('img.tag')
+					expect(span).toContain('img.tag');
 				});
 				
 				it('should add an input', function() {
@@ -42,7 +42,7 @@
 				
 				it('should add completion list', function() {
 					expect(span).toContain('ul');
-				})
+				});
 				
 			});
 			

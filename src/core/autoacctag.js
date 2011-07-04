@@ -44,7 +44,7 @@ namespace('tux.core');
 		suggest: function(results) {
 			var search = this.$('input').val(),
 				strongTerm = results[0].name.replace(new RegExp(search), function(term) {
-					return '<strong>' + term + '</strong>'
+					return '<strong>' + term + '</strong>';
 				});
 			
 			this.$('ul').empty()

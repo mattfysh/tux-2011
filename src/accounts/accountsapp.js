@@ -42,6 +42,10 @@ namespace('tux.accounts');
 				model: account
 			});
 			this.$('ul li.total').before(view.el);
+		},
+		
+		getAll: function() {
+			return this.list.toJSON();
 		}
 	
 	});
