@@ -38,7 +38,7 @@
 			});
 			
 			it('should add the wrapper to the DOM', function() {
-				expect($.contains($(document.body), accSel.el)).toBeTruthy();
+				expect($.contains($(document.body)[0], accSel.el)).toBeTruthy();
 			});
 			
 			it('should wrap the original input element', function() {

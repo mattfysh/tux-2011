@@ -13,7 +13,7 @@ namespace('tux.forms');
 			// wrap input with account select template
 			this.el = $(input).wrap(wrapper)
 				.parents('div.account-select')
-				.append('<ul>');
+				.append('<ul>')[0];
 			
 			// add accounts
 			tux.refs.accounts.list.each(_(function(acc) {

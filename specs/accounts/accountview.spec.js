@@ -60,7 +60,7 @@
 			
 			it('should remove itself from the document when model destroyed', function() {
 				this.account.trigger('remove');
-				expect($.contains($(document.body), this.view.el)).toBeFalsy();
+				expect($.contains(document.body, this.view.el)).toBeFalsy();
 			});
 			
 		});
