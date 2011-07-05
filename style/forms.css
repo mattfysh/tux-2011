@@ -1,0 +1,39 @@
+/**
+ * Account select
+ */
+.account-select {
+	display: inline-block;
+	width: 200px;
+}
+.account-select input {
+	display: none;
+}
+.account-select .selection {
+	border: 1px solid #999;
+	display: block;
+	padding: 4px;
+}
+.account-select.active .selection {
+	outline: 2px solid #cdc;
+}
+.account-select ul {
+	display: none;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	list-style: none none outside;
+	cursor: pointer;
+	background-color: #f2f2f2;
+	width: 198px;
+	border: 1px solid #999;
+	border-top: 0;
+}
+.account-select.active ul {
+	display: block;
+}
+.account-select li {
+	padding: 3px 10px;
+}
+.account-select li:hover {
+	background-color: #cdc;
+}

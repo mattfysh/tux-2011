@@ -56,17 +56,51 @@
 				expect(accSel.$('ul li:eq(1)')).toHaveText('XYZ Bank');
 			});
 			
+			it('should have a selection display with hint', function() {
+				expect($(accSel.el)).toContain('span.selection');
+				expect(accSel.$('span.selection')).toHaveText('Select account...');
+			});
+			
+		});
+		
+		describe('activation', function() {
+			
+			var view;
+			
+			beforeEach(function() {
+				view = $(accSel.el);
+				$(view).mouseenter();
+			});
+			
+			it('should apply a class when mouse enters', function() {
+				expect(view).toHaveClass('active');
+			});
+			
+			it('should remove class when mouse leaves', function() {
+				$(view).mouseleave();
+				expect(view).not.toHaveClass('active');
+			});
+			
 		});
 		
 		describe('selection', function() {
 			
 			beforeEach(function() {
+				$(accSel.el).mouseenter();
 				accSel.$('li:eq(1)').click();
 			});
 			
 			it('should copy the account id to the input', function() {
 				expect(accSel.$('input')).toHaveValue(2);
 			});
+			
+			it('should remove class', function() {
+				expect($(accSel.el)).not.toHaveClass('active');
+			});
+			
+			it('should update selection text', function() {
+				expect(accSel.$('span.selection')).toHaveText('XYZ Bank');
+			})
 			
 		});
 		

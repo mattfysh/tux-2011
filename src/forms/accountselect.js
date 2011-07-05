@@ -19,6 +19,7 @@ namespace('tux.forms');
 			// wrap input with account select template
 			this.el = $(input).wrap(wrapper)
 				.parents('div.account-select')
+				.append('<span class="selection">Select account...</span>')
 				.append('<ul>')[0];
 			
 			// add accounts
@@ -30,12 +31,16 @@ namespace('tux.forms');
 		},
 		
 		wrapperEvents: {
-			'click li': 'select'
+			'click li': 'select',
+			'mouseenter': 'activate',
+			'mouseleave': 'deactivate'
 		},
 		
 		select: function(e) {
 			e.preventDefault();
 			this.$('input').val($(e.target).data('id'));
+			this.deactivate();
+			this.$('span.selection').text($(e.target).text());
 		},
 		
 		addAccount: function(account) {
@@ -50,6 +55,14 @@ namespace('tux.forms');
 		
 		renameAccount: function(account) {
 			this.$('ul li[data-id=' + account.id + ']').text(account.get('name'));
+		},
+		
+		activate: function() {
+			$(this.el).addClass('active');
+		},
+		
+		deactivate: function() {
+			$(this.el).removeClass('active');
 		}
 	
 	});

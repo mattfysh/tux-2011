@@ -11,11 +11,7 @@
 
 ## forms
 
-* finish account select
-** selected element display
-** styling
-
-* tag select
+* tag select <<<<
 ** create tag on-the-fly
 ** transfer account omni
 
