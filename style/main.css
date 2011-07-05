@@ -16,13 +16,28 @@ input {
 #nav-container {
 	position: fixed;
 	top: 0;
-	bottom: 0;
 	width: 200px;
 	color: #eee;
 	padding-left: 20px;
 }
+#nav {
+	list-style: none none outside;
+	padding: 0;
+}
 #nav-container a {
 	color: #eee;
+	display: block;
+	padding: 10px 20px;
+	text-decoration: none;
+	z-index: 1;
+	position: relative;
+}
+#nav-container li.current {
+	box-shadow: -3px 0 12px 3px rgba(0, 0, 0, 0.65);
+}
+#nav-container li.current a {
+	background-color: #f2f2f2;
+	color: #333;
 }
 
 /* apps hold */
@@ -30,11 +45,17 @@ input {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 200px;
+	left: 220px;
 	right: 0;
 	box-shadow: -5px 0 12px rgba(0, 0, 0, 0.65);
 	padding: 20px;
 	background-color: #f2f2f2;
+}
+#app-container div.module {
+	display: none;
+}
+#app-container div.module.current {
+	display: block;
 }
 h2 {
 	border-left: 4px solid #9c9;

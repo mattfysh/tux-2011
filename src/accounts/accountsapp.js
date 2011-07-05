@@ -44,8 +44,8 @@ namespace('tux.accounts');
 			this.$('ul li.total').before(view.el);
 		},
 		
-		getAll: function() {
-			return this.list.toJSON();
+		get: function(id) {
+			return this.list.get(id);
 		}
 	
 	});

@@ -18,14 +18,14 @@
 		
 		afterEach(function() {
 			accSelStub.restore();
-		})
+		});
 	
 		describe('init', function() {
 			
 			it('should allow input for account, type, amount and description', function() {
-				var el = $(form.el)
+				var el = $(form.el);
 				expect(el).toContain('input[name=account]');
-				expect(el).toContain('input[name=type]');
+				expect(el).toContain('input[name=tag]');
 				expect(el).toContain('input[name=amount]');
 				expect(el).toContain('input[name=desc]');
 				expect(el).toContain(':submit');
@@ -46,7 +46,7 @@
 				// data entry
 				fillForm(form.el, {
 					account: '1',
-					type: 'lunch',
+					tag: 'lunch',
 					amount: '$3.12',
 					desc: 'maccas'
 				});
@@ -61,7 +61,7 @@
 				expect(eventSpy).toHaveBeenCalled();
 				expect(eventSpy).toHaveBeenCalledWith({
 					account: '1',
-					type: 'lunch',
+					tag: 'lunch',
 					amount: 312,
 					desc: 'maccas'
 				});
@@ -71,7 +71,7 @@
 				form.$(':submit').click();
 				
 				expect(form.$('input[name=account]')).toHaveValue('');
-				expect(form.$('input[name=type]')).toHaveValue('');
+				expect(form.$('input[name=tag]')).toHaveValue('');
 				expect(form.$('input[name=amount]')).toHaveValue('');
 				expect(form.$('input[name=desc]')).toHaveValue('');
 			});

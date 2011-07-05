@@ -10,40 +10,42 @@
 		loadTemplate('/test/src/core/jst/app-wrap-view.jst');
 		loadTemplate('/test/src/core/jst/app-link.jst');
 		
-		describe('init', function() {
+		var app;
+		
+		beforeEach(function() {
+			namespace('tux.test');
+			namespace('tux.foo');
 			
-			beforeEach(function() {
-				namespace('tux.test');
-				namespace('tux.foo');
-				
-				this.testView = $('<div>')[0];
-				this.fooView = $('<div>')[0];
-				
-				tux.test.TestApp = Backbone.View.extend({
-					el: this.testView
-				});
-				tux.foo.FooApp = Backbone.View.extend({
-					el: this.fooView
-				});
-				
-				this.TestApp = sinon.spy(tux.test, 'TestApp');
-				this.FooApp = sinon.spy(tux.foo, 'FooApp');
-				this.app = new App({
-					modules: [{
-						app: 'test',
-						obj: 'TestApp',
-						title: 'Test App'
-					}, {
-						app: 'foo',
-						obj: 'FooApp',
-						title: 'Foo App'
-					}]
-				});
-				setFixtures(this.app.el);
+			this.testView = $('<div>')[0];
+			this.fooView = $('<div>')[0];
+			
+			tux.test.TestApp = Backbone.View.extend({
+				el: this.testView
+			});
+			tux.foo.FooApp = Backbone.View.extend({
+				el: this.fooView
 			});
 			
+			this.TestApp = sinon.spy(tux.test, 'TestApp');
+			this.FooApp = sinon.spy(tux.foo, 'FooApp');
+			app = new App({
+				modules: [{
+					app: 'test',
+					obj: 'TestApp',
+					title: 'Test App'
+				}, {
+					app: 'foo',
+					obj: 'FooApp',
+					title: 'Foo App'
+				}]
+			});
+			setFixtures(app.el);
+		});
+		
+		describe('init', function() {
+			
 			it('should load the base app skeleton', function() {
-				expect($(this.app.el)).toContain('ul#nav');
+				expect($(app.el)).toContain('ul#nav');
 			});
 			
 			it('should load the app and make a reference globally available', function() {
@@ -52,8 +54,12 @@
 			});
 			
 			it('should append the apps wrapped view', function() {
-				expect($(this.app.el)).toContain('div#test');
-				expect(this.app.$('#test')).toContain(this.testView);
+				expect($(app.el)).toContain('div#test');
+				expect(app.$('#test')).toContain(this.testView);
+			});
+			
+			it('should add a module class to the wrapper', function() {
+				expect(app.$('#test')).toHaveClass('module');
 			});
 			
 			it('should prepend the view with a title h2', function() {
@@ -65,22 +71,50 @@
 			it('should load multiple apps and append in order', function() {
 				expect(this.FooApp).toHaveBeenCalled();
 				expect(this.TestApp).toHaveBeenCalledBefore(this.FooApp);
-				expect($(this.app.el)).toContain('div#foo');
-				expect(this.app.$('#test').next()).toBe('div#foo');
+				expect($(app.el)).toContain('div#foo');
+				expect(app.$('#test').next()).toBe('div#foo');
 			});
 			
 			it('should create a nav list item and link for each app', function() {
-				expect(this.app.$('#nav')).toContain('li a.test');
-				expect(this.app.$('#nav')).toContain('li a.foo');
+				expect(app.$('#nav')).toContain('li a.test');
+				expect(app.$('#nav')).toContain('li a.foo');
 			});
 			
 			it('should use app title for link text', function() {
-				expect(this.app.$('#nav li a.test')).toHaveText('Test App');
+				expect(app.$('#nav li a.test')).toHaveText('Test App');
+			});
+			
+			it('should set a current class on the first wrapper', function() {
+				expect(app.$('#app-container > div:eq(0)')).toHaveClass('current');
+			});
+			
+			it('should set a current class on the first link', function() {
+				expect(app.$('#nav li:eq(0)')).toHaveClass('current');
 			});
 			
 		});
 	
-		
+		describe('nav behaviour', function() {
+			
+			it('should make selected link current', function() {
+				app.$('#nav a.foo').click();
+				expect(app.$('#nav li:eq(0)')).not.toHaveClass('current');
+				expect(app.$('#nav li:eq(1)')).toHaveClass('current');
+			});
+			
+			it('should make selected wrapper current', function() {
+				app.$('#nav a.foo').click();
+				expect(app.$('#test')).not.toHaveClass('current');
+				expect(app.$('#foo')).toHaveClass('current');
+			});
+			
+			it('should not remove the class if selecting the current module', function() {
+				app.$('#nav a.test').click();
+				expect(app.$('#test')).toHaveClass('current');
+				expect(app.$('#nav li:eq(0)')).toHaveClass('current');
+			});
+			
+		});
 	
 	});
 	

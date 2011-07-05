@@ -14,17 +14,16 @@ namespace('tux.core');
 			_(options.modules).each(_(function(module) {
 				var appWrap, app, link;
 				
-				// create wrapper
-				appWrap = $(tux.core.appWrapView({
-					app: module.app,
-					title: module.title
-				}));
-				
 				// create app and export a reference
 				app = tux.refs[module.app] = new tux[module.app][module.obj]();
 				
-				// wrap the app and append to app container
+				// create a wrapper
+				appWrap = $(tux.core.appWrapView({
+					module: module.app,
+					title: module.title
+				}));
 				
+				// wrap the apps view and append wrapper to app container
 				appWrap.append(app.el);
 				this.$('#app-container').append(appWrap);
 				
@@ -36,11 +35,33 @@ namespace('tux.core');
 				this.$('#nav').append(link);
 				
 			}).bind(this));
+			
+			// hide all apps and switch to first
+			this.$('#app-container > div:eq(0)').addClass('current');
+			this.$('#nav li:eq(0)').addClass('current');
+		},
+		
+		events: {
+			'click #nav li': 'select'
 		},
 		
 		render: function() {
 			var result = tux.core.tuxView();
 			$(this.el).empty().append(result);
+		},
+		
+		select: function(e) {
+			var module = $(e.target).attr('class'),
+				item = $(e.target).parent('li');
+			e.preventDefault();
+			
+			if (item.hasClass('current')) {
+				// already current
+				return;
+			}
+			
+			this.$('#nav li.current').add(item).toggleClass('current');
+			this.$('#app-container > div.current').add('#' + module).toggleClass('current');
 		}
 	
 	});

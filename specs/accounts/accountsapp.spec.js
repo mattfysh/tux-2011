@@ -10,7 +10,9 @@
 			var list, view1, view2, view3, totalsView;
 			
 			// fake models and stub collection
-			this.acc1 = new Backbone.Model();
+			this.acc1 = new Backbone.Model({
+				id: 1
+			});
 			this.acc2 = new Backbone.Model();
 			this.acc3 = new Backbone.Model();
 			this.list = list = new Backbone.Collection();
@@ -59,9 +61,7 @@
 				.returns(this.form);
 			
 			// create app
-			this.accounts = new AccountsApp({
-				el: document.getElementById('accounts')
-			});
+			this.accounts = new AccountsApp();
 		});
 		
 		afterEach(function() {
@@ -125,6 +125,10 @@
 		it('should show any new accounts added to the collection', function() {
 			this.list.trigger('add', this.acc3);
 			expect(this.accounts.$('li:eq(2)')).toHaveText('ME Bank');
+		});
+		
+		it('should expose collection get method', function() {
+			expect(this.accounts.get(1)).toBe(this.acc1);
 		});
 	
 	});

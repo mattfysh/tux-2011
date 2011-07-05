@@ -8,11 +8,9 @@
 		
 		loadTemplate('/test/src/forms/jst/account-select-option.jst');
 		
-		var input, accSel;
+		var input, accSel, accounts;
 		
 		beforeEach(function() {
-			var accounts;
-			
 			namespace('tux.refs');
 			accounts = tux.refs.accounts = new Backbone.View();
 			accounts.list = new Backbone.Collection([{
@@ -33,16 +31,13 @@
 		
 		describe('init', function() {
 			
-			it('should use a wrapping div with class account-select', function() {
+			it('should wrap input using div with class account-select', function() {
 				expect($(accSel.el)).toBe('div.account-select');
-			});
-			
-			it('should add the wrapper to the DOM', function() {
-				expect($.contains($(document.body)[0], accSel.el)).toBeTruthy();
-			});
-			
-			it('should wrap the original input element', function() {
 				expect(accSel.$('input')).toBe(input);
+			});
+			
+			it('should attach the wrapper to the DOM', function() {
+				expect($.contains($(document.body)[0], accSel.el)).toBeTruthy();
 			});
 			
 			it('should have an options list', function() {
@@ -71,6 +66,20 @@
 			
 			it('should copy the account id to the input', function() {
 				expect(accSel.$('input')).toHaveValue(2);
+			});
+			
+		});
+		
+		describe('bindings', function() {
+			
+			it('should add new accounts', function() {
+				accounts.list.add({
+					name: 'Visa',
+					id: 3
+				});
+				expect(accSel.$('ul li').length).toBe(3);
+				expect(accSel.$('ul li:eq(2)')).toHaveData('id', 3);
+				expect(accSel.$('ul li:eq(2)')).toHaveText('Visa');
 			});
 			
 		});

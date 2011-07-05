@@ -3,7 +3,7 @@
 
 	<property name="jshint.flags" value="browser=true,maxerr=25,undef=true,curly=true,debug=true,eqeqeq=true,immed=true,newcap=true,onevar=true,plusplus=true,strict=true" />
 	<property name="jshint.predef" value="console,$,namespace,noop,tux,Backbone,Store,_,format,parse" />
-	<property name="jshint.predef.test" value="${jshint.predef},describe,xdescribe,xit,it,beforeEach,afterEach,expect,sinon,jasmine,loadFixtures,setFixtures,loadTemplate" />
+	<property name="jshint.predef.test" value="${jshint.predef},describe,xdescribe,xit,it,beforeEach,afterEach,expect,sinon,jasmine,loadFixtures,setFixtures,loadTemplate,fillForm" />
 	
 	<target name="build">
 		<antcall target="lint-src" />
@@ -30,7 +30,7 @@
 
 	<!-- lint -->
 	<target name="lint">
-		<apply dir="build" executable="java" failonerror="true">
+		<apply dir="build" executable="java">
 			<fileset dir="${dir}" includes="**/*.js" />
 			<arg line="-jar rhino.jar jshint-rhino.js" />
 			<srcfile />
