@@ -12,7 +12,6 @@
 ## forms
 
 * finish account select
-** bind all and refresh entire list
 ** selected element display
 ** styling
 

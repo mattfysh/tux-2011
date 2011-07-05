@@ -82,6 +82,18 @@
 				expect(accSel.$('ul li:eq(2)')).toHaveText('Visa');
 			});
 			
+			it('should remove deleted accounts', function() {
+				accounts.list.remove(accounts.list.at(1));
+				expect(accSel.$('ul li').length).toBe(1);
+			});
+			
+			it('should update with new account names', function() {
+				accounts.list.at(1).set({
+					name: 'Newy'
+				});
+				expect(accSel.$('ul li:eq(1)')).toHaveText('Newy');
+			});
+			
 		});
 	
 	});
