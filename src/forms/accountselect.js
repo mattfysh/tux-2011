@@ -31,9 +31,17 @@ namespace('tux.forms');
 		},
 		
 		wrapperEvents: {
-			'click li': 'select',
 			'mouseenter': 'activate',
-			'mouseleave': 'deactivate'
+			'mouseleave': 'deactivate',
+			
+			'mouseenter li': 'preselect',
+			'click li': 'select',
+			
+			'click span.selection': 'focusInput',
+			'focus input': 'enableSearch',
+			'blur input': 'disableSearch',
+			'keyup input': 'filter',
+			'keydown input': 'navigate'
 		},
 		
 		select: function(e) {
@@ -62,7 +70,88 @@ namespace('tux.forms');
 		},
 		
 		deactivate: function() {
+			if ($(this.el).hasClass('search')) {
+				// do not deactivate while search is active
+				return;
+			}
 			$(this.el).removeClass('active');
+		},
+		
+		focusInput: function() {
+			this.$('input').focus();
+		},
+		
+		enableSearch: function() {
+			this.prevSel = this.$('input').val();
+			$(this.el).addClass('search');
+			this.$('input').val('');
+			this.activate();
+		},
+		
+		disableSearch: function(e) {
+			$(this.el).removeClass('search');
+			this.deactivate();
+			this.$('input').val('').keyup().val(this.prevSel);
+			this.$('li.preselect').click().removeClass('preselect');
+		},
+		
+		filter: function(e) {
+			// get search term and create regular expression
+			var searchTerm = $(e.target).val().replace(/^\s|\s$/g, ''),
+				rsearch = new RegExp(searchTerm, 'i');
+			
+			// loop through each item
+			this.$('li').each(function() {
+				var item = $(this),
+					content = item.text(),
+					isMatch = rsearch.test(content);
+				
+				// update class
+				item[isMatch ? 'removeClass' : 'addClass']('filtered');
+				
+				// update strong
+				if (isMatch) {
+					item.html(content.replace(rsearch, function(term) {
+						return term && '<strong>' + term + '</strong>';
+					}));
+				} else {
+					item.html(content);
+					item.removeClass('preselect');
+				}
+			});
+		},
+		
+		navigate: function(e) {
+			var direct, from, to;
+			
+			if (e.which !== 40 && e.which !== 38) {
+				// not a nav key
+				return;
+			}
+			
+			// determine direction
+			direct = (e.which === 40) ? 'next' : 'prev';
+			// find next valid item
+			from = this.$('li.preselect');
+			to = from[direct + 'All']('li:not(.filtered):eq(0)');
+			
+			if (!from.length && direct === 'next') {
+				// no current preselect, go to first
+				to = this.$('li:not(.filtered):eq(0)');
+			}
+			
+			// move preselect only if there is somewhere to move to
+			if (to.length || direct === 'prev') {
+				this.preselect({
+					target: to
+				});
+			}
+			
+			e.preventDefault();
+		},
+		
+		preselect: function(e) {
+			this.$('li.preselect').add(e.target).toggleClass('preselect')
 		}
 	
 	});

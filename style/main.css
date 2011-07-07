@@ -24,6 +24,9 @@ input {
 	list-style: none none outside;
 	padding: 0;
 }
+#nav-container li.current {
+	box-shadow: -3px 0 12px 3px rgba(0, 0, 0, 0.65);
+}
 #nav-container a {
 	color: #eee;
 	display: block;
@@ -32,13 +35,14 @@ input {
 	z-index: 1;
 	position: relative;
 }
-#nav-container li.current {
-	box-shadow: -3px 0 12px 3px rgba(0, 0, 0, 0.65);
+#nav-container a:hover {
+	background-color: rgba(255, 255, 255, 0.25);
 }
 #nav-container li.current a {
 	background-color: #f2f2f2;
 	color: #333;
 }
+
 
 /* apps hold */
 #app-container {
@@ -72,10 +76,12 @@ h2 {
 	margin: 0;
 }
 #accounts li {
-	padding: 3px 6px;
+	padding: 4px 6px;
 	border-radius: 3px;
-	margin: 1px 0;
 	cursor: default;
+}
+#accounts li:not(.total):hover {
+	background-color: #cdc;
 }
 #accounts li span {
 	display: inline-block;

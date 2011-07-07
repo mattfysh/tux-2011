@@ -3,30 +3,48 @@
  */
 .account-select {
 	display: inline-block;
-	width: 200px;
+	width: 180px;
+	border: 1px solid #999;
+	padding: 3px 10px;
+	position: relative;
+	background-color: #fff;
+	height: 16px;
+}
+.account-select input,
+.account-select .selection {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	outline: none;
 }
 .account-select input {
 	display: none;
 }
 .account-select .selection {
-	border: 1px solid #999;
 	display: block;
-	padding: 4px;
+	cursor: default;
+	width: 180px;
 }
-.account-select.active .selection {
+
+/* active */
+.account-select.active {
 	outline: 2px solid #cdc;
 }
 .account-select ul {
 	display: none;
+	overflow: hidden;
 	position: absolute;
+	left: 0;
+	top: 23px;
 	margin: 0;
 	padding: 0;
 	list-style: none none outside;
 	cursor: pointer;
-	background-color: #f2f2f2;
+	background-color: #fff;
 	width: 198px;
 	border: 1px solid #999;
 	border-top: 0;
+	box-shadow: 0 2px 5px rgba(100, 100, 100, 0.65);
 }
 .account-select.active ul {
 	display: block;
@@ -34,6 +52,17 @@
 .account-select li {
 	padding: 3px 10px;
 }
-.account-select li:hover {
+.account-select li.preselect {
 	background-color: #cdc;
+}
+
+/* search */
+.account-select.search .selection {
+	display: none;
+}
+.account-select.search input {
+	display: block;
+}
+.account-select li.filtered {
+	display: none;
 }

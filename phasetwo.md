@@ -4,4 +4,9 @@
 
 * account select
 ** savings/credit indicator
-** click & type to search
+
+
+## ledger
+
+* filter view
+** needs to have correct running total
