@@ -151,7 +151,7 @@ namespace('tux.forms');
 		},
 		
 		preselect: function(e) {
-			this.$('li.preselect').add(e.target).toggleClass('preselect')
+			this.$('li.preselect').add(e.target).toggleClass('preselect');
 		}
 	
 	});
