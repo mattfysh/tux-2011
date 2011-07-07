@@ -2,9 +2,9 @@
 	'use strict';
 	
 	// requires
-	var AccountsApp = tux.accounts.AccountsApp;
+	var AccountsController = tux.accounts.AccountsController;
 	
-	describe('Accounts app', function() {
+	describe('Accounts controller', function() {
 		
 		beforeEach(function() {
 			var list, view1, view2, view3, totalsView;
@@ -60,8 +60,8 @@
 			this.formStub = sinon.stub(tux.accounts, 'AccountForm')
 				.returns(this.form);
 			
-			// create app
-			this.accounts = new AccountsApp();
+			// kick off module
+			this.accounts = new AccountsController();
 		});
 		
 		afterEach(function() {

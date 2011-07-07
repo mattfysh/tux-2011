@@ -3,7 +3,7 @@ namespace('tux.accounts');
 (function() {
 	'use strict';
 	
-	tux.accounts.AccountsApp = Backbone.View.extend({
+	tux.accounts.AccountsController = Backbone.View.extend({
 	
 		initialize: function() {
 			var totals, form;

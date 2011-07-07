@@ -28,16 +28,16 @@
 	<script>
 		var app = new tux.core.App({
 			modules: [{
-				app: 'accounts',
-				obj: 'AccountsApp',
+				name: 'accounts',
+				obj: tux.accounts.AccountsController,
 				title: 'Accounts'
 			}, {
-				app: 'tags',
-				obj: 'TagsController',
+				name: 'tags',
+				obj: tux.tags.TagsController,
 				title: 'Tags'
 			}, {
-				app: 'ledger',
-				obj: 'LedgerApp',
+				name: 'ledger',
+				obj: tux.ledger.LedgerController,
 				title: 'Ledger'
 			}]
 		});

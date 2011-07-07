@@ -7,8 +7,8 @@
 	describe('tux core app', function() {
 	
 		loadTemplate('/test/src/core/jst/tux-view.jst');
-		loadTemplate('/test/src/core/jst/app-wrap-view.jst');
-		loadTemplate('/test/src/core/jst/app-link.jst');
+		loadTemplate('/test/src/core/jst/module-wrap.jst');
+		loadTemplate('/test/src/core/jst/module-link.jst');
 		
 		var app;
 		
@@ -19,23 +19,23 @@
 			this.testView = $('<div>')[0];
 			this.fooView = $('<div>')[0];
 			
-			tux.test.TestApp = Backbone.View.extend({
+			tux.test.TestController = Backbone.View.extend({
 				el: this.testView
 			});
-			tux.foo.FooApp = Backbone.View.extend({
+			tux.foo.FooController = Backbone.View.extend({
 				el: this.fooView
 			});
 			
-			this.TestApp = sinon.spy(tux.test, 'TestApp');
-			this.FooApp = sinon.spy(tux.foo, 'FooApp');
+			this.TestApp = sinon.spy(tux.test, 'TestController');
+			this.FooApp = sinon.spy(tux.foo, 'FooController');
 			app = new App({
 				modules: [{
-					app: 'test',
-					obj: 'TestApp',
+					name: 'test',
+					obj: tux.test.TestController,
 					title: 'Test App'
 				}, {
-					app: 'foo',
-					obj: 'FooApp',
+					name: 'foo',
+					obj: tux.foo.FooController,
 					title: 'Foo App'
 				}]
 			});
@@ -85,7 +85,7 @@
 			});
 			
 			it('should set a current class on the first wrapper', function() {
-				expect(app.$('#app-container > div:eq(0)')).toHaveClass('current');
+				expect(app.$('#module-container > div:eq(0)')).toHaveClass('current');
 			});
 			
 			it('should set a current class on the first link', function() {

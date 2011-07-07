@@ -9,35 +9,31 @@ namespace('tux.core');
 			// render
 			this.render();
 			
-			// add modules
+			// create namespace to store references to modules
 			namespace('tux.refs');
-			_(options.modules).each(_(function(module) {
-				var appWrap, app, link;
+			
+			// add each module
+			_(options.modules).each(_(function(spec) {
+				var module, wrapper, link;
 				
 				// create app and export a reference
-				app = tux.refs[module.app] = new tux[module.app][module.obj]();
+				module = tux.refs[spec.name] = new spec.obj();
 				
-				// create a wrapper
-				appWrap = $(tux.core.appWrapView({
-					module: module.app,
-					title: module.title
-				}));
+				// create a wrapper around module view
+				wrapper = $(tux.core.moduleWrap(spec));
+				wrapper.append(module.el);
 				
-				// wrap the apps view and append wrapper to app container
-				appWrap.append(app.el);
-				this.$('#app-container').append(appWrap);
+				// append the wrapper to the module container
+				this.$('#module-container').append(wrapper);
 				
 				// create and add link
-				link = tux.core.appLink({
-					app: module.app,
-					title: module.title
-				});
+				link = tux.core.moduleLink(spec);
 				this.$('#nav').append(link);
 				
 			}).bind(this));
 			
 			// hide all apps and switch to first
-			this.$('#app-container > div:eq(0)').addClass('current');
+			this.$('#module-container > div:eq(0)').addClass('current');
 			this.$('#nav li:eq(0)').addClass('current');
 		},
 		
@@ -61,7 +57,7 @@ namespace('tux.core');
 			}
 			
 			this.$('#nav li.current').add(item).toggleClass('current');
-			this.$('#app-container > div.current').add('#' + module).toggleClass('current');
+			this.$('#module-container > div.current').add('#' + module).toggleClass('current');
 		}
 	
 	});

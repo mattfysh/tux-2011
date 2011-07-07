@@ -10,8 +10,8 @@
 	
 	// load templates from url
 	function loadTemplate(url) {
-		var app = url.match(new RegExp('([^/]+)/jst'))[1],
-			name = url.match(new RegExp('([^/]+).jst$'))[1]
+		var module = url.match(new RegExp('([^/]+)/jst'))[1],
+			templateName = url.match(new RegExp('([^/]+).jst$'))[1]
 					.replace(/\-\w/g, function(match) {
 						return match[1].toUpperCase();
 					});
@@ -23,7 +23,7 @@
 			cache: false,
 			dataType: 'html',
 			success: function(data) {
-				tux[app][name] = _.template(data);
+				tux[module][templateName] = _.template(data);
 			}
 		});
 	}

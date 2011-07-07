@@ -2,9 +2,9 @@
 	'use strict';
 	
 	// requires
-	var LedgerApp = tux.ledger.LedgerApp;
+	var LedgerController = tux.ledger.LedgerController;
 	
-	describe('Ledger app', function() {
+	describe('Ledger controller', function() {
 		
 		var form, formStub,
 			tx1, tx2,
@@ -44,8 +44,8 @@
 				el: txView2
 			}));
 			
-			// kick off ledger app
-			ledger = new LedgerApp();
+			// kick off module
+			ledger = new LedgerController();
 		});
 		
 		afterEach(function() {

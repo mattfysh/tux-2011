@@ -12,7 +12,7 @@ input {
 	font: 13px "Myriad Pro", "Trebuchet MS", "Arial";
 }
 
-/* nav block */
+/* navigation */
 #nav-container {
 	position: fixed;
 	top: 0;
@@ -44,8 +44,8 @@ input {
 }
 
 
-/* apps hold */
-#app-container {
+/* wrapped modules */
+#module-container {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -55,10 +55,10 @@ input {
 	padding: 20px;
 	background-color: #f2f2f2;
 }
-#app-container div.module {
+#module-container div.module {
 	display: none;
 }
-#app-container div.module.current {
+#module-container div.module.current {
 	display: block;
 }
 h2 {

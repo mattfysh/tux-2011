@@ -3,7 +3,7 @@ namespace('tux.ledger');
 (function() {
 	'use strict';
 	
-	tux.ledger.LedgerApp = Backbone.View.extend({
+	tux.ledger.LedgerController = Backbone.View.extend({
 	
 		initialize: function() {
 			var form;
