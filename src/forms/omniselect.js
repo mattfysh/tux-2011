@@ -3,7 +3,7 @@ namespace('tux.forms');
 (function() {
 	'use strict';
 	
-	tux.forms.AccountSelect = Backbone.View.extend({
+	tux.forms.OmniSelect = Backbone.View.extend({
 	
 		initialize: function() {
 			var wrapper = $('<div class="account-select">'),
@@ -51,7 +51,7 @@ namespace('tux.forms');
 		
 		addAccount: function(account) {
 			// generate item markup and append to list
-			var option = $(tux.forms.accountSelectOption(account.toJSON()));
+			var option = $(tux.forms.omniSelectOption(account.toJSON()));
 			this.$('ul').append(option);
 		},
 		

@@ -20,7 +20,7 @@ namespace('tux.ledger');
 			$(this.el).empty().append(result);
 			
 			// add custom form inputs
-			new tux.forms.AccountSelect({
+			new tux.forms.OmniSelect({
 				el: this.$('input[name=account]')[0]
 			});
 		},

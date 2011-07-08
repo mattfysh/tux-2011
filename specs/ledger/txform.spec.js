@@ -8,16 +8,16 @@
 		
 		loadTemplate('/test/src/ledger/jst/tx-form.jst');
 		
-		var form, accSelStub;
+		var form, omniSelStub;
 		
 		beforeEach(function() {
-			accSelStub = sinon.stub(tux.forms, 'AccountSelect');
+			omniSelStub = sinon.stub(tux.forms, 'OmniSelect');
 			form = new TxForm();
 			setFixtures($(form.el));
 		});
 		
 		afterEach(function() {
-			accSelStub.restore();
+			omniSelStub.restore();
 		});
 	
 		describe('init', function() {
@@ -32,8 +32,8 @@
 			});
 			
 			it('should replace account input with account selector', function() {
-				expect(accSelStub).toHaveBeenCalled();
-				expect(accSelStub).toHaveBeenCalledWith({
+				expect(omniSelStub).toHaveBeenCalled();
+				expect(omniSelStub).toHaveBeenCalledWith({
 					el: form.$('input[name=account]')[0]
 				});
 			});

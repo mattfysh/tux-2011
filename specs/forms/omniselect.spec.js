@@ -2,11 +2,11 @@
 	'use strict';
 	
 	// requires
-	var AccountSelect = tux.forms.AccountSelect;
+	var OmniSelect = tux.forms.OmniSelect;
 	
 	describe('Account select input', function() {
 		
-		loadTemplate('/test/src/forms/jst/account-select-option.jst');
+		loadTemplate('/test/src/forms/jst/omni-select-option.jst');
 		
 		var input, accSel, accounts,
 			abc, xyz;
@@ -25,7 +25,7 @@
 			input = $('<input type="text" name="account">');
 			setFixtures(input);
 			
-			accSel = new AccountSelect({
+			accSel = new OmniSelect({
 				el: input[0]
 			});
 			
