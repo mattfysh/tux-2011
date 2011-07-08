@@ -24,6 +24,10 @@ namespace('tux.ledger');
 				el: this.$('input[name=account]')[0],
 				items: ['accounts']
 			});
+			new tux.forms.OmniSelect({
+				el: this.$('input[name=tag]')[0],
+				items: ['tags']
+			});
 		},
 		
 		process: function(e) {
