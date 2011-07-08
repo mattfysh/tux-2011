@@ -1,7 +1,7 @@
 /**
  * Account select
  */
-.account-select {
+.omni-select {
 	display: inline-block;
 	width: 180px;
 	border: 1px solid #999;
@@ -10,27 +10,27 @@
 	background-color: #fff;
 	height: 16px;
 }
-.account-select input,
-.account-select .selection {
+.omni-select input,
+.omni-select .selection {
 	padding: 0;
 	margin: 0;
 	border: 0;
 	outline: none;
 }
-.account-select input {
+.omni-select input {
 	display: none;
 }
-.account-select .selection {
+.omni-select .selection {
 	display: block;
 	cursor: default;
 	width: 180px;
 }
 
 /* active */
-.account-select.active {
+.omni-select.active {
 	outline: 2px solid #cdc;
 }
-.account-select ul {
+.omni-select ul {
 	display: none;
 	overflow: hidden;
 	position: absolute;
@@ -46,23 +46,23 @@
 	border-top: 0;
 	box-shadow: 0 2px 5px rgba(100, 100, 100, 0.65);
 }
-.account-select.active ul {
+.omni-select.active ul {
 	display: block;
 }
-.account-select li {
+.omni-select li {
 	padding: 3px 10px;
 }
-.account-select li.preselect {
+.omni-select li.preselect {
 	background-color: #cdc;
 }
 
 /* search */
-.account-select.search .selection {
+.omni-select.search .selection {
 	display: none;
 }
-.account-select.search input {
+.omni-select.search input {
 	display: block;
 }
-.account-select li.filtered {
+.omni-select li.filtered {
 	display: none;
 }

@@ -21,7 +21,8 @@ namespace('tux.ledger');
 			
 			// add custom form inputs
 			new tux.forms.OmniSelect({
-				el: this.$('input[name=account]')[0]
+				el: this.$('input[name=account]')[0],
+				items: ['accounts']
 			});
 		},
 		

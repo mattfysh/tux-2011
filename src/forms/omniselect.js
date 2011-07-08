@@ -5,27 +5,29 @@ namespace('tux.forms');
 	
 	tux.forms.OmniSelect = Backbone.View.extend({
 	
-		initialize: function() {
-			var wrapper = $('<div class="account-select">'),
+		initialize: function(options) {
+			var wrapper = $('<div class="omni-select">'),
 				input = this.el;
 			
-			// event binding
-			_(this).bindAll('addAccount', 'removeAccount', 'renameAccount');
-			tux.refs.accounts.list
-				.bind('add', this.addAccount)
-				.bind('remove', this.removeAccount)
-				.bind('change:name', this.renameAccount);
+			// proxy methods
+			_(this).bindAll('addOption', 'removeOption', 'renameOption');
 			
-			// wrap input with account select template
+			// wrap input with omni select template
 			this.el = $(input).wrap(wrapper)
-				.parents('div.account-select')
-				.append('<span class="selection">Select account...</span>')
+				.parent()
+				.append('<span class="selection">Make selection</span>')
 				.append('<ul>')[0];
-			
-			// add accounts
-			tux.refs.accounts.list.each(this.addAccount);
+				
+			// add items
+			tux.refs[options.items[0]].list.each(_(this.addOption).bind(this, options.items[0]));
 			
 			// event binding
+			tux.refs[options.items[0]].list 
+				.bind('add', _(this.addOption).bind(this, options.items[0]))
+				.bind('remove', this.removeOption)
+				.bind('change:name', this.renameOption);
+			
+			// late bind events after wrapper becomes new view
 			this.events = this.wrapperEvents;
 			this.delegateEvents();
 		},
@@ -46,21 +48,29 @@ namespace('tux.forms');
 		},
 		
 		/**
-		 * Bindings
+		 * Option list
 		 */
 		
-		addAccount: function(account) {
+		addOption: function(item, option) {
 			// generate item markup and append to list
-			var option = $(tux.forms.omniSelectOption(account.toJSON()));
-			this.$('ul').append(option);
+			var data = option.toJSON(),
+				result;
+			
+			data.item = item;
+			if (!data.type) {
+				data.type = '';
+			}
+			result = $(tux.forms.omniSelectOption(data));
+			
+			this.$('ul').append(result);
 		},
 		
-		removeAccount: function(account) {
-			this.$('ul li[data-id=' + account.id + ']').remove();
+		removeOption: function(option) {
+			this.$('ul li[data-id=' + option.id + ']').remove();
 		},
 		
-		renameAccount: function(account) {
-			this.$('ul li[data-id=' + account.id + ']').text(account.get('name'));
+		renameOption: function(option) {
+			this.$('ul li[data-id=' + option.id + ']').text(option.get('name'));
 		},
 		
 		/**

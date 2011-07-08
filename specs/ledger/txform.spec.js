@@ -34,7 +34,8 @@
 			it('should replace account input with account selector', function() {
 				expect(omniSelStub).toHaveBeenCalled();
 				expect(omniSelStub).toHaveBeenCalledWith({
-					el: form.$('input[name=account]')[0]
+					el: form.$('input[name=account]')[0],
+					items: ['accounts']
 				});
 			});
 			
