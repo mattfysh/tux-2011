@@ -16,8 +16,9 @@ namespace('tux.ledger');
 			var data = this.model.toJSON(),
 				result;
 			
-			// replace account id with name
+			// get account and tag names
 			data.account = this.model.getAccountName();
+			data.tag = this.model.getTagName();
 			
 			result = tux.ledger.txView(data);
 			$(this.el).empty().append(result);

@@ -21,6 +21,20 @@ namespace('tux.ledger');
 			account = this.get('account');
 			this.accountName = tux.refs.accounts.get(account).get('name');
 			return this.accountName;
+		},
+		
+		getTagName: function() {
+			var tag;
+			
+			// caching
+			if (this.tagName) {
+				return this.tagName;
+			}
+			
+			// get name
+			tag = this.get('tag');
+			this.tagName = tux.refs.tags.get(tag).get('name');
+			return this.tagName;
 		}
 	
 	});

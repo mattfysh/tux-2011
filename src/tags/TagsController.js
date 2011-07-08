@@ -38,6 +38,10 @@ namespace('tux.tags');
 				model: tag
 			});
 			this.$('ul').append(view.el);
+		},
+		
+		get: function(id) {
+			return this.list.get(id);
 		}
 	
 	});

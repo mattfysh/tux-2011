@@ -9,15 +9,19 @@
 		var tx;
 		
 		beforeEach(function() {
-			var account = {};
+			var account = {},
+				tag = {};
 			
 			// stub account
 			account.get = sinon.stub().withArgs('name').returns('Bank abc');
+			tag.get = sinon.stub().withArgs('name').returns('Tag abc');
 			
 			// stub accounts module
 			namespace('tux.refs');
 			tux.refs.accounts = new Backbone.View();
 			tux.refs.accounts.get = sinon.stub().returns(account);
+			tux.refs.tags = new Backbone.View();
+			tux.refs.tags.get = sinon.stub().returns(tag);
 			
 			// create tx model
 			tx = new Tx({
@@ -34,6 +38,17 @@
 			tx.getAccountName();
 			tx.getAccountName();
 			expect(tux.refs.accounts.get).toHaveBeenCalledOnce();
+		});
+		
+		it('should return the linked tag name', function() {
+			var tagName = tx.getTagName();
+			expect(tagName).toBe('Tag abc');
+		});
+		
+		it('should cache the linked tag name', function() {
+			tx.getTagName();
+			tx.getTagName();
+			expect(tux.refs.tags.get).toHaveBeenCalledOnce();
 		});
 	
 	});

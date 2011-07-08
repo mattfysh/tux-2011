@@ -15,11 +15,12 @@
 			
 			model = new Backbone.Model({
 				account: 1,
-				tag: 'food',
+				tag: 1,
 				amount: 312,
 				desc: 'lunch'
 			});
 			model.getAccountName = sinon.stub().returns('Bank abc');
+			model.getTagName = sinon.stub().returns('Tag abc');
 			
 			view = new TxView({
 				model: model
@@ -36,7 +37,7 @@
 		});
 		
 		it('should display tag, amount and description', function() {
-			expect(view.$('span.tag')).toHaveText('food');
+			expect(view.$('span.tag')).toHaveText('Tag abc');
 			expect(view.$('span.amount')).toHaveText('$3.12');
 			expect(view.$('span.desc')).toHaveText('lunch');
 		});

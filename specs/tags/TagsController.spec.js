@@ -10,11 +10,10 @@
 			list, listStub,
 			tagView1, tagView2, viewStub,
 			form, formStub,
-			view, ul;
+			view, ul,
+			tags;
 		
 		beforeEach(function() {
-			var tags;
-			
 			// model
 			tag1 = new Backbone.Model();
 			tag2 = new Backbone.Model();
@@ -121,6 +120,10 @@
 				list.trigger('add', newTag);
 				
 				expect(ul.find('li:last')).toBe(newView);
+			});
+			
+			it('should expose the list get method', function() {
+				expect(tags.get(0)).toBe(list.get(0));
 			});
 			
 		});
