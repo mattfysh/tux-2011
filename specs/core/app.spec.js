@@ -10,12 +10,13 @@
 		loadTemplate('/test/src/core/jst/module-wrap.jst');
 		loadTemplate('/test/src/core/jst/module-link.jst');
 		
-		var app;
+		var app, vitals, vitalsView;
 		
 		beforeEach(function() {
 			namespace('tux.test');
 			namespace('tux.foo');
 			
+			// modules
 			this.testView = $('<div>')[0];
 			this.fooView = $('<div>')[0];
 			
@@ -26,8 +27,16 @@
 				el: this.fooView
 			});
 			
-			this.TestApp = sinon.spy(tux.test, 'TestController');
-			this.FooApp = sinon.spy(tux.foo, 'FooController');
+			this.TestController = sinon.spy(tux.test, 'TestController');
+			this.FooController = sinon.spy(tux.foo, 'FooController');
+			
+			// vitals
+			vitalsView = document.createElement('div');
+			vitals = sinon.stub(tux.core, 'Vitals').returns(new Backbone.View({
+				el: vitalsView
+			}));
+			
+			// kick off app
 			app = new App({
 				modules: [{
 					name: 'test',
@@ -42,6 +51,10 @@
 			setFixtures(app.el);
 		});
 		
+		afterEach(function() {
+			vitals.restore();
+		});
+		
 		describe('init', function() {
 			
 			it('should load the base app skeleton', function() {
@@ -49,7 +62,7 @@
 			});
 			
 			it('should load the app and make a reference globally available', function() {
-				expect(this.TestApp).toHaveBeenCalled();
+				expect(this.TestController).toHaveBeenCalled();
 				expect(tux.refs.test).toBeDefined();
 			});
 			
@@ -69,8 +82,8 @@
 			});
 			
 			it('should load multiple apps and append in order', function() {
-				expect(this.FooApp).toHaveBeenCalled();
-				expect(this.TestApp).toHaveBeenCalledBefore(this.FooApp);
+				expect(this.FooController).toHaveBeenCalled();
+				expect(this.TestController).toHaveBeenCalledBefore(this.FooController);
 				expect($(app.el)).toContain('div#foo');
 				expect(app.$('#test').next()).toBe('div#foo');
 			});
@@ -90,6 +103,10 @@
 			
 			it('should set a current class on the first link', function() {
 				expect(app.$('#nav li:eq(0)')).toHaveClass('current');
+			});
+			
+			it('should add the vitals beneath the logo', function() {
+				expect(app.$('h1').next()).toBe(vitalsView);
 			});
 			
 		});

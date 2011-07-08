@@ -6,6 +6,8 @@ namespace('tux.core');
 	tux.core.App = Backbone.View.extend({
 	
 		initialize: function(options) {
+			var vitals;
+			
 			// render
 			this.render();
 			
@@ -35,6 +37,10 @@ namespace('tux.core');
 			// hide all apps and switch to first
 			this.$('#module-container > div:eq(0)').addClass('current');
 			this.$('#nav li:eq(0)').addClass('current');
+			
+			// add vitals
+			vitals = new tux.core.Vitals();
+			this.$('h1').after(vitals.el);
 		},
 		
 		events: {

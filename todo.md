@@ -1,10 +1,8 @@
 
 ## now
 
-* tag collection
-* tag view
-* tag app
-
+* accounts quick glance
+** updates in real time
 
 
 # todo
@@ -19,38 +17,33 @@
 
 ## forms
 
-* account select
-** work with tabs
+* omni select
+** react to form reset
+** work with tab nav
 ** no search results indicator
 ** search clears previous selection
-
-* tag select
-** make account select more abstract
 ** create tag on-the-fly
-** transfer account omni
-* validation = :(
-* form reset to work on custom els
+** transfer account with omni
 
-
-## dashboard / home
-* accounts becomes submodule
-* add tags submodule
+* validation :( :( :(
 
 
 ## ledger
 
-* use 
 * updates account
 * style table
 * bind to account
 ** removal
 ** rename
+** how to handle transfers
 * running total
 * delete tx
+** readjust balance
 
 
 ## accounts
 
+* type property
 * edit view confirm/cancel icons
 
 
