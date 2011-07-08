@@ -1,9 +1,9 @@
 
 ## now
 
-* tags module
-* stop calling modules "apps"
-* select item mouseenter bug (twice)
+* tag collection
+* tag view
+* tag app
 
 
 

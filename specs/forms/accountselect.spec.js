@@ -95,11 +95,14 @@
 		
 		describe('active state', function() {
 			
-			var view;
+			var view, item;
 			
 			beforeEach(function() {
 				view = $(accSel.el);
+				item = accSel.$('li:eq(0)');
+				
 				view.mouseenter();
+				item.mouseenter();
 			});
 			
 			it('should apply a class when mouse enters', function() {
@@ -112,9 +115,12 @@
 			});
 			
 			it('should apply class to item on mouse enter', function() {
-				var item = accSel.$('li:eq(0)');
-				item.mouseenter();
 				expect(item).toHaveClass('preselect');
+			});
+			
+			it('should remove preselect when mouse leaves options', function() {
+				view.find('ul').mouseleave();
+				expect(item).not.toHaveClass('preselect');
 			});
 			
 			describe('click', function() {

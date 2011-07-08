@@ -36,6 +36,7 @@ namespace('tux.forms');
 			
 			'mouseenter li': 'preselect',
 			'click li': 'select',
+			'mouseleave ul': 'deselect',
 			
 			'click span.selection': 'focusInput',
 			'focus input': 'enableSearch',
@@ -44,12 +45,9 @@ namespace('tux.forms');
 			'keydown input': 'navigate'
 		},
 		
-		select: function(e) {
-			e.preventDefault();
-			this.$('input').val($(e.target).data('id'));
-			this.deactivate();
-			this.$('span.selection').text($(e.target).text());
-		},
+		/**
+		 * Bindings
+		 */
 		
 		addAccount: function(account) {
 			// generate item markup and append to list
@@ -64,6 +62,29 @@ namespace('tux.forms');
 		renameAccount: function(account) {
 			this.$('ul li[data-id=' + account.id + ']').text(account.get('name'));
 		},
+		
+		/**
+		 * Selection
+		 */
+		
+		preselect: function(e) {
+			this.$('li.preselect').add(e.target).toggleClass('preselect');
+		},
+		
+		deselect: function() {
+			this.$('li.preselect').removeClass('preselect');
+		},
+		
+		select: function(e) {
+			e.preventDefault();
+			this.$('input').val($(e.target).data('id'));
+			this.deactivate();
+			this.$('span.selection').text($(e.target).text());
+		},
+		
+		/**
+		 * Activation
+		 */
 		
 		activate: function() {
 			$(this.el).addClass('active');
@@ -80,6 +101,10 @@ namespace('tux.forms');
 		focusInput: function() {
 			this.$('input').focus();
 		},
+		
+		/**
+		 * Filtering and result nav
+		 */
 		
 		enableSearch: function() {
 			this.prevSel = this.$('input').val();
@@ -148,11 +173,9 @@ namespace('tux.forms');
 			}
 			
 			e.preventDefault();
-		},
-		
-		preselect: function(e) {
-			this.$('li.preselect').add(e.target).toggleClass('preselect');
 		}
+		
+		
 	
 	});
 	
