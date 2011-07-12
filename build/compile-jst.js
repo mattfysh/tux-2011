@@ -1,4 +1,4 @@
-load('underscore.js');
+load('../lib/underscore.js');
 
 (function(jst) {
 	

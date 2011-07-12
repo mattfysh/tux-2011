@@ -85,11 +85,6 @@
 					expect(xyz).toHaveText('XYZ Bank');
 				});
 				
-				it('should have a selection display with hint', function() {
-					expect($(omniSel.el)).toContain('span.selection');
-					expect(omniSel.$('span.selection')).toHaveText('Make selection');
-				});
-				
 			});
 			
 			describe('bindings', function() {
@@ -126,16 +121,16 @@
 					view = $(omniSel.el);
 					item = omniSel.$('li:eq(0)');
 					
-					view.mouseenter();
+					input.focus();
 					item.mouseenter();
 				});
 				
-				it('should apply a class when mouse enters', function() {
+				it('should apply a class when input has focus', function() {
 					expect(view).toHaveClass('active');
 				});
 				
 				it('should remove class when mouse leaves', function() {
-					view.mouseleave();
+					input.focusout();
 					expect(view).not.toHaveClass('active');
 				});
 				
@@ -151,19 +146,19 @@
 				describe('click', function() {
 					
 					beforeEach(function() {
-						omniSel.$('li:eq(1)').click();
+						omniSel.$('li:eq(1)').mouseenter().click();
 					});
 					
-					it('should copy the option id to the input', function() {
-						expect(omniSel.$('input')).toHaveValue(2);
+					it('should copy the option text to the input', function() {
+						expect(input).toHaveValue('XYZ Bank');
 					});
+					
+					it('should copy the item data to the input', function() {
+						expect(input).toHaveData('id', 2);
+					})
 					
 					it('should remove class', function() {
 						expect(view).not.toHaveClass('active');
-					});
-					
-					it('should update selection text', function() {
-						expect(omniSel.$('span.selection')).toHaveText('XYZ Bank');
 					});
 					
 				});
@@ -183,25 +178,8 @@
 				
 				beforeEach(function() {
 					view = $(omniSel.el);
-					view.mouseenter();
-					view.find('span.selection').click();
 					input = view.find('input');
-				});
-				
-				it('should allow search mode when selection clicked', function() {
-					expect(view).toHaveClass('search');
-					expect($(document.activeElement)).toBe(input);
-				});
-				
-				it('should ensure an active state', function() {
-					input.blur();
-					view.find('span.selection').click();
-					expect(view).toHaveClass('active');
-				});
-				
-				it('should prevent active state from being removed when mouse leaves', function() {
-					view.mouseleave();
-					expect(view).toHaveClass('active');
+					input.focus();
 				});
 				
 				describe('filtering', function() {
@@ -342,65 +320,48 @@
 					
 				});
 				
-				describe('blur', function() {
+				describe('blur select and reset', function() {
 					
 					beforeEach(function() {
-						input.val('xyz').keyup().trigger(navKey(40)).blur();
-					});
-					
-					it('should remove search state', function() {
-						expect(view).not.toHaveClass('search');
-						expect(input).toHaveValue('');
-					});
-					
-					it('should remove active state', function() {
-						expect(view).not.toHaveClass('active');
-					});
-					
-					it('should remove filtering', function() {
-						expect(omniSel.$('ul li.filtered')).not.toExist();
-					});
-					
-					it('should remove weighting', function() {
-						expect(omniSel.$('ul li strong')).not.toExist();
+						input.val('xyz').keyup().trigger(navKey(40));
+						console.log(1, input.data('id'));
+						input.focusout();
+						console.log(2, input.data('id'));
 					});
 					
 					it('should accept preselect', function() {
-						omniSel.$('input').trigger(navKey(40)).blur();
-						expect(omniSel.$('input')).toHaveValue(1);
+						expect(input).toHaveData('id', 2);
+					});
+					
+					xit('should remove active state', function() {
+						expect(view).not.toHaveClass('active');
+					});
+					
+					xit('should remove filtering', function() {
+						expect(omniSel.$('ul li.filtered')).not.toExist();
+					});
+					
+					xit('should remove weighting', function() {
+						expect(omniSel.$('ul li strong')).not.toExist();
+					});
+					
+					xit('should remove preselect', function() {
+						expect(omniSel.$('ul li.preselect')).not.toExist();
 					});
 					
 				});
 				
-				describe('search on selection', function() {
+				describe('after first selection', function() {
 					
-					var prevSel;
-					
-					beforeEach(function() {
-						omniSel.$('li:eq(1)').click();
-						prevSel = omniSel.$('input').val();
-						omniSel.$('span.selection').click();
+					it('should remove data if nothing selected', function() {
+						// first select
+						omniSel.$('li:eq(1)').mouseenter().click();
+						expect(input).toHaveData('id', 2);
+						input.val('').keyup().focusout();
+						expect(input).not.toHaveData('id', 2);
 					});
 					
-					it('should clear search box', function() {
-						expect(omniSel.$('input')).toHaveValue('');
-					});
 					
-					it('should replace previous text if nothing selected', function() {
-						omniSel.$('input').blur();
-						expect(omniSel.$('input')).toHaveValue(prevSel);
-					});
-					
-					it('should remove filtering and weighting', function() {
-						omniSel.$('input').blur();
-						expect(omniSel.$('ul li.filtered')).not.toExist();
-						expect(omniSel.$('ul li strong')).not.toExist();
-					});
-					
-					it('should remove any psuedo-hover preselects', function() {
-						omniSel.$('input').trigger(navKey(40)).blur();
-						expect(abc).not.toHaveClass('preselect');
-					});
 					
 				});
 				
@@ -438,14 +399,15 @@
 				expect(pay).toHaveText('pay');
 			});
 			
-			it('should copy id and ex type data to field', function() {
-				dinner.click();
-				expect(input).toHaveValue('1,ex');
+			it('should copy id and ex type data to input', function() {
+				dinner.mouseenter().click();
+				expect(input).toHaveData('id', 1);
+				expect(input).toHaveData('type', 'ex');
 			});
 			
 		});
 		
-		describe('with accounts and tags', function() {
+		xdescribe('with accounts and tags', function() {
 			
 		});
 	

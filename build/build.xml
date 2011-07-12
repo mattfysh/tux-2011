@@ -70,7 +70,7 @@
 		<echo file="${modulefile}" append="true">namespace('tux.${module}');${line.separator}</echo>
 		
 		<!-- append compiled jst files -->
-		<apply dir="../../build" executable="java" output="${modulefile}" append="true">
+		<apply dir="../../build" executable="java" output="${modulefile}" append="true" failonerror="true">
 			<fileset dir="jst" includes="*.jst" />
 			<arg line="-jar rhino.jar compile-jst.js" />
 			<srcfile />

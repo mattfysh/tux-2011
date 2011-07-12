@@ -15,7 +15,6 @@ namespace('tux.forms');
 			// wrap input with omni select template
 			this.el = $(input).wrap(wrapper)
 				.parent()
-				.append('<span class="selection">Make selection</span>')
 				.append('<ul>')[0];
 				
 			// add items
@@ -33,18 +32,15 @@ namespace('tux.forms');
 		},
 		
 		wrapperEvents: {
-			'mouseenter': 'activate',
-			'mouseleave': 'deactivate',
+			'focus input': 'activate',
+			'blur input': 'deactivate',
+			
+			'keyup input': 'filter',
+			'keydown input': 'navigate',
 			
 			'mouseenter li': 'preselect',
-			'click li': 'select',
-			'mouseleave ul': 'deselect',
-			
-			'click span.selection': 'focusInput',
-			'focus input': 'enableSearch',
-			'blur input': 'disableSearch',
-			'keyup input': 'filter',
-			'keydown input': 'navigate'
+			'click li': 'deactivate',
+			'mouseleave ul': 'deselect'
 		},
 		
 		/**
@@ -74,6 +70,29 @@ namespace('tux.forms');
 		},
 		
 		/**
+		 * Activation
+		 */
+		
+		activate: function() {
+			$(this.el).addClass('active');
+		},
+		
+		deactivate: function(e) {
+			// grab preselection
+			this.select();
+			
+			// deactivate and reset
+			$(this.el).removeClass('active')
+				.find('li').each(function() {
+					var item = $(this);
+					// remove weighting, filtering and preselection
+					item.text(item.text())
+						.removeClass('filtered')
+						.removeClass('preselect');
+				});
+		},
+		
+		/**
 		 * Selection
 		 */
 		
@@ -85,58 +104,26 @@ namespace('tux.forms');
 			this.$('li.preselect').removeClass('preselect');
 		},
 		
-		select: function(e) {
-			var itemData = $(e.target).data(),
-				val = itemData.id;
+		select: function() {
+			var item = this.$('li.preselect'),
+				data = item.data(),
+				text = item.text();
 			
-			if (itemData.type) {
-				val += ',' + itemData.type;
-			}
-			
-			this.$('input').val(val);
-			this.deactivate();
-			this.$('span.selection').text($(e.target).text());
-			
-			e.preventDefault();
-		},
-		
-		/**
-		 * Activation
-		 */
-		
-		activate: function() {
-			$(this.el).addClass('active');
-		},
-		
-		deactivate: function() {
-			if ($(this.el).hasClass('search')) {
-				// do not deactivate while search is active
+			if (!item.length) {
+				// remove data
+				this.$('input').removeData('id').removeData('type');
 				return;
 			}
-			$(this.el).removeClass('active');
-		},
-		
-		focusInput: function() {
-			this.$('input').focus();
+			
+			this.$('input')
+				.val(text)
+				.data('id', data.id)
+				.data('type', data.type);
 		},
 		
 		/**
-		 * Filtering and result nav
+		 * Filtering and navigation
 		 */
-		
-		enableSearch: function() {
-			this.prevSel = this.$('input').val();
-			$(this.el).addClass('search');
-			this.$('input').val('');
-			this.activate();
-		},
-		
-		disableSearch: function(e) {
-			$(this.el).removeClass('search');
-			this.deactivate();
-			this.$('input').val('').keyup().val(this.prevSel);
-			this.$('li.preselect').click().removeClass('preselect');
-		},
 		
 		filter: function(e) {
 			// get search term and create regular expression

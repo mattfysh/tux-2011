@@ -3,32 +3,26 @@
  */
 .omni-select {
 	display: inline-block;
-	width: 180px;
 	border: 1px solid #999;
-	padding: 3px 10px;
 	position: relative;
 	background-color: #fff;
-	height: 16px;
+	height: 22px;
 }
-.omni-select input,
-.omni-select .selection {
-	padding: 0;
+.omni-select input {
 	margin: 0;
 	border: 0;
 	outline: none;
-}
-.omni-select input {
-	display: none;
-}
-.omni-select .selection {
-	display: block;
-	cursor: default;
 	width: 180px;
+	padding: 3px 10px;
+	cursor: default;
 }
 
 /* active */
 .omni-select.active {
 	outline: 2px solid #cdc;
+}
+.omni-select.active input {
+	cursor: text;
 }
 .omni-select ul {
 	display: none;
@@ -57,12 +51,6 @@
 }
 
 /* search */
-.omni-select.search .selection {
-	display: none;
-}
-.omni-select.search input {
-	display: block;
-}
 .omni-select li.filtered {
 	display: none;
 }
