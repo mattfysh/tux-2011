@@ -9,8 +9,10 @@ namespace('tux.accounts');
 		
 		initialize: function() {
 			// event binding
-			_(this).bindAll('remove');
-			this.model.bind('remove', this.remove);
+			_(this).bindAll('remove', 'render');
+			this.model.bind('remove', this.remove)
+				.bind('change:balance', this.render);
+			
 			// render view
 			this.render();
 		},

@@ -51,28 +51,30 @@
 		
 		describe('submit', function() {
 			
+			var eventSpy;
+			
 			beforeEach(function() {
 				// data entry
 				fillForm(form.el, {
 					account: '1',
-					tag: 'lunch',
+					tag: '1,in',
 					amount: '$3.12',
-					desc: 'maccas'
+					desc: 'test'
 				});
+				
+				eventSpy = sinon.spy();
+				form.bind('newtx', eventSpy);
 			});
 			
 			it('should pass form data to custom event when submitted', function() {
-				var eventSpy = sinon.spy();
-				
-				form.bind('newtx', eventSpy);
 				form.$(':submit').click();
 				
 				expect(eventSpy).toHaveBeenCalled();
 				expect(eventSpy).toHaveBeenCalledWith({
 					account: '1',
-					tag: 'lunch',
+					tag: '1',
 					amount: 312,
-					desc: 'maccas'
+					desc: 'test'
 				});
 			});
 			
@@ -83,6 +85,21 @@
 				expect(form.$('input[name=tag]')).toHaveValue('');
 				expect(form.$('input[name=amount]')).toHaveValue('');
 				expect(form.$('input[name=desc]')).toHaveValue('');
+			});
+			
+			it('should negate amounts with expense tags', function() {
+				// change tag, submit
+				fillForm(form.el, {
+					tag: '2,ex'
+				});
+				form.$(':submit').click();
+				
+				expect(eventSpy).toHaveBeenCalledWith({
+					account: '1',
+					tag: '2',
+					amount: -312,
+					desc: 'test'
+				});
 			});
 			
 		});

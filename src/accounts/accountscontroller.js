@@ -46,6 +46,10 @@ namespace('tux.accounts');
 		
 		get: function(id) {
 			return this.list.get(id);
+		},
+		
+		applyAdjustment: function(accountId, amount) {
+			this.list.get(accountId).adjustBalance(amount);
 		}
 	
 	});

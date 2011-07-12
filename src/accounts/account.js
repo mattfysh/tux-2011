@@ -14,7 +14,7 @@ namespace('tux.accounts');
 		adjustBalance: function (amount) {
 			this.set({
 				balance: this.get('balance') + amount
-			});
+			}).save();
 		},
 		
 		// validate model

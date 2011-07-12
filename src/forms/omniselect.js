@@ -86,10 +86,18 @@ namespace('tux.forms');
 		},
 		
 		select: function(e) {
-			e.preventDefault();
-			this.$('input').val($(e.target).data('id'));
+			var itemData = $(e.target).data(),
+				val = itemData.id;
+			
+			if (itemData.type) {
+				val += ',' + itemData.type;
+			}
+			
+			this.$('input').val(val);
 			this.deactivate();
 			this.$('span.selection').text($(e.target).text());
+			
+			e.preventDefault();
 		},
 		
 		/**

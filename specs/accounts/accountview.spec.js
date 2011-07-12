@@ -116,6 +116,17 @@
 			});
 			
 		});
+		
+		describe('balance updates', function() {
+			
+			it('should update balance when model updates', function() {
+				this.account.set({
+					balance: 112
+				});
+				expect(this.view.$('span.balance')).toHaveText('$1.12');
+			});
+			
+		});
 	
 	});
 	

@@ -1,8 +1,6 @@
+## next
 
-## now
-
-* accounts quick glance
-** updates in real time
+accounts quick glance - updates in real time
 
 
 # todo
@@ -30,7 +28,7 @@
 
 ## ledger
 
-* updates account
+
 * style table
 * bind to account
 ** removal
@@ -39,6 +37,7 @@
 * running total
 * delete tx
 ** readjust balance
+** negative values
 
 
 ## accounts

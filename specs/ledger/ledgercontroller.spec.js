@@ -88,22 +88,12 @@
 			
 		});
 		
-		describe('event binding', function() {
+		describe('new transactions', function() {
 			
-			var newTx, newView;
-			
-			beforeEach(function() {
-				newTx = {
-					foo: 'bar'
+			var newTx = {
+					account: 1,
+					amount: 321
 				};
-				newView = $('<li>')[0];
-				
-				viewStub.withArgs({
-					model: newTx
-				}).returns(new Backbone.View({
-					el: newView
-				}));
-			});
 			
 			it('should listen for new txs from the form and send to list', function() {
 				var createStub = sinon.stub(txList, 'create');
@@ -112,21 +102,50 @@
 				createStub.restore();
 			});
 			
-			it('should create a tx view for new accounts', function() {
-				txList.add(newTx);
-				expect(viewStub.getCall(2)).toHaveBeenCalledWithExactly({
-					model: txList.at(2)
+			describe('collection events', function() {
+				
+				var newView, newModel, accounts;
+				
+				beforeEach(function() {
+					// stub model
+					newModel = new Backbone.Model(newTx);
+					
+					// stub view
+					newView = $('<li>')[0];
+					viewStub.withArgs({
+						model: newModel
+					}).returns(new Backbone.View({
+						el: newView
+					}));
+					
+					// stub accounts
+					namespace('tux.refs');
+					accounts = tux.refs.accounts = {
+							applyAdjustment: sinon.stub()
+					};
+					
+					// add to list
+					txList.trigger('add', newModel);
 				});
+				
+				it('should create a tx view for new accounts', function() {
+					expect(viewStub.getCall(2)).toHaveBeenCalledWithExactly({
+						model: newModel
+					});
+				});
+				
+				it('should append the new view to the DOM', function() {
+					expect(ledger.$('li:eq(2)')).toBe(newView);
+				});
+				
+				it('should send an adjustment to the account', function() {
+					expect(accounts.applyAdjustment).toHaveBeenCalled();
+					expect(accounts.applyAdjustment).toHaveBeenCalledWithExactly(1, 321);
+				});
+				
 			});
 			
-			it('should append the new view to the DOM', function() {
-				txList.trigger('add', newTx);
-				expect(ledger.$('li:eq(2)')).toBe(newView);
-			});
-			
-		});
-	
-		
+		});	
 	
 	});
 	

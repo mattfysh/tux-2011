@@ -438,6 +438,11 @@
 				expect(pay).toHaveText('pay');
 			});
 			
+			it('should copy id and ex type data to field', function() {
+				dinner.click();
+				expect(input).toHaveValue('1,ex');
+			});
+			
 		});
 		
 		describe('with accounts and tags', function() {

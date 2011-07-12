@@ -52,18 +52,24 @@
 		
 		describe('balance adjustments', function() {
 			
+			var account, saveStub;
+			
 			beforeEach(function() {
-				this.account = new Account({
+				account = new Account({
 					name: 'test',
 					balance: 10000
 				});
+				saveStub = sinon.stub(account, 'save');
+				account.adjustBalance(200);
 			});
 			
 			it('should adjust the balance', function() {
-				var account = this.account;
-				account.adjustBalance(200);
 				expect(account.get('balance')).toBe(10200);
 			}); 
+			
+			it('should save new balance', function() {
+				expect(saveStub).toHaveBeenCalled();
+			});
 			
 		});
 		

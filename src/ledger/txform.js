@@ -31,22 +31,34 @@ namespace('tux.ledger');
 		},
 		
 		process: function(e) {
-			var tx;
+			var tx = this.getTxFormData();
+			
 			e.preventDefault();
 			
-			tx = this.getTxFormData();
-			// parse amount
-			tx.amount = parse(tx.amount);
+			// trigger and reset
 			this.trigger('newtx', tx);
-			// reset form
 			e.target.reset();
 		},
 		
 		getTxFormData: function() {
-			var tx = {};
+			// build tx object
+			var tag,
+				tx = {};
 			this.$(':input:not(:submit)').each(function() {
 				tx[this.getAttribute('name')] = $(this).val();
 			});
+			
+			// parse amount
+			tx.amount = parse(tx.amount);
+			
+			// process tag type
+			tag = tx.tag.split(',');
+			tx.tag = tag[0];
+			if (tag[1] === 'ex') {
+				tx.amount = tx.amount * -1;
+			}
+			
+			// return new tx
 			return tx;
 		}
 	

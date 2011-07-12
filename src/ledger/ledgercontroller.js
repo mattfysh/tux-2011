@@ -17,9 +17,9 @@ namespace('tux.ledger');
 			$(this.el).append('<ul class="tx-list">');
 			
 			// event binding
-			_(this).bindAll('addTxToList', 'displayTx');
+			_(this).bindAll('addTxToList', 'displayTx', 'processNewTx');
 			form.bind('newtx', this.addTxToList);
-			this.list.bind('add', this.displayTx);
+			this.list.bind('add', this.processNewTx);
 			
 			// process tx list
 			this.list.each(this.displayTx);
@@ -29,11 +29,21 @@ namespace('tux.ledger');
 			this.list.create(tx);
 		},
 		
+		processNewTx: function(tx) {
+			this.sendAdjustment(tx);
+			this.displayTx(tx);
+		},
+		
 		displayTx: function(tx) {
 			var view = new tux.ledger.TxView({
 				model: tx
 			});
 			this.$('ul.tx-list').append(view.el);
+		},
+		
+		sendAdjustment: function(tx) {
+			tux.refs.accounts
+				.applyAdjustment(tx.get('account'), tx.get('amount'));
 		}
 	
 	});
