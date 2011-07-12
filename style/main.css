@@ -16,7 +16,7 @@ input {
 #nav-container {
 	position: fixed;
 	top: 0;
-	width: 200px;
+	width: 150px;
 	color: #eee;
 	padding-left: 20px;
 }
@@ -49,7 +49,7 @@ input {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	left: 220px;
+	left: 170px;
 	right: 0;
 	box-shadow: -5px 0 12px rgba(0, 0, 0, 0.65);
 	padding: 20px;
