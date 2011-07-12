@@ -7,9 +7,9 @@
 	
 	<target name="build">
 		<antcall target="lint-src" />
-		<antcall target="lint-tests" />
+		<antcall target="lint-test" />
 		<antcall target="test" />
-		<antcall target="build-all-apps" />
+		<antcall target="build-modules" />
 	</target>
 
 	<!-- lint source -->
@@ -48,35 +48,35 @@
 		<echo>Jasmine Specs Passed</echo>
 	</target>
 			
-	<!-- build each app -->
-	<target name="build-all-apps">
+	<!-- build each module -->
+	<target name="build-modules">
 		<copy file="src/util.js" tofile="scripts/util.js" />
-		<subant target="build-app" genericantfile="build/build.xml">
+		<subant target="build-module" genericantfile="build/build.xml">
 			<dirset dir="src" includes="*" />
 		</subant>
-		<echo>All apps built</echo>
+		<echo>All modules built</echo>
 	</target>
 	
-	<target name="build-app">
-		<basename file="${basedir}" property="app" />
-		<property name="appfile" value="../../scripts/${app}.js" />
+	<target name="build-module">
+		<basename file="${basedir}" property="module" />
+		<property name="modulefile" value="../../scripts/${module}.js" />
 		
 		<!-- concat src js -->
-		<concat destfile="${appfile}">
+		<concat destfile="${modulefile}">
 			<fileset dir="." includes="*.js" />
 		</concat>
 		
 		<!-- namespace the templates -->
-		<echo file="${appfile}" append="true">namespace('tux.${app}');${line.separator}</echo>
+		<echo file="${modulefile}" append="true">namespace('tux.${module}');${line.separator}</echo>
 		
 		<!-- append compiled jst files -->
-		<apply dir="../../build" executable="java" output="${appfile}" append="true">
+		<apply dir="../../build" executable="java" output="${modulefile}" append="true">
 			<fileset dir="jst" includes="*.jst" />
 			<arg line="-jar rhino.jar compile-jst.js" />
 			<srcfile />
 		</apply>
 		
-		<echo>${app} app build successful</echo>
+		<echo>${module} module build successful</echo>
 	</target>
 	
 	

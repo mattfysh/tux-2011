@@ -23,6 +23,8 @@
 	<script src="scripts/accounts.js"></script>
 	<script src="scripts/tags.js"></script>
 	<script src="scripts/ledger.js"></script>
+	<script src="scripts/schedule.js"></script>
+	<script src="scripts/reports.js"></script>
 
 	<!-- bootstrap -->
 	<script>
@@ -39,6 +41,14 @@
 				name: 'ledger',
 				obj: tux.ledger.LedgerController,
 				title: 'Ledger'
+			}, {
+				name: 'schedule',
+				obj: tux.schedule.ScheduleController,
+				title: 'Schedule'
+			}, {
+				name: 'reports',
+				obj: tux.reports.ReportsController,
+				title: 'Reports'
 			}]
 		});
 		$('body').prepend(app.el);

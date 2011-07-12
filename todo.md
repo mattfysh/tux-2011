@@ -1,6 +1,6 @@
 ## next
 
-accounts quick glance - updates in real time
+
 
 
 # todo
@@ -44,10 +44,3 @@ accounts quick glance - updates in real time
 
 * type property
 * edit view confirm/cancel icons
-
-
-
-
-
-
-
