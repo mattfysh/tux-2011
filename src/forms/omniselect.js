@@ -110,8 +110,8 @@ namespace('tux.forms');
 				text = item.text();
 			
 			if (!item.length) {
-				// remove data
-				this.$('input').removeData('id').removeData('type');
+				// remove data and text
+				this.$('input').removeData('id').removeData('type').val('');
 				return;
 			}
 			

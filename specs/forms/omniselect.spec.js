@@ -353,15 +353,24 @@
 				
 				describe('after first selection', function() {
 					
-					it('should remove data if nothing selected', function() {
+					beforeEach(function() {
 						// first select
 						omniSel.$('li:eq(1)').mouseenter().click();
 						expect(input).toHaveData('id', 2);
-						input.val('').keyup().focusout();
-						expect(input).not.toHaveData('id', 2);
+						expect(input).toHaveValue('XYZ Bank');
 					});
 					
+					it('should remove data if nothing selected', function() {
+						input.val('XYZ Ban').keyup().focusout();
+						expect(input).not.toHaveData('id', 2);
+						expect(input).not.toHaveValue('XYZ Ban');
+					});
 					
+					it('should keep selection if unchanged', function() {
+						input.focus().focusout();
+						expect(input).toHaveData('id', 2);
+						expect(input).toHaveValue('XYZ Bank');
+					});
 					
 				});
 				
