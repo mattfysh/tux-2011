@@ -6,7 +6,20 @@ namespace('tux.tags');
 	tux.tags.TagForm = Backbone.View.extend({
 	
 		initialize: function() {
+			// render
 			this.render();
+			
+			// attach type code omni select
+			new tux.forms.OmniSelect({
+				input: this.$('input[name=code]')[0],
+				options: [{
+					name: 'Expense',
+					value: 'e'
+				}, {
+					name: 'Income',
+					value: 'i'
+				}]
+			});
 		},
 		
 		render: function() {

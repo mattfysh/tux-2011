@@ -10,34 +10,45 @@
 		
 		var newTag = {
 				name: 'dinner',
-				type: 'ex'
+				code: 'e'
 			},
 			form, view,
-			name, type;
+			name, code,
+			omniStub;
 		
 		beforeEach(function() {
+			// stub omniselect
+			omniStub = sinon.stub(tux.forms, 'OmniSelect');
+			
 			form = new TagForm();
 			view = $(form.el);
 			
 			name = view.find('input[name=name]');
-			type = view.find('select[name=type]');
+			code = view.find('input[name=code]');
 			
 			setFixtures(view);
 		});
+		
+		afterEach(function() {
+			omniStub.restore();
+		});
 	
-		it('should allow name input', function() {
+		it('should allow name and code input', function() {
 			expect(view).toContain(name);
-			expect(view).toContain(':submit');
+			expect(view).toContain(code);
 		});
 		
-		it('should allow type input', function() {
-			expect(view).toContain(type);
-			expect(type).toContain('option[value=in]');
-			expect(type).toContain('option[value=ex]');
-		});
-		
-		it('should default to expense type', function() {
-			expect(type).toHaveValue('ex');
+		it('should use omni select for type code', function() {
+			expect(omniStub).toHaveBeenCalledWith({
+				input: code[0],
+				options: [{
+					name: 'Expense',
+					value: 'e'
+				}, {
+					name: 'Income',
+					value: 'i'
+				}]
+			});
 		});
 		
 		it('should throw custom event with new tag on submit', function() {
@@ -52,7 +63,6 @@
 		it('should reset form on submit', function() {
 			fillForm(view.find('form'), newTag).submit();
 			expect(name).toHaveValue('');
-			expect(type).toHaveValue('ex');
 		});
 	
 	});
