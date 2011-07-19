@@ -19,7 +19,7 @@ namespace('tux.ledger');
 			
 			// get name
 			account = this.get('account');
-			this.accountName = tux.refs.accounts.get(account).get('name');
+			this.accountName = tux.refs.accounts.list.get(account).get('name');
 			return this.accountName;
 		},
 		
@@ -33,7 +33,7 @@ namespace('tux.ledger');
 			
 			// get name
 			tag = this.get('tag');
-			this.tagName = tux.refs.tags.get(tag).get('name');
+			this.tagName = tux.refs.tags.list.get(tag).get('name');
 			return this.tagName;
 		}
 	

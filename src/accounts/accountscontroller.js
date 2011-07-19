@@ -42,14 +42,6 @@ namespace('tux.accounts');
 				model: account
 			});
 			this.$('ul li.total').before(view.el);
-		},
-		
-		get: function(id) {
-			return this.list.get(id);
-		},
-		
-		applyAdjustment: function(accountId, amount) {
-			this.list.get(accountId).adjustBalance(amount);
 		}
 	
 	});

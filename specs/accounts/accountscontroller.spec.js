@@ -126,16 +126,6 @@
 			this.list.trigger('add', this.acc3);
 			expect(this.accounts.$('li:eq(2)')).toHaveText('ME Bank');
 		});
-		
-		it('should expose collection get method', function() {
-			expect(this.accounts.get(1)).toBe(this.acc1);
-		});
-		
-		it('should apply adjustments from ledger', function() {
-			this.acc1.adjustBalance = sinon.stub();
-			this.accounts.applyAdjustment(1, 321);
-			expect(this.acc1.adjustBalance).toHaveBeenCalledWith(321);
-		});
 	
 	});
 	
