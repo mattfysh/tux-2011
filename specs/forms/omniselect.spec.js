@@ -67,6 +67,11 @@
 				expect(e).toHaveData('value', 'e');
 			});
 			
+			it('should select first by default', function() {
+				expect(sel).toHaveText('Income');
+				expect(input).toHaveData('value', 'i');
+			});
+			
 		});
 	
 		describe('activation', function() {
@@ -109,13 +114,7 @@
 				})
 			}
 			
-			it('should move to first on down key', function() {
-				input.trigger(key('down'));
-				expect(i).toHaveClass('preselect');
-			});
-			
 			it('should move to next on down key', function() {
-				input.trigger(key('down'));
 				input.trigger(key('down'));
 				expect(i).not.toHaveClass('preselect');
 				expect(e).toHaveClass('preselect');
@@ -124,34 +123,26 @@
 			it('should not move past last', function() {
 				input.trigger(key('down'));
 				input.trigger(key('down'));
-				input.trigger(key('down'));
 				expect(i).not.toHaveClass('preselect');
 				expect(e).toHaveClass('preselect');
 			});
 			
 			it('should move to previous on up key', function() {
 				input.trigger(key('down'));
-				input.trigger(key('down'));
 				input.trigger(key('up'));
 				expect(i).toHaveClass('preselect');
 				expect(e).not.toHaveClass('preselect');
 			});
 			
-			it('should not move to first on up key', function() {
-				input.trigger(key('up'));
-				expect(i).not.toHaveClass('preselect');
-			});
-			
 			it('should not move past first', function() {
-				input.trigger(key('down'));
 				input.trigger(key('up'));
 				expect(i).toHaveClass('preselect');
 			});
 			
 			it('should force selection', function() {
 				input.trigger(key('down'));
-				expect(sel).toHaveText('Income');
-				expect(input).toHaveData('value', 'i');
+				expect(sel).toHaveText('Expense');
+				expect(input).toHaveData('value', 'e');
 			});
 			
 			it('should prevent typing in input', function() {

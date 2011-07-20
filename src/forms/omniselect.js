@@ -27,6 +27,10 @@ namespace('tux.forms');
 			_.each(options.options, function(option) {
 				ul.append(tux.forms.omniSelectOption(option));
 			});
+			
+			// default to first
+			this.nav(40);
+			this.getSelection();
 		},
 		
 		events: {
@@ -73,7 +77,7 @@ namespace('tux.forms');
 		 * Selection
 		 */
 		
-		getSelection: function(e) {
+		getSelection: function() {
 			var el = $(this.el),
 				sel = el.find('.preselect')
 			
