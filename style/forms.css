@@ -10,6 +10,10 @@ input:focus {
 	outline: 0;
 	box-shadow: 0 0 0 2px #cdc;
 }
+input:disabled {
+	outline: 0;
+	box-shadow: 0 0 0 2px #cdc;
+}
 input[type=submit] {
 	background-color: #cdc;
 }
@@ -24,7 +28,17 @@ input[type=submit] {
 .omni-select input {
 	background-color: #fff;
 	border: 1px solid #999;
-	
+	text-indent: -100px;
+}
+.omni-select .selection {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 4px 11px;
+	cursor: default;
 }
 /* options */
 .omni-select ul {
@@ -32,7 +46,7 @@ input[type=submit] {
 	overflow: hidden;
 	position: absolute;
 	left: 0;
-	top: 24px;
+	top: 23px;
 	margin: 0;
 	padding: 0;
 	list-style: none none outside;
@@ -42,15 +56,22 @@ input[type=submit] {
 	border-top: 0;
 	box-shadow: 0 2px 5px rgba(100, 100, 100, 0.65);
 	width: 100%;
-	box-sizing: border-box; /* ? */
+	box-sizing: border-box;
 }
 .omni-select li {
 	padding: 3px 10px;
 }
-.omni-select li.preselect {
+.omni-select li:hover {
 	background-color: #cdc;
 }
+.omni-select li.preselect {
+	background-color: #297729;
+	color: #fff;
+}
 /* states */
+.omni-select.active input {
+	box-shadow: 0 0 0 2px #cdc;
+}
 .omni-select.active ul {
 	display: block;
 }

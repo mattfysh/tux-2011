@@ -4,180 +4,118 @@ namespace('tux.forms');
 	'use strict';
 	
 	tux.forms.OmniSelect = Backbone.View.extend({
+		
+		tagName: 'span',
+		className: 'omni-select',
 	
 		initialize: function(options) {
-			var wrapper = $('<div class="omni-select">'),
-				input = this.el;
+			var select = $(this.el),
+				ul;
 			
-			// proxy methods
-			_(this).bindAll('addOption', 'removeOption', 'renameOption');
+			// add view to DOM, wrap target input
+			$(options.input).before(select);
+			$(this.el)
+				.append(options.input)
+				.append('<span class="selection">')
+				.append('<ul>');
 			
-			// wrap input with omni select template
-			this.el = $(input).wrap(wrapper)
-				.parent()
-				.append('<ul>')[0];
-				
-			// add items
-			tux.refs[options.items[0]].list.each(_(this.addOption).bind(this, options.items[0]));
+			// hide input cursor with dummy text
+			options.input.value = ' ';
 			
-			// event binding
-			tux.refs[options.items[0]].list 
-				.bind('add', _(this.addOption).bind(this, options.items[0]))
-				.bind('remove', this.removeOption)
-				.bind('change:name', this.renameOption);
-			
-			// late bind events after wrapper becomes new view
-			this.events = this.wrapperEvents;
-			this.delegateEvents();
+			// add options
+			ul = select.find('ul');
+			_.each(options.options, function(option) {
+				ul.append(tux.forms.omniSelectOption(option));
+			});
 		},
 		
-		wrapperEvents: {
+		events: {
 			'focus input': 'activate',
 			'blur input': 'deactivate',
+			'mousedown .selection': 'toggle',
+			'mouseup .selection': 'afterToggle',
 			
-			'keyup input': 'filter',
-			'keydown input': 'navigate',
+			'keydown input': 'keydown',
 			
-			'mouseenter li': 'preselect',
-			'click li': 'deactivate',
-			'mouseleave ul': 'deselect'
-		},
-		
-		/**
-		 * Option list
-		 */
-		
-		addOption: function(item, option) {
-			// generate item markup and append to list
-			var data = option.toJSON(),
-				result;
-			
-			data.item = item;
-			if (!data.type) {
-				data.type = '';
-			}
-			result = $(tux.forms.omniSelectOption(data));
-			
-			this.$('ul').append(result);
-		},
-		
-		removeOption: function(option) {
-			this.$('ul li[data-id=' + option.id + ']').remove();
-		},
-		
-		renameOption: function(option) {
-			this.$('ul li[data-id=' + option.id + ']').text(option.get('name'));
+			'mousedown li': 'mouseSelect'
 		},
 		
 		/**
 		 * Activation
 		 */
 		
+		isActive: function() {
+			return $(this.el).hasClass('active');
+		},
+		
 		activate: function() {
 			$(this.el).addClass('active');
 		},
 		
-		deactivate: function(e) {
-			// grab preselection
-			this.select();
-			
-			// deactivate and reset
-			$(this.el).removeClass('active')
-				.find('li').each(function() {
-					var item = $(this);
-					// remove weighting, filtering and preselection
-					item.text(item.text())
-						.removeClass('filtered')
-						.removeClass('preselect');
-				});
+		deactivate: function() {
+			this.getSelection();
+			//this.$('.preselect').removeClass('preselect');
+			$(this.el).removeClass('active');
+		},
+		
+		toggle: function() {
+			this[this.isActive() ? 'deactivate' : 'activate']();
+		},
+		
+		afterToggle: function() {
+			// give focus to input
+			if (this.isActive()) {
+				this.$('input')[0].focus();
+			}
 		},
 		
 		/**
 		 * Selection
 		 */
 		
-		preselect: function(e) {
-			this.$('li.preselect').add(e.target).toggleClass('preselect');
+		getSelection: function(e) {
+			var el = $(this.el),
+				sel = el.find('.preselect')
+			
+			el.find('.selection').html(sel.html());
+			el.find('input').data('value', sel.data('value'));
 		},
 		
-		deselect: function() {
-			this.$('li.preselect').removeClass('preselect');
+		mouseSelect: function(e) {
+			this.preselect(e.target);
 		},
 		
-		select: function() {
-			var item = this.$('li.preselect'),
-				data = item.data(),
-				text = item.text();
-			
-			if (!item.length) {
-				// remove data and text
-				this.$('input').removeData('id').removeData('type').val('');
-				return;
-			}
-			
-			this.$('input')
-				.val(text)
-				.data('id', data.id)
-				.data('type', data.type);
+		preselect: function(to) {
+			this.$('.preselect').removeClass('preselect');
+			$(to).addClass('preselect');
 		},
 		
 		/**
-		 * Filtering and navigation
+		 * Navigation
 		 */
 		
-		filter: function(e) {
-			// get search term and create regular expression
-			var searchTerm = $(e.target).val().replace(/^\s|\s$/g, ''),
-				rsearch = new RegExp(searchTerm, 'i');
-			
-			// loop through each item
-			this.$('li').each(function() {
-				var item = $(this),
-					content = item.text(),
-					isMatch = rsearch.test(content);
-				
-				// update class
-				item[isMatch ? 'removeClass' : 'addClass']('filtered');
-				
-				// update strong
-				if (isMatch) {
-					item.html(content.replace(rsearch, function(term) {
-						return term && '<strong>' + term + '</strong>';
-					}));
-				} else {
-					item.html(content);
-					item.removeClass('preselect');
-				}
-			});
+		keydown: function(e) {
+			if (/^38|40$/.test(e.which)) {
+				this.nav(e.which);
+			}
+			e.target.value = ' ';
 		},
 		
-		navigate: function(e) {
-			var direct, from, to;
+		nav: function(key) {
+			var way = (key === 40) ? 'next' : 'prev',
+				from = this.$('li.preselect'),
+				to = from[way]('li')[0];
 			
-			if (e.which !== 40 && e.which !== 38) {
-				// not a nav key
+			if (from[0] && !to) {
+				// dont move
 				return;
+			} else if (!to && way === 'next') {
+				// start at first
+				to = this.$('li:eq(0)')[0];
 			}
 			
-			// determine direction
-			direct = (e.which === 40) ? 'next' : 'prev';
-			// find next valid item
-			from = this.$('li.preselect');
-			to = from[direct + 'All']('li:not(.filtered):eq(0)');
-			
-			if (!from.length && direct === 'next') {
-				// no current preselect, go to first
-				to = this.$('li:not(.filtered):eq(0)');
-			}
-			
-			// move preselect only if there is somewhere to move to
-			if (to.length || direct === 'prev') {
-				this.preselect({
-					target: to
-				});
-			}
-			
-			e.preventDefault();
+			this.preselect(to);
+			this.getSelection();
 		}
 		
 		
