@@ -15,7 +15,7 @@ namespace('tux.tags');
 			this.list = new tux.tags.TagList();
 			
 			// add ul
-			$(this.el).append('<ul class="tag-list">');
+			$(this.el).append('<ul class="table-list">');
 			
 			// create views
 			this.list.each(this.displayTag);
@@ -37,7 +37,7 @@ namespace('tux.tags');
 			var view = new tux.tags.TagView({
 				model: tag
 			});
-			this.$('ul.tag-list').append(view.el);
+			this.$('ul.table-list').append(view.el);
 		},
 		
 		get: function(id) {

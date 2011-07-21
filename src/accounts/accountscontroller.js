@@ -9,7 +9,7 @@ namespace('tux.accounts');
 			var totals, form;
 			
 			// add table to view
-			$('<ul>').appendTo(this.el);
+			$('<ul class="table-list">').appendTo(this.el);
 			
 			// event binding
 			_(this).bindAll('addAccountToList', 'displayAccount');

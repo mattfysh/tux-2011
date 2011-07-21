@@ -72,7 +72,7 @@
 		});
 		
 		it('should add a list', function() {
-			expect(this.accounts.$('ul')).toExist();
+			expect(this.accounts.$('ul.table-list')).toExist();
 		});
 		
 		it('should load the accounts list', function() {

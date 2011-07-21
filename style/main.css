@@ -43,7 +43,6 @@ input {
 	color: #333;
 }
 
-
 /* wrapped modules */
 #module-container {
 	position: absolute;
@@ -67,40 +66,32 @@ h2 {
 }
 
 /**
- * Accounts
+ * Table lists w/ tools
  */
-#accounts ul {
+.table-list {
 	list-style: none none outside;
 	display: inline-block;
 	padding: 0;
-	margin: 0;
+	margin: 0 0 30px;
 }
-#accounts li {
+.table-list li {
 	padding: 4px 6px;
-	border-radius: 3px;
 	cursor: default;
 }
-#accounts li:not(.total):hover {
+.table-list li:hover {
 	background-color: #cdc;
 }
-#accounts li span {
+.table-list span {
 	display: inline-block;
 }
-#accounts span.name {
-	width: 160px;
-}
-#accounts span.balance {
-	width: 80px;
-	text-align: right;
-}
-#accounts span.tools {
+.table-list .tools {
 	opacity: 0;
 	padding-left: 12px;
 }
-#accounts li:hover span.tools {
+.table-list li:hover .tools {
 	opacity: 1;
 }
-#accounts span.tools a {
+.table-list span.tools a {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -108,26 +99,39 @@ h2 {
 	overflow: hidden;
 	vertical-align: bottom;
 }
-#accounts a.destroy {
+.table-list a.destroy {
 	background-image: url(../img/ico/delete.png);
 }
-#accounts a.edit {
+.table-list a.edit {
 	background-image: url(../img/ico/edit.png);
+}
+
+/**
+ * Accounts
+ */
+#accounts span.name {
+	width: 160px;
+}
+#accounts span.balance {
+	width: 80px;
+	text-align: right;
 }
 #accounts li.total {
 	font-weight: bold;
-	margin: 3px 0 30px;
+	margin: 3px 0;
 	border-top: 1px dotted #aaa;
 	padding-top: 3px;
 	text-transform: uppercase;
+	background-color: transparent;
 }
-/* accounts input */
+/* inputs */
 #accounts ul input {
 	border: 1px solid #ddd;
 	height: 16px;
 	margin: 0;
 	padding: 0 2px;
 }
+/* edit view */
 #accounts span.name input {
 	width: 154px;
 }
@@ -137,4 +141,14 @@ h2 {
 #accounts li input[type=submit] {
 	width: 0px;
 	visibility: hidden;
+}
+
+/**
+ * Tags
+ */
+#tags span.name {
+	width: 100px;
+}
+#tags span.code {
+	width: 50px;
 }
