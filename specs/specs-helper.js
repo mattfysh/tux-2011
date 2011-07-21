@@ -4,10 +4,7 @@
 	var global = (function() { return this; }());
 	
 	// mustachify underscore templates
-	_.templateSettings = {
-		interpolate: /\{\{(.+?)\}\}/g,
-		evaluate: /##(.+?)##/g
-	};
+	_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 	
 	// load templates from url
 	function loadTemplate(url) {

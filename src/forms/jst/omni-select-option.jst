@@ -1,1 +1,6 @@
-<li data-value="{{ value }}"## if (obj.code) { ## data-code="{{ code }}"## } ##>{{ name }}</li>
+<li
+	data-value="{{ value }}"
+	<% if (obj.code) { %>
+		data-code="{{ code }}"
+	<% } %>
+>{{ name }}</li>

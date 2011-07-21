@@ -18,10 +18,7 @@ load('../lib/underscore.js');
 	path = 'tux.' + jst.match(/([^\\]+)\\jst/)[1] + '.' + name;
 	
 	// mustachify underscore templates
-	_.templateSettings = {
-		interpolate: /\{\{(.+?)\}\}/g,
-		evaluate: /##(.+?)##/g
-	};
+	_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 	
 	// generate the template function declaration
 	template = _.template(readFile(jst)).toString()
