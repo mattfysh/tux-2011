@@ -8,13 +8,13 @@ namespace('tux.ledger');
 		initialize: function() {
 			var form;
 			
+			// create tx list and add DOM ul
+			this.list = new tux.ledger.TxList();
+			$(this.el).append('<ul class="table-list">');
+			
 			// create form and append
 			form = new tux.ledger.TxForm();
 			$(this.el).append(form.el);
-			
-			// create tx list and add DOM ul
-			this.list = new tux.ledger.TxList();
-			$(this.el).append('<ul class="tx-list">');
 			
 			// event binding
 			_(this).bindAll('addTxToList', 'displayTx', 'processNewTx');
@@ -38,12 +38,13 @@ namespace('tux.ledger');
 			var view = new tux.ledger.TxView({
 				model: tx
 			});
-			this.$('ul.tx-list').append(view.el);
+			this.$('ul.table-list').append(view.el);
 		},
 		
 		sendAdjustment: function(tx) {
-			tux.refs.accounts
-				.applyAdjustment(tx.get('account'), tx.get('amount'));
+			tux.refs.accounts.list
+				.get(tx.get('account'))
+				.adjustBalance(tx.get('amount'));
 		}
 	
 	});

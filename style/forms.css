@@ -28,7 +28,7 @@ input[type=submit] {
 .omni-select input {
 	background-color: #fff;
 	border: 1px solid #999;
-	text-indent: -100px;
+	text-indent: -1000px;
 }
 .omni-select .selection {
 	position: absolute;

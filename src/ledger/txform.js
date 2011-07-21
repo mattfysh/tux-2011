@@ -20,14 +20,14 @@ namespace('tux.ledger');
 			$(this.el).empty().append(result);
 			
 			// add custom form inputs
-			/*new tux.forms.OmniSelect({
-				el: this.$('input[name=account]')[0],
-				items: ['accounts']
+			new tux.forms.OmniSelect({
+				input: this.$('input[name=account]')[0],
+				options: ['accounts']
 			});
 			new tux.forms.OmniSelect({
-				el: this.$('input[name=tag]')[0],
-				items: ['tags']
-			});*/
+				input: this.$('input[name=tag]')[0],
+				options: ['tags']
+			});
 		},
 		
 		process: function(e) {
@@ -42,8 +42,7 @@ namespace('tux.ledger');
 		
 		getTxFormData: function() {
 			// build tx object
-			var tag,
-				tx = {};
+			var tx = {};
 			this.$(':input:not(:submit)').each(function() {
 				tx[this.getAttribute('name')] = $(this).val();
 			});
@@ -51,10 +50,8 @@ namespace('tux.ledger');
 			// parse amount
 			tx.amount = parse(tx.amount);
 			
-			// process tag type
-			tag = tx.tag.split(',');
-			tx.tag = tag[0];
-			if (tag[1] === 'ex') {
+			// process tag code
+			if (this.$('input[name=tag]').data('code') === 'e') {
 				tx.amount = tx.amount * -1;
 			}
 			

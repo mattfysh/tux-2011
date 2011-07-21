@@ -146,9 +146,25 @@ h2 {
 /**
  * Tags
  */
-#tags span.name {
+#tags .name {
 	width: 100px;
 }
-#tags span.code {
+#tags .code {
 	width: 50px;
+}
+
+/**
+ * Ledger
+ */
+#ledger .account {
+	width: 160px;
+}
+#ledger .tag {
+	width: 100px;
+}
+#ledger .amount {
+	width: 50px;
+}
+#ledger .desc {
+	width: 200px;
 }

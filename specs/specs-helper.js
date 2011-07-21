@@ -5,7 +5,8 @@
 	
 	// mustachify underscore templates
 	_.templateSettings = {
-		interpolate: /\{\{(.+?)\}\}/g
+		interpolate: /\{\{(.+?)\}\}/g,
+		evaluate: /##(.+?)##/g
 	};
 	
 	// load templates from url

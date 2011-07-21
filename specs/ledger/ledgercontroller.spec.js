@@ -68,8 +68,8 @@
 				expect(listStub).toHaveBeenCalled();
 			});
 			
-			it('should add a list after the form', function() {
-				expect(ledger.$('form').next()).toBe('ul.tx-list');
+			it('should add a list before the form', function() {
+				expect(ledger.$('form').prev()).toBe('ul.table-list');
 			});
 			
 			it('should create a new tx view for each tx', function() {
@@ -104,7 +104,7 @@
 			
 			describe('collection events', function() {
 				
-				var newView, newModel, accounts;
+				var newView, newModel, acct;
 				
 				beforeEach(function() {
 					// stub model
@@ -119,10 +119,12 @@
 					}));
 					
 					// stub accounts
-					namespace('tux.refs');
-					accounts = tux.refs.accounts = {
-							applyAdjustment: sinon.stub()
-					};
+					namespace('tux.refs.accounts.list');
+					acct = new Backbone.Model({
+						id: 1
+					});
+					tux.refs.accounts.list = new Backbone.Collection([acct]);
+					acct.adjustBalance = sinon.stub();
 					
 					// add to list
 					txList.trigger('add', newModel);
@@ -139,8 +141,7 @@
 				});
 				
 				it('should send an adjustment to the account', function() {
-					expect(accounts.applyAdjustment).toHaveBeenCalled();
-					expect(accounts.applyAdjustment).toHaveBeenCalledWithExactly(1, 321);
+					expect(acct.adjustBalance).toHaveBeenCalledWithExactly(321);
 				});
 				
 			});

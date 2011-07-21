@@ -31,19 +31,19 @@
 				expect(el).toContain(':submit');
 			});
 			
-			xit('should replace account input with omni select', function() {
+			it('should replace account input with omni select', function() {
 				expect(omniSelStub).toHaveBeenCalled();
 				expect(omniSelStub).toHaveBeenCalledWith({
-					el: form.$('input[name=account]')[0],
-					items: ['accounts']
+					input: form.$('input[name=account]')[0],
+					options: ['accounts']
 				});
 			});
 			
-			xit('should replace tag input with omni select', function() {
+			it('should replace tag input with omni select', function() {
 				expect(omniSelStub).toHaveBeenCalled();
 				expect(omniSelStub).toHaveBeenCalledWith({
-					el: form.$('input[name=tag]')[0],
-					items: ['tags']
+					input: form.$('input[name=tag]')[0],
+					options: ['tags']
 				});
 			});
 			
@@ -57,10 +57,11 @@
 				// data entry
 				fillForm(form.el, {
 					account: '1',
-					tag: '1,in',
+					tag: '1',
 					amount: '$3.12',
 					desc: 'test'
 				});
+				form.$('input[name=tag]').data('code', 'i');
 				
 				eventSpy = sinon.spy();
 				form.bind('newtx', eventSpy);
@@ -80,9 +81,6 @@
 			
 			it('should reset the form when submitted', function() {
 				form.$(':submit').click();
-				
-				expect(form.$('input[name=account]')).toHaveValue('');
-				expect(form.$('input[name=tag]')).toHaveValue('');
 				expect(form.$('input[name=amount]')).toHaveValue('');
 				expect(form.$('input[name=desc]')).toHaveValue('');
 			});
@@ -90,8 +88,9 @@
 			it('should negate amounts with expense tags', function() {
 				// change tag, submit
 				fillForm(form.el, {
-					tag: '2,ex'
+					tag: '2'
 				});
+				form.$('input[name=tag]').data('code', 'e');
 				form.$(':submit').click();
 				
 				expect(eventSpy).toHaveBeenCalledWith({

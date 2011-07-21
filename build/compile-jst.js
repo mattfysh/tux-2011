@@ -19,7 +19,8 @@ load('../lib/underscore.js');
 	
 	// mustachify underscore templates
 	_.templateSettings = {
-		interpolate: /\{\{(.+?)\}\}/g
+		interpolate: /\{\{(.+?)\}\}/g,
+		evaluate: /##(.+?)##/g
 	};
 	
 	// generate the template function declaration

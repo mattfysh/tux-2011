@@ -11,23 +11,44 @@ namespace('tux.forms');
 		initialize: function(options) {
 			var select = $(this.el),
 				input = options.input,
-				ul;
+				ul = $('<ul>');
 			
 			// add view to DOM, wrap target input
 			$(input).before(select);
 			$(this.el)
 				.append(input)
 				.append('<span class="selection">')
-				.append('<ul>');
+				.append(ul);
+			
+			// bind callbacks
+			_.bindAll(this, 'addOption', 'removeOption');
 			
 			// add options
-			ul = select.find('ul');
-			_.each(options.options, function(option) {
-				ul.append(tux.forms.omniSelectOption(option));
-			});
+			_.each(options.options, _.bind(function(option) {
+				var list;
+				
+				if (typeof option === 'string') {
+					list = tux.refs[option].list;
+					
+					// add models from collection
+					list.each(this.addOption);
+
+					// bind events
+					list.bind('add', this.addOption)
+						.bind('remove', this.removeOption);
+				
+				} else {
+					// regular option
+					ul.append(tux.forms.omniSelectOption(option));
+				}
+				
+			}, this));
 			
-			// bind to form reset, perform reset and set default value
-			$(this.el).parents('form:eq(0)').bind('reset', _.bind(this.reset, this));
+			// bind to form reset
+			$(this.el).parents('form:eq(0)')
+				.bind('reset', _.bind(this.reset, this));
+			
+			// perform reset and set default value
 			this.reset();
 			input.defaultValue = input.value;
 		},
@@ -41,6 +62,19 @@ namespace('tux.forms');
 			'keydown input': 'keydown',
 			
 			'mousedown li': 'mouseSelect'
+		},
+		
+		/**
+		 * Collection bindings
+		 */
+		addOption: function(model) {
+			var data = model.toJSON();
+			data.value = data.id;
+			this.$('ul').append(tux.forms.omniSelectOption(data));
+		},
+		
+		removeOption: function(model) {
+			this.$('li[data-value=' + model.id + ']').remove();
 		},
 		
 		/**
@@ -82,10 +116,16 @@ namespace('tux.forms');
 		
 		getSelection: function() {
 			var el = $(this.el),
-				sel = el.find('.preselect')
+				sel = el.find('.preselect'),
+				data = sel.data();
 			
 			el.find('.selection').html(sel.html());
-			el.find('input').val(sel.data('value'));
+			el.find('input').val(data.value);
+			
+			// add code if present
+			if (data.code) {
+				el.find('input').data('code', data.code);
+			}
 		},
 		
 		mouseSelect: function(e) {
