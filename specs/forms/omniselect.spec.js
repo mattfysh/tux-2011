@@ -145,9 +145,7 @@
 			});
 			
 			it('should force selection', function() {
-				console.log('before down', input.val());
 				input.trigger(key('down'));
-				console.log('after down', input.val());
 				expect(sel).toHaveText('Expense');
 				expect(input).toHaveValue('e');
 			});
