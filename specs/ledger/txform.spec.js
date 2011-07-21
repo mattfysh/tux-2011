@@ -31,7 +31,7 @@
 				expect(el).toContain(':submit');
 			});
 			
-			it('should replace account input with omni select', function() {
+			xit('should replace account input with omni select', function() {
 				expect(omniSelStub).toHaveBeenCalled();
 				expect(omniSelStub).toHaveBeenCalledWith({
 					el: form.$('input[name=account]')[0],
@@ -39,7 +39,7 @@
 				});
 			});
 			
-			it('should replace tag input with omni select', function() {
+			xit('should replace tag input with omni select', function() {
 				expect(omniSelStub).toHaveBeenCalled();
 				expect(omniSelStub).toHaveBeenCalledWith({
 					el: form.$('input[name=tag]')[0],

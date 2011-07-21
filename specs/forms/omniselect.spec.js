@@ -8,11 +8,11 @@
 	describe('Omni-select', function() {
 		
 		var input, origParent, omni,
-			el, i, e, sel, ul;
+			el, i, e, sel, ul, form;
 	
 		beforeEach(function() {
 			// fixtures
-			setFixtures('<input name="target" id="input" />');
+			setFixtures('<form><input name="target" id="input" /></form>');
 			input = $('#input');
 			origParent = input.parent();
 			
@@ -34,6 +34,7 @@
 			i = el.find('li:eq(0)');
 			e = el.find('li:eq(1)');
 			ul = el.find('ul');
+			form = input.parents('form:eq(0)');
 		});
 		
 		describe('init', function() {
@@ -47,10 +48,6 @@
 			
 			it('should replace input with wrapper', function() {
 				expect(el.parent()).toBe(origParent);
-			});
-			
-			it('should hide input cursor using dummy text', function() {
-				expect(input).toHaveValue(' ');
 			});
 			
 			it('should add a class to the wrapper', function() {
@@ -69,7 +66,7 @@
 			
 			it('should select first by default', function() {
 				expect(sel).toHaveText('Income');
-				expect(input).toHaveData('value', 'i');
+				expect(input).toHaveValue('i');
 			});
 			
 		});
@@ -87,14 +84,22 @@
 			});
 			
 			it('should add a class when selection clicked', function() {
-				console.log('start');
 				sel.mousedown();
 				expect(el).toHaveClass('active');
-				console.log('end');
 			});
 			
 			it('should remove class when selection clicked again', function() {
 				sel.mousedown().mousedown();
+				expect(el).not.toHaveClass('active');
+			});
+			
+			it('should reset on form reset', function() {
+				e.mousedown();
+				sel.mousedown();
+				form[0].reset();
+				
+				expect(sel).toHaveText('Income');
+				expect(input).toHaveValue('i');
 				expect(el).not.toHaveClass('active');
 			});
 			
@@ -110,7 +115,7 @@
 			
 			function key(which) {
 				return $.Event('keydown', {
-					which: keyMap[which]
+					which: keyMap[which] || which
 				})
 			}
 			
@@ -140,14 +145,29 @@
 			});
 			
 			it('should force selection', function() {
+				console.log('before down', input.val());
 				input.trigger(key('down'));
+				console.log('after down', input.val());
 				expect(sel).toHaveText('Expense');
-				expect(input).toHaveData('value', 'e');
+				expect(input).toHaveValue('e');
 			});
 			
 			it('should prevent typing in input', function() {
-				input.val('test').keydown();
-				expect(input).toHaveValue(' ');
+				var typing = key(68);
+				input.val('test').trigger(typing)
+				expect(typing.isDefaultPrevented()).toBeTruthy();
+			});
+			
+			it('should allow tabbing', function() {
+				var tab = key(9);
+				input.val('test').trigger(tab)
+				expect(tab.isDefaultPrevented()).toBeFalsy();
+			});
+			
+			it('should allow enter submission', function() {
+				var enter = key(13);
+				input.val('test').trigger(enter)
+				expect(enter.isDefaultPrevented()).toBeFalsy();
 			})
 			
 		});
@@ -158,13 +178,7 @@
 				i.mousedown();
 				input.blur();
 				expect(sel).toHaveText('Income');
-				expect(input).toHaveData('value', 'i');
-			});
-			
-			xit('should remove preselect', function() {
-				i.mousedown();
-				input.blur();
-				expect(el.find('.preselect')).not.toExist();
+				expect(input).toHaveValue('i');
 			});
 			
 		});

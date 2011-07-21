@@ -10,17 +10,15 @@ namespace('tux.forms');
 	
 		initialize: function(options) {
 			var select = $(this.el),
+				input = options.input,
 				ul;
 			
 			// add view to DOM, wrap target input
-			$(options.input).before(select);
+			$(input).before(select);
 			$(this.el)
-				.append(options.input)
+				.append(input)
 				.append('<span class="selection">')
 				.append('<ul>');
-			
-			// hide input cursor with dummy text
-			options.input.value = ' ';
 			
 			// add options
 			ul = select.find('ul');
@@ -28,9 +26,10 @@ namespace('tux.forms');
 				ul.append(tux.forms.omniSelectOption(option));
 			});
 			
-			// default to first
-			this.nav(40);
-			this.getSelection();
+			// bind to form reset, perform reset and set default value
+			$(this.el).parents('form:eq(0)').bind('reset', _.bind(this.reset, this));
+			this.reset();
+			input.defaultValue = input.value;
 		},
 		
 		events: {
@@ -58,7 +57,6 @@ namespace('tux.forms');
 		
 		deactivate: function() {
 			this.getSelection();
-			//this.$('.preselect').removeClass('preselect');
 			$(this.el).removeClass('active');
 		},
 		
@@ -73,6 +71,11 @@ namespace('tux.forms');
 			}
 		},
 		
+		reset: function() {
+			this.preselect(this.$('li:eq(0)'));
+			this.deactivate();
+		},
+		
 		/**
 		 * Selection
 		 */
@@ -82,7 +85,7 @@ namespace('tux.forms');
 				sel = el.find('.preselect')
 			
 			el.find('.selection').html(sel.html());
-			el.find('input').data('value', sel.data('value'));
+			el.find('input').val(sel.data('value'));
 		},
 		
 		mouseSelect: function(e) {
@@ -102,7 +105,9 @@ namespace('tux.forms');
 			if (/^38|40$/.test(e.which)) {
 				this.nav(e.which);
 			}
-			e.target.value = ' ';
+			if (!/^9|13$/.test(e.which)) {
+				e.preventDefault();
+			}
 		},
 		
 		nav: function(key) {
@@ -113,9 +118,6 @@ namespace('tux.forms');
 			if (from[0] && !to) {
 				// dont move
 				return;
-			} else if (!to && way === 'next') {
-				// start at first
-				to = this.$('li:eq(0)')[0];
 			}
 			
 			this.preselect(to);

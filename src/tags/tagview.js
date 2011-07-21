@@ -20,7 +20,7 @@ namespace('tux.tags');
 			var data = this.model.toJSON(),
 				result;
 			
-			data.type = this.types[data.type];
+			data.code = this.codes[data.code];
 			result = tux.tags.tagView(data);
 			
 			$(this.el).empty().append(result);
@@ -30,9 +30,9 @@ namespace('tux.tags');
 			'click a.destroy': 'destroy'
 		},
 		
-		types: {
-			'ex': 'expense',
-			'in': 'income'
+		codes: {
+			'e': 'expense',
+			'i': 'income'
 		},
 		
 		destroy: function(e) {

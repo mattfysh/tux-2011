@@ -50,7 +50,7 @@ input[type=submit] {
 	margin: 0;
 	padding: 0;
 	list-style: none none outside;
-	cursor: pointer;
+	cursor: default;
 	background-color: #fff;
 	border: 1px solid #999;
 	border-top: 0;

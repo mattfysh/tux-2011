@@ -63,7 +63,7 @@
 			});
 			
 			it('should add a ul elem', function() {
-				expect(view).toContain('ul');
+				expect(view).toContain('ul.tag-list');
 			});
 			
 			it('should create a new view for each tag', function() {

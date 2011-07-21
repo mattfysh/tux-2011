@@ -8,7 +8,7 @@
 	
 		loadTemplate('/test/src/tags/jst/tag-view.jst');
 		
-		var view, el, model, name, type, destroy;
+		var view, el, model, name, code, destroy;
 		
 		function makeView(tag) {
 			model = new Backbone.Model(tag);
@@ -17,7 +17,7 @@
 			});
 			el = $(view.el);
 			name = el.find('span.name');
-			type = el.find('span.type');
+			code = el.find('span.code');
 			destroy = el.find('a.destroy');
 			
 			setFixtures(el);
@@ -30,25 +30,25 @@
 				expect(el).toBe('li');
 			});
 			
-			it('should show tag name and expense type', function() {
+			it('should show tag name and expense code', function() {
 				makeView({
 					name: 'dinner',
-					type: 'ex'
+					code: 'e'
 				});
 				
 				expect(el).toContain(name);
-				expect(el).toContain(type);
+				expect(el).toContain(code);
 				
 				expect(name).toHaveText('dinner');
-				expect(type).toHaveText('expense');
+				expect(code).toHaveText('expense');
 			});
 			
-			it('should show income type', function() {
+			it('should show income code', function() {
 				makeView({
 					name: 'pay',
-					type: 'in'
+					code: 'i'
 				});
-				expect(type).toHaveText('income');
+				expect(code).toHaveText('income');
 			});
 			
 		});
@@ -58,7 +58,7 @@
 			beforeEach(function() {
 				makeView({
 					name: 'pay',
-					type: 'in'
+					code: 'i'
 				});
 			});
 			
