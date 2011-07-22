@@ -14,6 +14,7 @@
 			var accounts;
 			
 			model = new Backbone.Model({
+				date: new Date(2011, 0, 1),
 				account: 1,
 				tag: 1,
 				amount: 312,
@@ -30,6 +31,10 @@
 		it('should use an li element as the view', function() {
 			expect($(view.el)).toBe('li');
 		});
+		
+		it('should display date', function() {
+			expect(view.$('span.date')).toHaveText('1/01/2011');
+		})
 		
 		it('should display account name', function() {
 			expect($(view.el)).toContain('span.account');

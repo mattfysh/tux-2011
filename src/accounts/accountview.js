@@ -49,7 +49,7 @@ namespace('tux.accounts');
 			// save new values
 			this.model.set({
 				name: this.$('input[name=name]').val(),
-				balance: parse(this.$('input[name=balance]').val())
+				balance: tux.util.parseCurrency(this.$('input[name=balance]').val())
 			}).save();
 			// revert to regular view
 			this.render();

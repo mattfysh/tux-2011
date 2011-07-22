@@ -27,50 +27,67 @@
 			});
 			
 		});
-		
-		describe('formatter', function() {
+			
+		describe('currency formatter', function() {
 			
 			it('should format cent values to dollar amounts', function() {
-				expect(format(200)).toBe('$2.00');
+				expect(tux.util.formatCurrency(200)).toBe('$2.00');
 			});
 			
 			it('should convert negative cent amounts correctly', function() {
-				expect(format(-312)).toBe('-$3.12');
+				expect(tux.util.formatCurrency(-312)).toBe('-$3.12');
 			});
 			
 			it('should add thousand seperators to amounts', function() {
-				expect(format(123456789)).toBe('$1,234,567.89');
+				expect(tux.util.formatCurrency(123456789)).toBe('$1,234,567.89');
 			});
 			
 		});
 		
-		describe('parseter', function() {
+		describe('currency parser', function() {
 			
 			it('should convert simple whole dollars to cents', function() {
-				expect(parse(12)).toBe(1200);
+				expect(tux.util.parseCurrency(12)).toBe(1200);
 			});
 			
 			it('should convert decimal dollars to cents', function() {
-				expect(parse(123.45)).toBe(12345);
+				expect(tux.util.parseCurrency(123.45)).toBe(12345);
 			});
 			
 			it('should remove all decimal places from cents value', function() {
-				expect(parse(1234.567)).toBe(123456);
+				expect(tux.util.parseCurrency(1234.567)).toBe(123456);
 			});
 			
 			it('should convert dollar strings to cents', function() {
-				expect(parse('12.34')).toBe(1234);
+				expect(tux.util.parseCurrency('12.34')).toBe(1234);
 			});
 			
 			it('should successfully convert values with symbols', function() {
-				expect(parse('$123,456.00')).toBe(12345600);
+				expect(tux.util.parseCurrency('$123,456.00')).toBe(12345600);
 			});
 			
 			it('should successfully convert negative string values', function() {
-				expect(parse('-12')).toBe(-1200);
+				expect(tux.util.parseCurrency('-12')).toBe(-1200);
 			});
 		});
+		
+		describe('date formatter', function() {
 
+			it('should format date objects to standard date strings', function() {
+				expect(tux.util.formatDate(new Date(2011, 9, 1))).toBe('1/10/2011');
+				expect(tux.util.formatDate(new Date(2011, 0, 1))).toBe('1/01/2011');
+			});
+			
+		});
+		
+		describe('date parser', function() {
+		
+			it('should return a new date object from a date string', function() {
+				expect(tux.util.parseDate('1/10/2011').getTime()).toBe(new Date(2011, 9, 1).getTime());
+			})
+			
+		});
+		
 	});
 	
 }());

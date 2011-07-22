@@ -24,6 +24,7 @@
 			
 			it('should allow input for account, type, amount and description', function() {
 				var el = $(form.el);
+				expect(el).toContain('input[name=date]');
 				expect(el).toContain('input[name=account]');
 				expect(el).toContain('input[name=tag]');
 				expect(el).toContain('input[name=amount]');
@@ -56,6 +57,7 @@
 			beforeEach(function() {
 				// data entry
 				fillForm(form.el, {
+					date: '10/01/2011',
 					account: '1',
 					tag: '1',
 					amount: '$3.12',
@@ -72,6 +74,7 @@
 				
 				expect(eventSpy).toHaveBeenCalled();
 				expect(eventSpy).toHaveBeenCalledWith({
+					date: new Date(2011, 0, 10),
 					account: '1',
 					tag: '1',
 					amount: 312,
@@ -94,6 +97,7 @@
 				form.$(':submit').click();
 				
 				expect(eventSpy).toHaveBeenCalledWith({
+					date: new Date(2011, 0, 10),
 					account: '1',
 					tag: '2',
 					amount: -312,

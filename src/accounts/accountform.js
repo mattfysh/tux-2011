@@ -39,7 +39,7 @@ namespace('tux.accounts');
 				}));
 			} else {
 				// parse balance
-				account.balance = parse(account.balance);
+				account.balance = tux.util.parseCurrency(account.balance);
 				// custom event
 				this.trigger('newaccount', account);
 				// reset form

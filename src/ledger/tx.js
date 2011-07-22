@@ -6,7 +6,10 @@ namespace('tux.ledger');
 	tux.ledger.Tx = Backbone.Model.extend({
 	
 		initialize: function() {
-			
+			// restore date
+			this.set({
+				date: new Date(this.get('date'))
+			});
 		},
 		
 		getAccountName: function() {

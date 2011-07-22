@@ -120,7 +120,7 @@
 				function key(which) {
 					return $.Event('keydown', {
 						which: keyMap[which] || which
-					})
+					});
 				}
 				
 				it('should move to next on down key', function() {
@@ -156,21 +156,21 @@
 				
 				it('should prevent typing in input', function() {
 					var typing = key(68);
-					input.val('test').trigger(typing)
+					input.val('test').trigger(typing);
 					expect(typing.isDefaultPrevented()).toBeTruthy();
 				});
 				
 				it('should allow tabbing', function() {
 					var tab = key(9);
-					input.val('test').trigger(tab)
+					input.val('test').trigger(tab);
 					expect(tab.isDefaultPrevented()).toBeFalsy();
 				});
 				
 				it('should allow enter submission', function() {
 					var enter = key(13);
-					input.val('test').trigger(enter)
+					input.val('test').trigger(enter);
 					expect(enter.isDefaultPrevented()).toBeFalsy();
-				})
+				});
 				
 			});
 			
@@ -283,7 +283,7 @@
 				// shortcut
 				el = $(omni.el);
 				t = el.find('li:eq(0)');
-			})
+			});
 			
 			it('should copy code data to option', function() {
 				expect(t).toHaveData('code', 'i');
@@ -291,7 +291,7 @@
 			
 			it('should store code as input data', function() {
 				expect(input).toHaveData('code', 'i');
-			})
+			});
 			
 		});
 	

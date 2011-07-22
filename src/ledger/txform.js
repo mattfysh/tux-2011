@@ -47,8 +47,11 @@ namespace('tux.ledger');
 				tx[this.getAttribute('name')] = $(this).val();
 			});
 			
+			// parse date
+			tx.date = tux.util.parseDate(tx.date);
+			
 			// parse amount
-			tx.amount = parse(tx.amount);
+			tx.amount = tux.util.parseCurrency(tx.amount);
 			
 			// process tag code
 			if (this.$('input[name=tag]').data('code') === 'e') {

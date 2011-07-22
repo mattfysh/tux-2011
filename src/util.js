@@ -21,8 +21,24 @@
 	// global noop function
 	function noop() {}
 	
+	// export global functions
+	_(global).extend({
+		namespace: namespace,
+		noop: noop
+	});
+	
+}());
+
+namespace('tux.util');
+
+(function() {
+	
+	/**
+	 * Currency
+	 */
+	
 	// format cents to dollar strings
-	function format(value) {
+	function formatCurrency(value) {
 		var prefix = (value < 0) ? '-' : '',
 			rGroup = /\d{1,3}(?=(\d{3})+(?!\d))/g;
 		
@@ -35,20 +51,43 @@
 	}
 	
 	// parse currency value/strings
-	function parse(value) {
+	function parseCurrency(value) {
 		if (typeof value === 'string') {
 			value = value.replace(/[^\d|\.|\-]/g, '');
 		}
 		return Math.floor(value * 100);
 	}
 	
-	// export global functions
-	_(global).extend({
-		namespace: namespace,
-		noop: noop,
-		format: format,
-		parse: parse
-	});
+	/**
+	 * Dates
+	 */
 	
+	// format date object to standard dd/mm/yyyy string
+	function formatDate(value) {
+		var year = value.getFullYear(),
+			month = value.getMonth() + 1,
+			day = value.getDate();
+		
+		if (month < 10) {
+			month = '0' + month;
+		};
+		
+		return [day, month, year].join('/');
+	}
+	
+	// take a date string and return a date object
+	function parseDate(value) {
+		value = value.split('/');
+		return new Date(value[2], value[1] - 1, value[0]);
+	}
+	
+	// util
+	tux.util = {
+		formatCurrency: formatCurrency,
+		parseCurrency: parseCurrency,
+		formatDate: formatDate,
+		parseDate: parseDate
+	};
+
 }());
 
