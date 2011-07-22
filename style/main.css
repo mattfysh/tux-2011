@@ -85,9 +85,11 @@ h2 {
 }
 .table-list span {
 	display: inline-block;
+	width: 100px;
 }
 .table-list .tools {
 	opacity: 0;
+	width: auto;
 	padding-left: 12px;
 }
 .table-list li:hover .tools {
@@ -107,15 +109,18 @@ h2 {
 .table-list a.edit {
 	background-image: url(../img/ico/edit.png);
 }
+/* standard */
+.table-list .amount {
+	width: 60px;
+	text-align: right;
+	padding-right: 12px;
+}
 
 /**
  * Accounts
  */
-#accounts span.name {
-	width: 100px;
-}
 #accounts span.balance {
-	width: 80px;
+	width: 60px;
 	text-align: right;
 }
 #accounts li.total {
@@ -148,27 +153,6 @@ h2 {
 /**
  * Tags
  */
-#tags .name {
-	width: 100px;
-}
 #tags .code {
 	width: 50px;
-}
-
-/**
- * Ledger
- */
-#ledger .account {
-	width: 100px;
-}
-#ledger .tag {
-	width: 100px;
-}
-#ledger .amount {
-	width: 50px;
-	text-align: right;
-}
-#ledger .desc {
-	padding-left: 12px;
-	width: 100px;
 }
