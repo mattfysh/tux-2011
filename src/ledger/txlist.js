@@ -9,6 +9,11 @@ namespace('tux.ledger');
 			this.model = tux.ledger.Tx;
 			this.localStorage = new Store('ledger');
 			this.fetch();
+		},
+		
+		comparator: function(tx) {
+			console.log(tx);
+			return tx.get('date').getTime();
 		}
 	
 	});
