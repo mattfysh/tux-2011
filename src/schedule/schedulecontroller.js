@@ -6,7 +6,8 @@ namespace('tux.schedule');
 	tux.schedule.ScheduleController = Backbone.View.extend({
 	
 		initialize: function() {
-			
+			var form = new tux.schedule.ScheduleForm();
+			$(this.el).append(form.el);
 		}
 	
 	});

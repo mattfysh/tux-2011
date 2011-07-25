@@ -57,6 +57,7 @@ input[type=submit] {
 	box-shadow: 0 2px 5px rgba(100, 100, 100, 0.65);
 	width: 100%;
 	box-sizing: border-box;
+	z-index: 1;
 }
 .omni-select li {
 	padding: 3px 10px;

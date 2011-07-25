@@ -4,12 +4,27 @@
 	// requires
 	var ScheduleController = tux.schedule.ScheduleController;
 	
-	describe('', function() {
+	describe('Schedule controller', function() {
+		
+		var el, form, formStub;
 	
-		//loadTemplate('/test/src/schedule/jst/.jst');
+		beforeEach(function() {
+			// form
+			form = new Backbone.View();
+			formStub = sinon.stub(tux.schedule, 'ScheduleForm');
+			formStub.returns(form);
+			
+			// kickoff
+			var ctrl = new ScheduleController();
+			el = $(ctrl.el);
+		});
+		
+		afterEach(function() {
+			formStub.restore();
+		})
 	
-		it('should be defined', function() {
-			expect(ScheduleController).toBeDefined();
+		it('should add a form', function() {
+			expect(el).toContain(form.el);
 		});
 	
 	});
