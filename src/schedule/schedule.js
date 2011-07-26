@@ -9,7 +9,7 @@ namespace('tux.schedule');
 			// restore dates
 			this.set({
 				start: new Date(this.get('start')),
-				end: new Date(this.get('end'))
+				end: this.get('end') && new Date(this.get('end'))
 			});
 		},
 		

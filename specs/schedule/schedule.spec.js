@@ -72,6 +72,14 @@
 			                      new Date(2011, 6, 20),
 			                      new Date(2011, 6, 27)]);
 		});
+		
+		it('should allow end to be blank', function() {
+			schedule = new Schedule({
+				start: JSON.stringify(new Date(2011, 6, 13)),
+				frequency: 'w'
+			});
+			expect(schedule.get('end')).not.toBeDefined();
+		})
 	
 	});
 	

@@ -58,6 +58,14 @@
 		it('should show next date', function() {
 			expect(view.$('span.next')).toHaveText('1/01/2011');
 		});
+		
+		it('should not attempt to display a missing end date', function() {
+			model.unset('end');
+			view = new ScheduleView({
+				model: model
+			});
+			expect(view.$('span.end')).toHaveText('');
+		})
 	
 	});
 	
