@@ -31,9 +31,9 @@ namespace('tux.ledger');
 		},
 		
 		process: function(e) {
-			var tx = this.getTxFormData();
-			
 			e.preventDefault();
+			
+			var tx = this.getTxFormData();
 			
 			// trigger and reset
 			this.trigger('newtx', tx);

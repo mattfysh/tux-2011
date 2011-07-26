@@ -10,6 +10,10 @@ namespace('tux.schedule');
 			this.render();
 		},
 		
+		events: {
+			'submit form': 'process'
+		},
+		
 		render: function() {
 			var result = tux.schedule.scheduleForm();
 			$(this.el).empty().append(result);
@@ -45,6 +49,39 @@ namespace('tux.schedule');
 					value: 'y'
 				}]
 			});
+		},
+		
+		process: function(e) {
+			var sch = this.getScheduleFormData();
+			
+			this.trigger('newschedule', sch);
+			
+			e.preventDefault();
+			e.target.reset();
+		},
+		
+		getScheduleFormData: function() {
+			// build schedule object
+			var sch = {};
+			this.$(':input:not(:submit)').each(function() {
+				sch[this.getAttribute('name').replace(/\-\w/g, function(match) {
+					return match[1].toUpperCase();
+				})] = $(this).val();
+			});
+			
+			// parse dates
+			sch.start = tux.util.parseDate(sch.start);
+			sch.end = tux.util.parseDate(sch.end);
+			
+			// parse amount
+			sch.amount = tux.util.parseCurrency(sch.amount);
+			
+			// process tag code
+			if (this.$('input[name=tag]').data('code') === 'e') {
+				sch.amount = sch.amount * -1;
+			}
+			
+			return sch;
 		}
 	
 	});

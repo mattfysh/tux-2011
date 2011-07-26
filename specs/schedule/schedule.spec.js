@@ -9,10 +9,56 @@
 		var schedule;
 		
 		beforeEach(function() {
+			var account = {},
+				tag = {};
+			
+			// stub account
+			account.get = sinon.stub().withArgs('name').returns('Bank abc');
+			tag.get = sinon.stub().withArgs('name').returns('Tag abc');
+			
+			// stub accounts module
+			namespace('tux.refs');
+			tux.refs.accounts = new Backbone.View();
+			tux.refs.accounts.list = new Backbone.Collection();
+			sinon.stub(tux.refs.accounts.list, 'get').returns(account);
+			
+			// tags
+			tux.refs.tags = new Backbone.View();
+			tux.refs.tags.list = new Backbone.Collection();
+			sinon.stub(tux.refs.tags.list, 'get').returns(tag);
+			
 			schedule = new Schedule({
-				start: new Date(2011, 6, 13),
+				start: JSON.stringify(new Date(2011, 6, 13)),
+				end: JSON.stringify(new Date(2011, 6, 13)),
 				frequency: 'w'
 			});
+		});
+		
+		it('should restore the dates to proper date object', function() {
+			expect(schedule.get('start').getTime()).toBe(new Date(2011, 6, 13).getTime());
+			expect(schedule.get('end').getTime()).toBe(new Date(2011, 6, 13).getTime());
+		});
+		
+		it('should return the linked account name', function() {
+			var accName = schedule.getAccountName();
+			expect(accName).toBe('Bank abc');
+		});
+		
+		it('should cache the linked account name', function() {
+			schedule.getAccountName();
+			schedule.getAccountName();
+			expect(tux.refs.accounts.list.get).toHaveBeenCalledOnce();
+		});
+		
+		it('should return the linked tag name', function() {
+			var tagName = schedule.getTagName();
+			expect(tagName).toBe('Tag abc');
+		});
+		
+		it('should cache the linked tag name', function() {
+			schedule.getTagName();
+			schedule.getTagName();
+			expect(tux.refs.tags.list.get).toHaveBeenCalledOnce();
 		});
 	
 		it('should calculate next instance', function() {

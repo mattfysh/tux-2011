@@ -13,6 +13,8 @@
 			omniSelStub = sinon.stub(tux.forms, 'OmniSelect');
 			form = new ScheduleForm();
 			el = $(form.el);
+			
+			setFixtures(el);
 		});
 		
 		afterEach(function() {
@@ -73,6 +75,56 @@
 					}]
 				});
 			})
+			
+		});
+		
+		describe('submit', function() {
+			
+			var eventSpy;
+			
+			beforeEach(function() {
+				fillForm(form.el, {
+					account: '1',
+					tag: '1',
+					amount: '$1.11',
+					desc: 'test',
+					'freq-code': 'd',
+					start: '1/01/2011',
+					end: '12/12/2011'
+				});
+				form.$('input[name=tag]').data('code', 'i');
+				
+				eventSpy = sinon.spy();
+				form.bind('newschedule', eventSpy)
+			})
+			
+			it('should trigger custom event', function() {
+				form.$(':submit').click();
+				expect(eventSpy).toHaveBeenCalledWithExactly({
+					account: '1',
+					tag: '1',
+					amount: 111,
+					desc: 'test',
+					freqCode: 'd',
+					start: new Date(2011, 0, 1),
+					end: new Date(2011, 11, 12)
+				});
+			});
+			
+			it('should reset', function() {
+				form.$(':submit').click();
+				expect(form.$('input[name=amount]')).toHaveValue('');
+				expect(form.$('input[name=desc]')).toHaveValue('');
+				expect(form.$('input[name=start]')).toHaveValue('');
+				expect(form.$('input[name=end]')).toHaveValue('');
+			});
+			
+			it('should negate amounts with expense tags', function() {
+				form.$('input[name=tag]').data('code', 'e');
+				form.$(':submit').click();
+				
+				expect(eventSpy.args[0][0].amount).toBe(-111);
+			});
 			
 		});
 	
