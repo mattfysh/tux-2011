@@ -12,7 +12,6 @@ namespace('tux.ledger');
 		},
 		
 		comparator: function(tx) {
-			console.log(tx);
 			return tx.get('date').getTime();
 		}
 	
