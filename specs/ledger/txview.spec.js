@@ -11,8 +11,6 @@
 		loadTemplate('/test/src/ledger/jst/tx-view.jst');
 		
 		beforeEach(function() {
-			var accounts;
-			
 			model = new Backbone.Model({
 				date: new Date(2011, 0, 1),
 				account: 1,
