@@ -21,6 +21,7 @@
 			});
 			model.getAccountName = sinon.stub().returns('Bank abc');
 			model.getTagName = sinon.stub().returns('Tag abc');
+			model.getNext = sinon.stub().returns([new Date(2011, 0, 1)]);
 			
 			// kickoff
 			view = new ScheduleView({
@@ -52,6 +53,10 @@
 		it('should show start and end dates', function() {
 			expect(view.$('span.start')).toHaveText('1/01/2011');
 			expect(view.$('span.end')).toHaveText('1/06/2011');
+		});
+		
+		it('should show next date', function() {
+			expect(view.$('span.next')).toHaveText('1/01/2011');
 		});
 	
 	});

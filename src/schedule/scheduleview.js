@@ -18,7 +18,8 @@ namespace('tux.schedule');
 			// get account and tag names
 			data.account = this.model.getAccountName();
 			data.tag = this.model.getTagName();
-			data.frequency = this.freqCodes[data.freqCode]
+			data.frequency = this.freqCodes[data.freqCode];
+			data.next = this.model.getNext()[0];
 			
 			result = tux.schedule.scheduleView(data);
 			$(this.el).empty().append(result);
