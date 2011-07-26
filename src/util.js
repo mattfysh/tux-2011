@@ -64,7 +64,7 @@ namespace('tux.util');
 	
 	// format date object to standard dd/mm/yyyy string
 	function formatDate(value) {
-		var year = value.getFullYear(),
+		var year = value.getFullYear().toString().slice(2),
 			month = value.getMonth() + 1,
 			day = value.getDate();
 		

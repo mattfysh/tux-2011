@@ -126,6 +126,13 @@
 				expect(eventSpy.args[0][0].amount).toBe(-111);
 			});
 			
+			it('should not send an end date if none exists', function() {
+				form.$('input[name=end]').val('');
+				form.$(':submit').click();
+				
+				expect(eventSpy.args[0][0].end).not.toBeDefined();
+			});
+			
 		});
 	
 	});

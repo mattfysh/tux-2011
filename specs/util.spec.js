@@ -74,8 +74,8 @@
 		describe('date formatter', function() {
 
 			it('should format date objects to standard date strings', function() {
-				expect(tux.util.formatDate(new Date(2011, 9, 1))).toBe('1/10/2011');
-				expect(tux.util.formatDate(new Date(2011, 0, 1))).toBe('1/01/2011');
+				expect(tux.util.formatDate(new Date(2011, 9, 1))).toBe('1/10/11');
+				expect(tux.util.formatDate(new Date(2011, 0, 1))).toBe('1/01/11');
 			});
 			
 		});

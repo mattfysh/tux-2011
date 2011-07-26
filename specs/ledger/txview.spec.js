@@ -31,7 +31,7 @@
 		});
 		
 		it('should display date', function() {
-			expect(view.$('span.date')).toHaveText('1/01/2011');
+			expect(view.$('span.date')).toHaveText('1/01/11');
 		})
 		
 		it('should display account name', function() {

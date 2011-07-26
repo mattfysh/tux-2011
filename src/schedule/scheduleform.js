@@ -71,7 +71,11 @@ namespace('tux.schedule');
 			
 			// parse dates
 			sch.start = tux.util.parseDate(sch.start);
-			sch.end = tux.util.parseDate(sch.end);
+			if (sch.end) {
+				sch.end = tux.util.parseDate(sch.end);
+			} else {
+				delete sch.end;
+			}
 			
 			// parse amount
 			sch.amount = tux.util.parseCurrency(sch.amount);

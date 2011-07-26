@@ -51,12 +51,12 @@
 		});
 		
 		it('should show start and end dates', function() {
-			expect(view.$('span.start')).toHaveText('1/01/2011');
-			expect(view.$('span.end')).toHaveText('1/06/2011');
+			expect(view.$('span.start')).toHaveText('1/01/11');
+			expect(view.$('span.end')).toHaveText('1/06/11');
 		});
 		
 		it('should show next date', function() {
-			expect(view.$('span.next')).toHaveText('1/01/2011');
+			expect(view.$('span.next')).toHaveText('1/01/11');
 		});
 		
 		it('should not attempt to display a missing end date', function() {
