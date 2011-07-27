@@ -1,19 +1,22 @@
 (function() {
 	'use strict';
-
+	
 	// requires
-	var TxList = tux.ledger.TxList;
-
-	describe('Tx list', function() {
+	var Pending = tux.ledger.Pending;
+	
+	describe('Pending collection', function() {
 		
-		var list, txSpy, origTx;
-		
+		var pending, txSpy, origTx;
+	
 		beforeEach(function() {
+			// model spy
 			origTx = tux.ledger.Tx;
 			tux.ledger.Tx = Backbone.Model;
 			txSpy = sinon.spy(tux.ledger, 'Tx');
-			list = new TxList();
-			list.add([{
+			
+			// kickoff
+			pending = new Pending();
+			pending.add([{
 				date: new Date(2011, 0, 1),
 				id: 1
 			}, {
@@ -23,35 +26,31 @@
 		});
 		
 		afterEach(function() {
-			// restore tx model
 			tux.ledger.Tx = origTx;
-			// clear local storage
 			localStorage.clear();
 		});
-
+	
 		it('should use transaction model', function() {
 			expect(txSpy).toHaveBeenCalled();
 		});
 		
-		it('should maintain txs between sessions', function() {
-			var compStub = sinon.stub(TxList.prototype, 'comparator');
-			// save tx
-			list.each(function(tx) {
+		it('should persist', function() {
+			var compStub = sinon.stub(Pending.prototype, 'comparator');
+			
+			pending.each(function(tx) {
 				tx.save();
 			});
+			pending = new Pending();
 			
-			// overwrite list with new
-			list = new TxList();
-			
-			expect(list.length).toBeGreaterThan(0);
+			expect(pending.length).toBeGreaterThan(0);
 			compStub.restore();
 		});
 		
 		it('should sort by date', function() {
-			expect(list.at(0).id).toBe(2);
-			expect(list.at(1).id).toBe(1);
+			expect(pending.at(0).id).toBe(2);
+			expect(pending.at(1).id).toBe(1);
 		});
-
+	
 	});
-
+	
 }());

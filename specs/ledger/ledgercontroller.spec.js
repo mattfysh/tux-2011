@@ -11,7 +11,8 @@
 			txList, listStub,
 			txView1, txView2,
 			viewStub,
-			ledger;
+			ledger,
+			pending, pendingStub;
 		
 		beforeEach(function() {
 			// stub form
@@ -26,6 +27,10 @@
 			tx2 = new Backbone.Model();
 			txList = new Backbone.Collection([tx1, tx2]);
 			listStub = sinon.stub(tux.ledger, 'TxList').returns(txList);
+			
+			// stub pending list
+			pending = new Backbone.Collection();
+			pendingStub = sinon.stub(tux.ledger, 'Pending').returns(pending);
 			
 			// stub tx view
 			txView1 = $('<li>')[0];
@@ -52,6 +57,7 @@
 			formStub.restore();
 			listStub.restore();
 			viewStub.restore();
+			pendingStub.restore();
 		});
 		
 		describe('init', function() {
@@ -84,6 +90,11 @@
 			it('should append each tx view to the DOM', function() {
 				expect(ledger.$('li:eq(0)')).toBe(txView1);
 				expect(ledger.$('li:eq(1)')).toBe(txView2);
+			});
+			
+			it('should create and expose pending txs list', function() {
+				expect(pendingStub).toHaveBeenCalled();
+				expect(ledger.pending).toBeDefined();
 			});
 			
 		});
@@ -131,7 +142,7 @@
 				});
 				
 				it('should create a tx view for new accounts', function() {
-					expect(viewStub.getCall(2)).toHaveBeenCalledWithExactly({
+					expect(viewStub).toHaveBeenCalledWith({
 						model: newModel
 					});
 				});

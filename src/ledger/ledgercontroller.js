@@ -8,20 +8,23 @@ namespace('tux.ledger');
 		initialize: function() {
 			var form;
 			
-			// create tx list and add DOM ul
+			// create ledger tx list and add DOM ul
 			this.list = new tux.ledger.TxList();
-			$(this.el).append('<ul class="table-list">');
+			$(this.el).append('<ul class="table-list">')
 			
 			// create form and append
 			form = new tux.ledger.TxForm();
 			$(this.el).append(form.el);
+			
+			// create pending tx list
+			this.pending = new tux.ledger.Pending();
 			
 			// event binding
 			_(this).bindAll('addTxToList', 'displayTx', 'processNewTx');
 			form.bind('newtx', this.addTxToList);
 			this.list.bind('add', this.processNewTx);
 			
-			// process tx list
+			// process tx lists
 			this.list.each(this.displayTx);
 		},
 		
