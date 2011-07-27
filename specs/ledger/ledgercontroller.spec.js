@@ -70,8 +70,9 @@
 				expect($(ledger.el)).toContain('form');
 			});
 			
-			it('should create a new tx list', function() {
+			it('should create and expose the tx list', function() {
 				expect(listStub).toHaveBeenCalled();
+				expect(ledger.list).toBeDefined();
 			});
 			
 			it('should add a list before the form', function() {

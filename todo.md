@@ -1,10 +1,10 @@
 # to do
 
-## ledger
+## vitals
 
-* move pending txs to vitals with (1)-style notification
+* show pending txs in vitals with (1)-style notification
 * bind vitals controller to pending collection events
-* new view for pending tx's (approve, edit, cancel, delete buttons)
+* add approve button to pending tx view (others to come later)
 
 ## schedule
 
