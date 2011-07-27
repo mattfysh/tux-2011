@@ -39,22 +39,22 @@
 		describe('net worth', function() {
 			
 			it('should display net worth', function() {
-				expect(netWorth).toHaveText('Net Worth: $1.23');
+				expect(netWorth).toHaveText('$1.23');
 			});
 			
 			it('should update for all accounts events', function() {
 				accountsList.getTotal = sinon.stub().returns(333);
 				accountsList.trigger('add');
 				
-				expect(netWorth).toHaveText('Net Worth: $3.33');
+				expect(netWorth).toHaveText('$3.33');
 				
 				accountsList.getTotal.returns(111);
 				accountsList.trigger('remove');
-				expect(netWorth).toHaveText('Net Worth: $1.11');
+				expect(netWorth).toHaveText('$1.11');
 				
 				accountsList.getTotal.returns(222);
 				accountsList.trigger('change');
-				expect(netWorth).toHaveText('Net Worth: $2.22');
+				expect(netWorth).toHaveText('$2.22');
 			});
 			
 		});

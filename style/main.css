@@ -11,6 +11,11 @@ body,
 input {
 	font: 12px "Trebuchet MS";
 }
+h1 {
+	text-indent: -1000px;
+	height: 100px;
+	background: url(../img/logo.png) no-repeat;
+}
 
 /* vitals */
 #vitals {
@@ -22,6 +27,8 @@ input {
 	border: 3px dotted #cdc;
 	border-right: 0;
 	font-family: Georgia;
+	font-size: 1.2em;
+	font-style: italic;
 }
 #vitals span {
 	display: block;
@@ -67,8 +74,8 @@ input {
 	top: 0;
 	bottom: 0;
 	left: 200px;
-	right: 0;
-	box-shadow: -5px 0 12px rgba(0, 0, 0, 0.65);
+	right: 200px;
+	box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.65);
 	padding: 20px;
 	background-color: #f2f2f2;
 }
