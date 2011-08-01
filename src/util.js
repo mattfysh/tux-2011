@@ -32,6 +32,7 @@
 namespace('tux.util');
 
 (function() {
+	'use strict';
 	
 	/**
 	 * Currency
@@ -70,7 +71,7 @@ namespace('tux.util');
 		
 		if (month < 10) {
 			month = '0' + month;
-		};
+		}
 		
 		return [day, month, year].join('/');
 	}

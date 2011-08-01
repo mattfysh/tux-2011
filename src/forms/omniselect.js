@@ -48,9 +48,13 @@ namespace('tux.forms');
 			$(this.el).parents('form:eq(0)')
 				.bind('reset', _.bind(this.reset, this));
 			
-			// perform reset and set default value
-			this.reset();
-			input.defaultValue = input.value;
+			if (this.$('ul').is(':empty')) {
+				$(input).attr('disabled', true);
+			} else {
+				// perform reset and set default value
+				this.reset();
+				input.defaultValue = input.value;
+			}
 		},
 		
 		events: {

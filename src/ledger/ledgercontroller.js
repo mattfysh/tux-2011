@@ -10,7 +10,7 @@ namespace('tux.ledger');
 			
 			// create ledger tx list and add DOM ul
 			this.list = new tux.ledger.TxList();
-			$(this.el).append('<ul class="table-list">')
+			$(this.el).append('<ul class="table-list">');
 			
 			// create form and append
 			form = new tux.ledger.TxForm();

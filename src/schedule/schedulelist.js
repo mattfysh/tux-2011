@@ -9,6 +9,10 @@ namespace('tux.schedule');
 			this.model = tux.schedule.Schedule;
 			this.localStorage = new Store('schedule');
 			this.fetch();
+		},
+		
+		comparator: function(schedule) {
+			return schedule.get('next') || Infinity;
 		}
 	
 	});

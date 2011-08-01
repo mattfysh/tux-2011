@@ -74,7 +74,7 @@
 						value: 'y'
 					}]
 				});
-			})
+			});
 			
 		});
 		
@@ -95,8 +95,8 @@
 				form.$('input[name=tag]').data('code', 'i');
 				
 				eventSpy = sinon.spy();
-				form.bind('newschedule', eventSpy)
-			})
+				form.bind('newschedule', eventSpy);
+			});
 			
 			it('should trigger custom event', function() {
 				form.$(':submit').click();

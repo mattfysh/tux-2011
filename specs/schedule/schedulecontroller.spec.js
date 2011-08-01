@@ -51,7 +51,7 @@
 			formStub.restore();
 			listStub.restore();
 			viewStub.restore();
-		})
+		});
 		
 		describe('init', function() {
 		
@@ -64,8 +64,8 @@
 			});
 			
 			it('should add a UL to the page', function() {
-				expect(el).toContain('ul.table-list')
-			})
+				expect(el).toContain('ul.table-list');
+			});
 			
 			it('should add a view for each model', function() {
 				expect(el.find('li:eq(0)')).toBe(rentView);
@@ -100,7 +100,7 @@
 				list.add(bills);
 				expect(el.find('li:eq(2)')).toBe(billsView);
 			});
-		})
+		});
 	
 	});
 	

@@ -32,7 +32,6 @@ h1 {
 }
 #vitals span {
 	display: block;
-	margin: 0.5em 0;
 }
 
 /* navigation */
@@ -143,7 +142,6 @@ h2 {
  * Accounts
  */
 #accounts span.balance {
-	width: 60px;
 	text-align: right;
 }
 #accounts li.total {
@@ -178,4 +176,11 @@ h2 {
  */
 #tags .code {
 	width: 50px;
+}
+
+/**
+ * Schedule
+ */
+#schedule li.expired {
+	color: #999;
 }

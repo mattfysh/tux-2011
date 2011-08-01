@@ -19,7 +19,12 @@ namespace('tux.schedule');
 			data.account = this.model.getAccountName();
 			data.tag = this.model.getTagName();
 			data.frequency = this.freqCodes[data.freqCode];
-			data.next = this.model.getNext()[0];
+			
+			// show expired
+			if (data.expired) {
+				$(this.el).addClass('expired');
+				data.next = '';
+			}
 			
 			result = tux.schedule.scheduleView(data);
 			$(this.el).empty().append(result);

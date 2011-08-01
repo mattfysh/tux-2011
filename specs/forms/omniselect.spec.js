@@ -187,7 +187,7 @@
 			
 		});
 		
-		describe('with accounts and tags', function() {
+		describe('with accounts', function() {
 			
 			var aModel, xModel, a, x;
 			
@@ -254,6 +254,23 @@
 				it('should remove destroyed accounts', function() {
 					tux.refs.accounts.list.remove(dModel);
 					expect($.contains(document.body, d[0])).toBeFalsy();
+				});
+				
+			});
+			
+			describe('when empty', function() {
+				
+				it('should disable input', function() {
+					// empty collection
+					tux.refs.accounts.list.remove([aModel, xModel]);
+					
+					// kickoff
+					omni = new OmniSelect({
+						input: input[0],
+						options: ['accounts']
+					});
+					
+					expect(input).toBeDisabled();
 				});
 				
 			});

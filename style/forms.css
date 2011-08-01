@@ -12,10 +12,6 @@ input:focus {
 	outline: 0;
 	box-shadow: 0 0 0 2px #cdc;
 }
-input:disabled {
-	outline: 0;
-	box-shadow: 0 0 0 2px #cdc;
-}
 input[type=submit] {
 	background-color: #cdc;
 	width: auto;
@@ -66,7 +62,7 @@ input[type=submit] {
 	z-index: 1;
 }
 .omni-select li {
-	padding: 3px 10px;
+	padding: 3px 4px;
 }
 .omni-select li:hover {
 	background-color: #cdc;

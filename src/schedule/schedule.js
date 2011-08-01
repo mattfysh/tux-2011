@@ -6,12 +6,114 @@ namespace('tux.schedule');
 	tux.schedule.Schedule = Backbone.Model.extend({
 	
 		initialize: function() {
+			var now = new Date(),
+				isOnceOff = this.get('freqCode') === 'o',
+				pending, next, end;
+			
 			// restore dates
 			this.set({
 				start: new Date(this.get('start')),
-				end: this.get('end') && new Date(this.get('end'))
+				end: this.get('end') && new Date(this.get('end')),
+				next: this.get('next') && new Date(this.get('next'))
 			});
+			end = this.get('end');
+
+			// set next date if not present
+			if (!this.get('expired') && !this.get('next')) {
+				this.set({
+					next: this.get('start')
+				});
+			}
+			
+			// process pending
+			pending = this.getInstances(now);
+			if (pending.length) {
+				
+				_.each(pending, _.bind(function(date) {
+					tux.refs.ledger.pending.create({
+						date: date,
+						account: this.get('account'),
+						tag: this.get('tag'),
+						amount: this.get('amount'),
+						desc: this.get('desc')
+					});
+				}, this));
+				
+				// update next
+				if (!isOnceOff) {
+					this.set({
+						next: this.getNext(pending.pop())
+					});
+				}
+			}
+			
+			// expire track if past end date
+			if (end && end.getTime() <= now.getTime()
+					|| pending.length === 1 && isOnceOff) {
+				
+				this.unset('next');
+				this.set({
+					expired: true
+				});
+				
+			}
 		},
+		
+		/**
+		 * Instancing
+		 */
+		
+		getInstances: function(to) {
+			var instances = [],
+				date = this.get('next'),
+				end = this.get('end');
+			
+			if (!this.get('expired')) {
+				// not expired, generate instances
+				if (this.get('freqCode') === 'o') {
+					// once off, check if date has passed
+					if (date.getTime() <= to.getTime()) {
+						instances.push(date);
+					}
+				} else {
+					// repeat until given date
+					if (end && to.getTime() > end.getTime()) {
+						// dont generate past end date
+						to = end;
+					}
+					
+					while (date.getTime() <= to.getTime()) {
+						// add instances to array and move to next
+						instances.push(date);
+						date = this.getNext(date);
+					}
+				}
+			}
+			
+			return instances;
+		},
+		
+		freqMap: {
+			d: 'Date/1',
+			w: 'Date/7',
+			f: 'Date/14',
+			m: 'Month/1',
+			y: 'FullYear/1'
+		},
+		
+		getNext: function(from) {
+			var freq = this.freqMap[this.get('freqCode')].split('/'),
+				unit = freq[0],
+				num = parseInt(freq[1], 10),
+				next = new Date(from.getTime());
+			
+			next['set' + unit](next['get' + unit]() + num);
+			return next;
+		},
+		
+		/**
+		 * Linked model name replacement
+		 */
 		
 		getAccountName: function() {
 			var account;
@@ -39,19 +141,6 @@ namespace('tux.schedule');
 			tag = this.get('tag');
 			this.tagName = tux.refs.tags.list.get(tag).get('name');
 			return this.tagName;
-		},
-		
-		getNext: function(to) {
-			var instances = [],
-				next = this.get('start');
-			
-			do {
-				instances.push(next);
-				next = new Date(next.getTime());
-				next.setDate(next.getDate() + 7);
-			} while (to && next.getTime() <= to.getTime());
-			
-			return instances;
 		}
 	
 	});

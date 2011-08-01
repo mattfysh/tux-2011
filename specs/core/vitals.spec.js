@@ -30,7 +30,7 @@
 			el = $(vitals.el);
 			netWorth = el.find('.net-worth');
 			pending = el.find('.pending');
-		})
+		});
 	
 		it('should have correct id', function() {
 			expect(el).toHaveId('vitals');
@@ -66,7 +66,7 @@
 			});
 			
 			it('should update for pending size changes', function() {
-				pendingList.add({})
+				pendingList.add({});
 				expect(pending).toHaveText('3 pending');
 				
 				pendingList.at(0).destroy();

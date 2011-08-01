@@ -14,13 +14,14 @@
 			schSpy = sinon.spy(tux.schedule, 'Schedule');
 			list = new ScheduleList();
 			list.add([{
-				start: new Date(2011, 0, 1),
-				end: new Date(2011, 1, 1),
+				next: new Date(2011, 0, 10),
 				id: 1
 			}, {
-				date: new Date(2010, 1, 1),
-				end: new Date(2011, 2, 1),
+				expired: true,
 				id: 2
+			}, {
+				next: new Date(2011, 0, 9),
+				id: 3
 			}]);
 		});
 		
@@ -44,6 +45,15 @@
 			
 			expect(list.length).toBeGreaterThan(0);
 		});
+		
+		it('should sort by next date', function() {
+			expect(list.at(0).id).toBe(3);
+			expect(list.at(1).id).toBe(1);
+		});
+		
+		it('should place expired at end', function() {
+			expect(list.at(2).id).toBe(2);
+		})
 	
 	});
 	

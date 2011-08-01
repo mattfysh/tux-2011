@@ -17,7 +17,8 @@
 				desc: 'test',
 				freqCode: 'm',
 				start: new Date(2011, 0, 1),
-				end: new Date(2011, 5, 1)
+				end: new Date(2011, 5, 1),
+				next: new Date(2011, 0, 1)
 			});
 			model.getAccountName = sinon.stub().returns('Bank abc');
 			model.getTagName = sinon.stub().returns('Tag abc');
@@ -27,10 +28,11 @@
 			view = new ScheduleView({
 				model: model
 			});
+			el = $(view.el);
 		});
 		
 		it('should use an li element as the view', function() {
-			expect($(view.el)).toBe('li');
+			expect(el).toBe('li');
 		});
 	
 		it('should display account', function() {
@@ -65,7 +67,20 @@
 				model: model
 			});
 			expect(view.$('span.end')).toHaveText('');
-		})
+		});
+		
+		it('should show a schedule has expired', function() {
+			model.set({
+				expired: true
+			});
+			model.unset('next');
+			// refresh
+			view = new ScheduleView({
+				model: model
+			});
+			el = $(view.el);
+			expect(el).toHaveClass('expired');
+		});
 	
 	});
 	

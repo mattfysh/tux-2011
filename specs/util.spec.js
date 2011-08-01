@@ -84,7 +84,7 @@
 		
 			it('should return a new date object from a date string', function() {
 				expect(tux.util.parseDate('1/10/2011').getTime()).toBe(new Date(2011, 9, 1).getTime());
-			})
+			});
 			
 		});
 		
