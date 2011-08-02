@@ -29,20 +29,14 @@ namespace('tux.schedule');
 			pending = this.getInstances(now);
 			if (pending.length) {
 				
-				_.each(pending, _.bind(function(date) {
-					tux.refs.ledger.pending.create({
-						date: date,
-						account: this.get('account'),
-						tag: this.get('tag'),
-						amount: this.get('amount'),
-						desc: this.get('desc')
-					});
+				_.each(pending, _.bind(function(tx) {
+					tux.refs.ledger.pending.create(tx);
 				}, this));
 				
 				// update next
 				if (!isOnceOff) {
 					this.set({
-						next: this.getNext(pending.pop())
+						next: this.getNext(pending.pop().date)
 					});
 				}
 			}
@@ -73,7 +67,7 @@ namespace('tux.schedule');
 				if (this.get('freqCode') === 'o') {
 					// once off, check if date has passed
 					if (date.getTime() <= to.getTime()) {
-						instances.push(date);
+						instances.push(this.makeInstance(date));
 					}
 				} else {
 					// repeat until given date
@@ -84,13 +78,23 @@ namespace('tux.schedule');
 					
 					while (date.getTime() <= to.getTime()) {
 						// add instances to array and move to next
-						instances.push(date);
+						instances.push(this.makeInstance(date));
 						date = this.getNext(date);
 					}
 				}
 			}
 			
 			return instances;
+		},
+		
+		makeInstance: function(date) {
+			return {
+				date: date,
+				account: this.get('account'),
+				tag: this.get('tag'),
+				amount: this.get('amount'),
+				desc: this.get('desc')
+			}
 		},
 		
 		freqMap: {

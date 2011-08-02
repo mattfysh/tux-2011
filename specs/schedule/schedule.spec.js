@@ -155,14 +155,26 @@
 		
 		describe('instance generation', function() {
 			
+			function makeInstances(dateArr) {
+				return _.map(dateArr, function(date) {
+					return {
+						date: date,
+						account: 1,
+						tag: 1,
+						amount: 213,
+						desc: 'bus'
+					}
+				});
+			}
+			
 			it('should calculate next weekly instances', function() {
 				createSchedule({
 					freqCode: 'w'
 				});
 				var instances = schedule.getInstances(new Date(2011, 7, 10));
-				expect(instances).toEqual([new Date(2011, 6, 27),
+				expect(instances).toEqual(makeInstances([new Date(2011, 6, 27),
 				                      new Date(2011, 7, 3),
-				                      new Date(2011, 7, 10)]);
+				                      new Date(2011, 7, 10)]));
 			});
 			
 			it('should calculate next daily instances', function() {
@@ -170,9 +182,9 @@
 					freqCode: 'd'
 				});
 				var instances = schedule.getInstances(new Date(2011, 6, 23));
-				expect(instances).toEqual([new Date(2011, 6, 21),
+				expect(instances).toEqual(makeInstances([new Date(2011, 6, 21),
 				                      new Date(2011, 6, 22),
-				                      new Date(2011, 6, 23)]);
+				                      new Date(2011, 6, 23)]));
 			});
 			
 			it('should calculate next fortnightly instances', function() {
@@ -180,9 +192,9 @@
 					freqCode: 'f'
 				});
 				var instances = schedule.getInstances(new Date(2011, 7, 25));
-				expect(instances).toEqual([new Date(2011, 6, 27),
+				expect(instances).toEqual(makeInstances([new Date(2011, 6, 27),
 				                      new Date(2011, 7, 10),
-				                      new Date(2011, 7, 24)]);
+				                      new Date(2011, 7, 24)]));
 			});
 			
 			it('should calculate next monthly instances', function() {
@@ -190,9 +202,9 @@
 					freqCode: 'm'
 				});
 				var instances = schedule.getInstances(new Date(2011, 9, 13));
-				expect(instances).toEqual([new Date(2011, 7, 13),
+				expect(instances).toEqual(makeInstances([new Date(2011, 7, 13),
 				                      new Date(2011, 8, 13),
-				                      new Date(2011, 9, 13)]);
+				                      new Date(2011, 9, 13)]));
 			});
 			
 			it('should calculate next yearly instances', function() {
@@ -200,9 +212,9 @@
 					freqCode: 'y'
 				});
 				var instances = schedule.getInstances(new Date(2014, 6, 13));
-				expect(instances).toEqual([new Date(2012, 6, 13),
+				expect(instances).toEqual(makeInstances([new Date(2012, 6, 13),
 				                      new Date(2013, 6, 13),
-				                      new Date(2014, 6, 13)]);
+				                      new Date(2014, 6, 13)]));
 			});
 			
 			it('should not generate past end date', function() {
@@ -211,9 +223,9 @@
 					end: new Date(2011, 6, 15)
 				}, new Date(2011, 6, 12));
 				var instances = schedule.getInstances(new Date(2011, 6, 18));
-				expect(instances).toEqual([new Date(2011, 6, 13),
+				expect(instances).toEqual(makeInstances([new Date(2011, 6, 13),
 						                      new Date(2011, 6, 14),
-						                      new Date(2011, 6, 15)]);
+						                      new Date(2011, 6, 15)]));
 			});
 			
 			it('should not generate anything for expired schedules', function() {
