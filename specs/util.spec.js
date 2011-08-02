@@ -86,6 +86,10 @@
 				expect(tux.util.parseDate('1/10/2011').getTime()).toBe(new Date(2011, 9, 1).getTime());
 			});
 			
+			it('should ensure two digit year is correct', function() {
+				expect(tux.util.parseDate('1/10/11')).toEqual(new Date(2011, 9, 1));
+			});
+			
 		});
 		
 	});

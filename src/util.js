@@ -79,6 +79,9 @@ namespace('tux.util');
 	// take a date string and return a date object
 	function parseDate(value) {
 		value = value.split('/');
+		if (value[2].length === 2) {
+			value[2] = '20' + value[2];
+		}
 		return new Date(value[2], value[1] - 1, value[0]);
 	}
 	
