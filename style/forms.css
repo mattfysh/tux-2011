@@ -81,3 +81,7 @@ input[type=submit] {
 .omni-select li.filtered {
 	display: none;
 }
+/* widths */
+.omni-select input[name=account] {
+	width: 160px;
+}

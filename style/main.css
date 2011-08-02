@@ -141,6 +141,9 @@ h2 {
 /**
  * Accounts
  */
+#accounts span.name {
+	width: 160px;
+}
 #accounts span.balance {
 	text-align: right;
 }
@@ -183,4 +186,12 @@ h2 {
  */
 #schedule li.expired {
 	color: #999;
+}
+#schedule span.desc {
+	width: 200px;
+}
+#schedule span.start,
+#schedule span.end,
+#schedule span.next {
+	width: 60px;
 }
