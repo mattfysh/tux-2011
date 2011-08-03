@@ -17,15 +17,16 @@
 			tag.get = sinon.stub().withArgs('name').returns('Tag abc');
 			
 			// stub accounts module
-			namespace('tux.refs');
-			tux.refs.accounts = new Backbone.View();
-			tux.refs.accounts.list = new Backbone.Collection();
-			sinon.stub(tux.refs.accounts.list, 'get').returns(account);
+			namespace('accounts');
+			accounts = new Backbone.View();
+			accounts.list = new Backbone.Collection();
+			sinon.stub(accounts.list, 'get').returns(account);
 			
 			// tags
-			tux.refs.tags = new Backbone.View();
-			tux.refs.tags.list = new Backbone.Collection();
-			sinon.stub(tux.refs.tags.list, 'get').returns(tag);
+			namespace('tags');
+			tags = new Backbone.View();
+			tags.list = new Backbone.Collection();
+			sinon.stub(tags.list, 'get').returns(tag);
 			
 			// create tx model
 			tx = new Tx({
@@ -46,7 +47,7 @@
 		it('should cache the linked account name', function() {
 			tx.getAccountName();
 			tx.getAccountName();
-			expect(tux.refs.accounts.list.get).toHaveBeenCalledOnce();
+			expect(accounts.list.get).toHaveBeenCalledOnce();
 		});
 		
 		it('should return the linked tag name', function() {
@@ -57,7 +58,7 @@
 		it('should cache the linked tag name', function() {
 			tx.getTagName();
 			tx.getTagName();
-			expect(tux.refs.tags.list.get).toHaveBeenCalledOnce();
+			expect(tags.list.get).toHaveBeenCalledOnce();
 		});
 	
 	});

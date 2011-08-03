@@ -131,11 +131,11 @@
 					}));
 					
 					// stub accounts
-					namespace('tux.refs.accounts.list');
+					namespace('accounts');
 					acct = new Backbone.Model({
 						id: 1
 					});
-					tux.refs.accounts.list = new Backbone.Collection([acct]);
+					accounts.list = new Backbone.Collection([acct]);
 					acct.adjustBalance = sinon.stub();
 					
 					// add to list

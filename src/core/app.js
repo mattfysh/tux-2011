@@ -3,6 +3,8 @@ namespace('tux.core');
 (function() {
 	'use strict';
 	
+	var global = (function() { return this; }());
+	
 	tux.core.App = Backbone.View.extend({
 	
 		initialize: function(options) {
@@ -11,15 +13,12 @@ namespace('tux.core');
 			// render
 			this.render();
 			
-			// create namespace to store references to modules
-			namespace('tux.refs');
-			
 			// add each module
 			_(options.modules).each(_(function(spec) {
 				var module, wrapper, link;
 				
 				// create app and export a reference
-				module = tux.refs[spec.name] = new spec.obj();
+				module = global[spec.name] = new spec.obj();
 				
 				// create a wrapper around module view
 				wrapper = $(tux.core.moduleWrap(spec));

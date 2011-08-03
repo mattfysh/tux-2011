@@ -16,13 +16,13 @@
 			pendingList = new Backbone.Collection();
 			
 			// stub accounts
-			namespace('tux.refs.accounts');
-			tux.refs.accounts.list = accountsList;
+			namespace('accounts');
+			accounts.list = accountsList;
 			accountsList.getTotal = sinon.stub().returns(123);
 			
 			// stub ledger
-			namespace('tux.refs.ledger');
-			tux.refs.ledger.pending = pendingList;
+			namespace('ledger');
+			ledger.pending = pendingList;
 			pendingList.add([{}, {}]);
 			
 			// kickoff

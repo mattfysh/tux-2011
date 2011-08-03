@@ -13,12 +13,12 @@ namespace('tux.core');
 			// event binding
 			_.bindAll(this, 'renderNetWorth', 'renderPendingCount');
 			
-			tux.refs.accounts.list
+			accounts.list
 				.bind('add', this.renderNetWorth)
 				.bind('remove', this.renderNetWorth)
 				.bind('change', this.renderNetWorth);
 			
-			tux.refs.ledger.pending
+			ledger.pending
 				.bind('add', this.renderPendingCount)
 				.bind('remove', this.renderPendingCount);
 		},
@@ -33,12 +33,12 @@ namespace('tux.core');
 		},
 		
 		renderNetWorth: function() {
-			var netWorth = tux.refs.accounts.list.getTotal();
+			var netWorth = accounts.list.getTotal();
 			this.$('.net-worth strong').text(tux.util.formatCurrency(netWorth));
 		},
 		
 		renderPendingCount: function() {
-			var pendingCount = tux.refs.ledger.pending.length;
+			var pendingCount = ledger.pending.length;
 			this.$('.pending strong').text(pendingCount);
 		}
 	

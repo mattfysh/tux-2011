@@ -201,8 +201,8 @@
 					name: 'xyz',
 					id: 2
 				});
-				namespace('tux.refs.accounts.list');
-				tux.refs.accounts.list = new Backbone.Collection([aModel, xModel]);
+				namespace('accounts');
+				accounts.list = new Backbone.Collection([aModel, xModel]);
 				
 				// kickoff
 				omni = new OmniSelect({
@@ -241,7 +241,7 @@
 						name: 'def',
 						id: 3
 					});
-					tux.refs.accounts.list.add(dModel);
+					accounts.list.add(dModel);
 					d = el.find('li:eq(2)');
 				});
 				
@@ -252,7 +252,7 @@
 				});
 				
 				it('should remove destroyed accounts', function() {
-					tux.refs.accounts.list.remove(dModel);
+					accounts.list.remove(dModel);
 					expect($.contains(document.body, d[0])).toBeFalsy();
 				});
 				
@@ -262,7 +262,7 @@
 				
 				it('should disable input', function() {
 					// empty collection
-					tux.refs.accounts.list.remove([aModel, xModel]);
+					accounts.list.remove([aModel, xModel]);
 					
 					// kickoff
 					omni = new OmniSelect({
@@ -288,8 +288,8 @@
 					id: 1,
 					code: 'i'
 				});
-				namespace('tux.refs.tags');
-				tux.refs.tags.list = new Backbone.Collection([tModel]);
+				namespace('tags');
+				tags.list = new Backbone.Collection([tModel]);
 				
 				// kickoff
 				omni = new OmniSelect({

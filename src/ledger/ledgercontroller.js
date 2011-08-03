@@ -45,7 +45,7 @@ namespace('tux.ledger');
 		},
 		
 		sendAdjustment: function(tx) {
-			tux.refs.accounts.list
+			accounts.list
 				.get(tx.get('account'))
 				.adjustBalance(tx.get('amount'));
 		}

@@ -6,7 +6,7 @@
 	
 	describe('Schedule model', function() {
 		
-		var schedule, clock, pending, createStub;
+		var schedule, clock, pending, createStub, saveStub;
 		
 		function createSchedule(attr, now) {
 			attr = _.extend({
@@ -25,11 +25,15 @@
 			// fake now
 			clock = sinon.useFakeTimers((now || new Date(2011, 6, 20)).getTime(), 'Date');
 			
+			// fake save
+			saveStub = sinon.stub(Backbone.Model.prototype, 'save');
+			
 			// kickoff
 			schedule = new Schedule(attr);
 			
 			// restore
 			clock.restore();
+			saveStub.restore();
 		}
 		
 		beforeEach(function() {
@@ -41,20 +45,20 @@
 			tag.get = sinon.stub().withArgs('name').returns('Tag abc');
 			
 			// stub accounts module
-			namespace('tux.refs');
-			tux.refs.accounts = new Backbone.View();
-			tux.refs.accounts.list = new Backbone.Collection();
-			sinon.stub(tux.refs.accounts.list, 'get').returns(account);
+			namespace('accounts');
+			accounts = new Backbone.View();
+			accounts.list = new Backbone.Collection();
+			sinon.stub(accounts.list, 'get').returns(account);
 			
 			// tags
-			tux.refs.tags = new Backbone.View();
-			tux.refs.tags.list = new Backbone.Collection();
-			sinon.stub(tux.refs.tags.list, 'get').returns(tag);
+			tags = new Backbone.View();
+			tags.list = new Backbone.Collection();
+			sinon.stub(tags.list, 'get').returns(tag);
 			
 			// pending
-			namespace('tux.refs.ledger');
+			namespace('ledger');
 			pending = new Backbone.Collection();
-			tux.refs.ledger.pending = pending;
+			ledger.pending = pending;
 			createStub = sinon.stub(pending, 'create', function() {
 				pending.add.apply(pending, arguments);
 			});
@@ -106,8 +110,9 @@
 				});
 			});
 			
-			it('should update the next date', function() {
+			it('should save the next date', function() {
 				expect(schedule.get('next')).toEqual(new Date(2011, 6, 27));
+				expect(saveStub).toHaveBeenCalled();
 			});
 			
 			it('should restore next date to proper date object', function() {
@@ -248,7 +253,7 @@
 			it('should cache the linked account name', function() {
 				schedule.getAccountName();
 				schedule.getAccountName();
-				expect(tux.refs.accounts.list.get).toHaveBeenCalledOnce();
+				expect(accounts.list.get).toHaveBeenCalledOnce();
 			});
 			
 			it('should return the linked tag name', function() {
@@ -259,7 +264,7 @@
 			it('should cache the linked tag name', function() {
 				schedule.getTagName();
 				schedule.getTagName();
-				expect(tux.refs.tags.list.get).toHaveBeenCalledOnce();
+				expect(tags.list.get).toHaveBeenCalledOnce();
 			});
 			
 		});

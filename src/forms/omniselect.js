@@ -28,7 +28,7 @@ namespace('tux.forms');
 				var list;
 				
 				if (typeof option === 'string') {
-					list = tux.refs[option].list;
+					list = window[option].list;
 					
 					// add models from collection
 					list.each(this.addOption);

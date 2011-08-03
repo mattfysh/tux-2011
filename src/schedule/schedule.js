@@ -30,14 +30,14 @@ namespace('tux.schedule');
 			if (pending.length) {
 				
 				_.each(pending, _.bind(function(tx) {
-					tux.refs.ledger.pending.create(tx);
+					ledger.pending.create(tx);
 				}, this));
 				
 				// update next
 				if (!isOnceOff) {
 					this.set({
 						next: this.getNext(pending.pop().date)
-					});
+					}).save();
 				}
 			}
 			
@@ -129,7 +129,7 @@ namespace('tux.schedule');
 			
 			// get name
 			account = this.get('account');
-			this.accountName = tux.refs.accounts.list.get(account).get('name');
+			this.accountName = accounts.list.get(account).get('name');
 			return this.accountName;
 		},
 		
@@ -143,7 +143,7 @@ namespace('tux.schedule');
 			
 			// get name
 			tag = this.get('tag');
-			this.tagName = tux.refs.tags.list.get(tag).get('name');
+			this.tagName = tags.list.get(tag).get('name');
 			return this.tagName;
 		}
 	
