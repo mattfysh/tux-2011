@@ -28,10 +28,10 @@ h1 {
 	border-right: 0;
 	font-family: Georgia;
 	font-size: 1.2em;
-	font-style: italic;
 }
 #vitals span {
 	display: block;
+	margin-bottom: 0.5em;
 }
 
 /* navigation */
@@ -132,6 +132,9 @@ h2 {
 	background-image: url(../img/ico/edit.png);
 }
 /* standard */
+.table-list .account {
+	width: 180px;
+}
 .table-list .amount {
 	width: 60px;
 	text-align: right;
