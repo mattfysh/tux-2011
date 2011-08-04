@@ -10,6 +10,10 @@ namespace('tux.reports');
 			cursor = 0,
 			total;
 		
+		if (!this.length) {
+			return entries;
+		}
+		
 		if (facet === 'date') {
 			// get implied starting total
 			total = this[0].total - this[0].amount;
@@ -95,8 +99,15 @@ namespace('tux.reports');
 				return memo + tx.get('amount');
 			}, 0);
 			
+			// set baseline
+			if (ledgerCount) {
+				txs[ledgerCount - 1].total = total;
+			} else if (txs.length) {
+				txs[ledgerCount].total = total + txs[ledgerCount];
+				ledgerCount += 1;
+			}
+			
 			// backwards runner
-			txs[ledgerCount - 1].total = total;
 			for (var i = ledgerCount - 2; i >= 0; i -= 1) {
 				txs[i].total = txs[i + 1].total - txs[i + 1].amount;
 			}

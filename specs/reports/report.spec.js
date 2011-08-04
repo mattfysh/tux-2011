@@ -136,6 +136,17 @@
 				expect(txs[2]).toBeUndefined();
 			});
 			
+			it('should add running total where no ledger/pending', function() {
+				makeReport(new Date(2011, 0, 10), new Date(2011, 7, 1));
+			});
+			
+			it('should return empty array if no txs', function() {
+				first.getInstances.returns([]);
+				second.getInstances.returns([]);
+				makeReport(new Date(2011, 0, 6), new Date(2011, 0, 7));
+				expect(txs.length).toBe(0); // dont check for [] as format function will fail this
+			})
+			
 		});
 		
 		describe('charting', function() {
@@ -197,6 +208,14 @@
 					tag: '3',
 					total: 3
 				}]);
+			});
+			
+			it('should return empty array if no txs', function() {
+				first.getInstances.returns([]);
+				second.getInstances.returns([]);
+				makeReport(new Date(2011, 0, 6), new Date(2011, 0, 7));
+				expect(txs.formatBy('date')).toEqual([]);
+				expect(txs.formatBy('tag')).toEqual([]);
 			});
 			
 		});
