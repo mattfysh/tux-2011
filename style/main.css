@@ -110,12 +110,8 @@ h2 {
 	width: 100px;
 }
 .table-list .tools {
-	opacity: 0;
 	width: auto;
 	padding-left: 12px;
-}
-.table-list li:hover .tools {
-	opacity: 1;
 }
 .table-list span.tools a {
 	display: inline-block;

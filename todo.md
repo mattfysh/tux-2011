@@ -2,9 +2,6 @@
 
 ## reports
 
-* generate all tx's for a date (from all 3 sources - ledger, pending, schedule)
-* running total
-* group by tag
 
 
 
