@@ -48,7 +48,7 @@ namespace('tux.schedule');
 				this.unset('next');
 				this.set({
 					expired: true
-				});
+				}).save();
 				
 			}
 		},

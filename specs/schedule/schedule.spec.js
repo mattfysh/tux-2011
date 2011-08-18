@@ -134,6 +134,7 @@
 				
 				expect(schedule.get('expired')).toBe(true);
 				expect(schedule.get('next')).not.toBeDefined();
+				expect(saveStub).toHaveBeenCalledTwice(); // once for next date, once for expiry
 			});
 			
 			it('should expire once-off', function() {

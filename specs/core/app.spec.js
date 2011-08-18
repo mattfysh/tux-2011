@@ -57,6 +57,10 @@
 		
 		describe('init', function() {
 			
+			it('should have an id of tux', function() {
+				expect($(app.el)).toHaveId('tux');
+			});
+			
 			it('should load the base app skeleton', function() {
 				expect($(app.el)).toContain('ul#nav');
 			});
@@ -108,8 +112,8 @@
 				expect(app.$('#nav li:eq(0)')).toHaveClass('current');
 			});
 			
-			it('should add the vitals beneath the logo', function() {
-				expect(app.$('h1').next()).toBe(vitalsView);
+			it('should add the vitals', function() {
+				expect($(app.el)).toContain(vitalsView);
 			});
 			
 		});

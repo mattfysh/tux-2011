@@ -1,37 +1,32 @@
 /**
  * General
  */
+html,
+body {
+	height: 100%
+}
 body {
 	margin: 0;
 	padding: 0;
-	color: #333;
-	background: url('../img/bg-texture.jpg') #bcb;
+	color: #524e4e;
+	background: url(../img/bg-check-grad.png) repeat-x, url(../img/bg-check.png);
 }
 body,
 input {
-	font: 12px "Trebuchet MS";
+	font-family: Calibri;
+	font-size: 13px;
 }
 h1 {
 	text-indent: -1000px;
-	height: 100px;
+	height: 64px;
 	background: url(../img/logo.png) no-repeat;
+	margin: 16px 0;
 }
-
-/* vitals */
-#vitals {
-	margin: 20px 0;
-	padding: 10px;
-	box-shadow: 0 0 12px 3px rgba(0, 0, 0, 0.65);
-	background-color: #aba;
-	color: #333;
-	border: 3px dotted #cdc;
-	border-right: 0;
-	font-family: Georgia;
-	font-size: 1.2em;
-}
-#vitals span {
-	display: block;
-	margin-bottom: 0.5em;
+#tux {
+	width: 960px;
+	position: relative;
+	margin: 0 auto;
+	height: 100%;
 }
 
 /* navigation */
@@ -39,51 +34,42 @@ h1 {
 	position: fixed;
 	top: 0;
 	width: 180px;
-	color: #eee;
-	padding-left: 20px;
 }
 #nav {
 	list-style: none none outside;
 	padding: 0;
 }
-#nav-container li.current {
-	box-shadow: -3px 0 12px 3px rgba(0, 0, 0, 0.65);
-}
 #nav-container a {
-	color: #eee;
 	display: block;
-	padding: 10px 20px;
+	padding: 8px 20px;
 	text-decoration: none;
 	z-index: 1;
 	position: relative;
-	-webkit-transition: background-color 200ms ease-out;
+	color: #524e4e;
 }
-#nav-container li:hover,
-#nav-container a:focus {
-	background-color: rgba(255, 255, 255, 0.25);
-	outline: 0;
+#nav-container li:hover {
+	background: -webkit-linear-gradient(rgba(199, 225, 246, 0.4), rgba(211, 231, 248, 0.4));
 }
-#nav-container li.current a {
-	background-color: #f2f2f2;
-	color: #333;
+#nav-container li.current {
+	background: -webkit-linear-gradient(#c7e1f6, #d3e7f8);
+	box-shadow: 0 0 0 1px #d7d7d7;
 }
 
 /* wrapped modules */
 #module-container {
 	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 200px;
-	right: 200px;
-	box-shadow: 0 0 12px 5px rgba(0, 0, 0, 0.65);
+	left: 180px;
+	box-shadow: 0 0 0 1px #d7d7d7;
+	background-color: rgba(255, 255, 255, 0.66);
 	padding: 20px;
-	background-color: #f2f2f2;
+	border-top: 7px solid #efeaaf;
+	min-height: 100%;
+	box-sizing: border-box;
 }
 #module-container div.module {
 	height: 0;
 	opacity: 0;
 	overflow: hidden;
-	-webkit-transition: all 200ms ease-out;
 }
 #module-container div.module.current {
 	height: 100%;
@@ -106,9 +92,6 @@ h2 {
 .table-list li {
 	padding: 3px 6px;
 	cursor: default;
-}
-.table-list li:hover {
-	background-color: #cdc;
 }
 .table-list span {
 	display: inline-block;

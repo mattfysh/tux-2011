@@ -1,12 +1,10 @@
 (function() {
 	'use strict';
 	
-	var global = (function() { return this; }());
-	
 	// global namespace function
 	function namespace(path) {
 		var spaces = path.split('.'),
-			parent = global,
+			parent = window,
 			i, l, scope;
 		
 		// progress through the namespace and create each scope if required
@@ -22,7 +20,7 @@
 	function noop() {}
 	
 	// export global functions
-	_(global).extend({
+	_(window).extend({
 		namespace: namespace,
 		noop: noop
 	});

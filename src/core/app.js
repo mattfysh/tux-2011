@@ -3,9 +3,9 @@ namespace('tux.core');
 (function() {
 	'use strict';
 	
-	var global = (function() { return this; }());
-	
 	tux.core.App = Backbone.View.extend({
+		
+		id: 'tux',
 	
 		initialize: function(options) {
 			var vitals;
@@ -18,7 +18,7 @@ namespace('tux.core');
 				var module, wrapper, link;
 				
 				// create app and export a reference
-				module = global[spec.name] = new spec.obj();
+				module = window[spec.name] = new spec.obj();
 				
 				// create a wrapper around module view
 				wrapper = $(tux.core.moduleWrap(spec));
@@ -39,7 +39,7 @@ namespace('tux.core');
 			
 			// add vitals
 			vitals = new tux.core.Vitals();
-			this.$('h1').after(vitals.el);
+			this.$('#nav-container').append(vitals.el);
 		},
 		
 		events: {

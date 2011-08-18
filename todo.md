@@ -1,14 +1,23 @@
 # to do
 
+## ui
+
+* photoshop designs
+* chart prototype - adjust slider, timeline moves up/down, goals left/right
+
+
+
 ## reports
 
+* future start date, move to now (no pending or ledger) and calc from there, trim
+* start <= end
 
 
 
 ## schedule
 
+* approve method on module
 * exceptions
-
 
 
 ## vitals

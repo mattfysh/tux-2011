@@ -1,8 +1,6 @@
 (function() {
 	'use strict';
 	
-	var global = (function() { return this; }());
-	
 	// mustachify underscore templates
 	_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 	
@@ -36,7 +34,7 @@
 	}
 	
 	// export
-	_(global).extend({
+	_(window).extend({
 		loadTemplate: loadTemplate,
 		fillForm: fillForm
 	});
